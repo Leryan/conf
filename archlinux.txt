@@ -1,0 +1,7 @@
+chromium :
+
+   perl-file-mimeinfo
+
+"dpkg -S" :
+
+   pacman -Qo /path/to/file
