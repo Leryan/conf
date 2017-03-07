@@ -5,11 +5,15 @@ import encodings
 import json
 import operator
 import os
+import sys
 
 from multiprocessing import Pool
 
 def get_encs():
-    return encodings.aliases.aliases.values()
+    encs = ['utf-8', 'ascii']
+    return encs
+
+ENCS = get_encs()
 
 def count_chars(chars):
     char_count = {}
@@ -55,6 +59,8 @@ def merge_char_count(left, right):
     chars = list(left.keys())
     chars.extend(list(right.keys()))
 
+    chars = list(set(chars))
+
     for k in chars:
         if k in right and k in left:
             merged[k] = left[k] + right[k]
@@ -75,16 +81,13 @@ def sort_res(ffile):
         print('{}: {}'.format(sl[0], sl[1]))
 
 def count_file_chars(ffile):
-    char_count = {}
-    tuple_count = {}
     instance = os.getpid()
 
-    encs = get_encs()
-    encs = ['utf-8',]
-    encs.extend(encs)
+    char_count = {}
+    tuple_count = {}
 
     print(f'processing file {ffile}')
-    for enc in encs:
+    for enc in ENCS:
         with open(ffile, 'r', encoding=enc) as fhffile:
             try:
                 file_content = fhffile.read()
@@ -92,10 +95,12 @@ def count_file_chars(ffile):
                 char_count = merge_char_count(char_count, count_result[0])
                 tuple_count = merge_char_count(tuple_count, count_result[1])
 
-            except Exception:
-                break
+                return char_count, tuple_count, None
 
-    return char_count, tuple_count
+            except ValueError as ex:
+                pass
+
+    return {}, {}, ffile
 
 def main():
     parser = argparse.ArgumentParser()
@@ -111,21 +116,36 @@ def main():
         with Pool() as p:
             res = p.map(count_file_chars, flist)
 
+        print('processing results...')
+
         cc = {}
         tc = {}
+        failed_files = []
 
-        for r in res:
+        res_len = len(res)
+
+        for i, r in enumerate(res):
+            sys.stdout.write(f'\rprocessing result {i}/{res_len}')
+            sys.stdout.flush()
             cr = r[0]
             tr = r[1]
+            if r[2] is not None:
+                failed_files.append(r[2])
 
             cc = merge_char_count(cc, cr)
             tc = merge_char_count(tc, tr)
+
+        print('writing results')
 
         with open('char.res.json', 'w') as fc:
             fc.write(json.dumps(cc))
 
         with open('tuple.res.json', 'w') as ft:
             ft.write(json.dumps(tc))
+
+        with open('flist.failed', 'w') as ff:
+            for failed_file in failed_files:
+                ff.write(f"{failed_file}\n")
 
     if args.sort:
         sort_res('char.res.json')
