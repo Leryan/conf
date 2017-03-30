@@ -13,7 +13,8 @@ import os
 import sys
 import time
 
-from multiprocessing import Pool
+from queue import Empty as EmptyQueue
+from multiprocessing import Pool, Manager, Queue, Process
 
 def get_encs():
     encs = ['utf-8', 'ascii']
@@ -86,30 +87,30 @@ def sort_res(ffile):
     for sl in list_sorted:
         print('{}: {}'.format(sl[0], sl[1]))
 
-def count_file_chars(files):
-    results = []
-
+def count_file_chars(queue, results):
     t_count_start = time.time()
-    for ffile in files:
-        char_count = {}
-        tuple_count = {}
-        for enc in ENCS:
-            with open(ffile, 'r', encoding=enc) as fhffile:
-                try:
-                    file_content = fhffile.read()
-                    count_result = count_chars(file_content)
-                    char_count = merge_char_count(char_count, count_result[0])
-                    tuple_count = merge_char_count(tuple_count, count_result[1])
+    print(f'Worker {os.getpid()} started')
+    try:
+        while not queue.empty():
+            ffile = queue.get_nowait()
+            char_count = {}
+            tuple_count = {}
+            for enc in ENCS:
+                with open(ffile, 'r', encoding=enc) as fhffile:
+                    try:
+                        file_content = fhffile.read()
+                        count_result = count_chars(file_content)
+                        char_count = merge_char_count(char_count, count_result[0])
+                        tuple_count = merge_char_count(tuple_count, count_result[1])
 
-                    results.append([char_count, tuple_count, None])
+                        results.put_nowait([char_count, tuple_count, None])
 
-                    break
+                        break
 
-                except ValueError as ex:
-                    pass
-
-    print(f'count worker {os.getpid()} processed {len(files)} files in {time.time() - t_count_start} seconds')
-    return results
+                    except ValueError as ex:
+                        pass
+    except EmptyQueue:
+        pass
 
 def process_results(results):
     print(f'merge worker {os.getpid()} processing {len(results)} results...')
@@ -166,18 +167,35 @@ def main():
     args = parser.parse_args()
 
     if args.count:
+        manager = Manager()
+        queue = manager.Queue()
+        results = manager.Queue()
+        processes = []
+
+        for i in range(0, args.workers):
+            processes.append(Process(target=count_file_chars, args=(queue, results)))
+
         with open(args.flist, 'r') as fhflist:
             flist = list(map(str.strip, fhflist.readlines()))
 
+        for f in flist:
+            queue.put(f)
+
         t_count_start = time.time()
-        with Pool(args.workers) as p:
-            res = p.map(count_file_chars, list(fixed_amount(flist, args.batch_len)))
+
+        for p in processes:
+            p.start()
+        for p in processes:
+            p.join()
+
         t_count = time.time() - t_count_start
 
-        fres = []
-        for r in res:
-            fres.extend(r)
-        res = fres
+        try:
+            res = []
+            while not results.empty():
+                res.append(results.get())
+        except EmptyQueue:
+            pass
 
         print(f'count time: {t_count}')
         with open(f'{args.flist}.merge.json', 'w') as f:
