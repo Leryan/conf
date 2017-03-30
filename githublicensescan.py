@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# Python >= 3.6 required
+
 import re
 import argparse
 
