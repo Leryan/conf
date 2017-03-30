@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import re
+import argparse
 
 import requests
 
@@ -23,10 +24,21 @@ def get_next_api_url(headers):
 
     return api_url
 
+def parse_args():
+    parser = argparse.ArgumentParser()
+
+    parser.add_argument('-g', dest='github', help='github api endpoint', default='https://api.github.com')
+    parser.add_argument('-u', dest='user', required=True, help='user')
+    parser.add_argument('-t', dest='token', required=True, help='authentication token')
+
+    return parser.parse_args()
+
 def main():
-    github = 'https://api.github.com'
-    user = ''
-    token = ''
+    args = parse_args()
+
+    github = args.github
+    user = args.user
+    token = args.token
 
     s = requests.Session()
     s.auth = (user, token)
