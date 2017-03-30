@@ -3,7 +3,7 @@
 # wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.10.7.tar.xz
 # tar xf linux-4.10.7.tar.xz
 # find linux-4.10.7 -type f > flist
-# python charcount.py -c -m -s
+# python charcount.py -cms # or only -cm to get counters
 
 import argparse
 import encodings
@@ -198,6 +198,8 @@ def do_count(args):
 
     with open(f'{args.flist}.merge.json', 'w') as f:
         f.write(json.dumps(res))
+
+    return t_count
 
 def do_merge(args):
     with open(f'{args.flist}.merge.json', 'r') as f:
