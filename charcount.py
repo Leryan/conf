@@ -14,6 +14,7 @@ def get_encs():
     return encs
 
 ENCS = get_encs()
+BLANK_CHARS = ["\n", "\t", "\r", " ", " "] # last is unbreakable space
 
 def count_chars(chars):
     char_count = {}
@@ -22,7 +23,7 @@ def count_chars(chars):
 
     for char in chars:
         char = char.lower()
-        if char in ["\n", "\t", "\r", " ", " "]:
+        if char in BLANK_CHARS:
             prev_char = None
             next
 
@@ -36,7 +37,7 @@ def count_chars(chars):
             else:
                 char_count[char] = 1
 
-        if prev_char is not None and char not in ["\n", "\t", "\r", " ", " "]:
+        if prev_char is not None and char not in BLANK_CHARS:
             char_tuple = f'{prev_char}{char}'
 
             if char_tuple in tuple_count:
@@ -46,7 +47,7 @@ def count_chars(chars):
 
             prev_char = char
 
-        elif prev_char is None and char not in ["\n", "\t", "\r", " ", " "]:
+        elif prev_char is None and char not in BLANK_CHARS:
             prev_char = char
 
         else:
