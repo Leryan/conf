@@ -103,10 +103,33 @@ def count_file_chars(ffile):
 
     return {}, {}, ffile
 
+def process_results(results):
+    cc = {}
+    tc = {}
+    failed_files = []
+
+    res_len = len(results)
+
+    for i, r in enumerate(results):
+        cr = r[0]
+        tr = r[1]
+        if r[2] is not None:
+            failed_files.append(r[2])
+
+        cc = merge_char_count(cc, cr)
+        tc = merge_char_count(tc, tr)
+
+    return cc, tc, failed_files
+
+def list_chunks(chunks, llist):
+    for i in range(0, len(llist), chunks):
+        yield llist[i:i + chunks]
+
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('-c', '--count', action='store_true')
     parser.add_argument('-s', '--sort', action='store_true')
+    parser.add_argument('-w', '--workers', required=True, help='number of workers', type=int)
 
     args = parser.parse_args()
 
@@ -114,27 +137,23 @@ def main():
         with open('flist', 'r') as fhflist:
             flist = list(map(str.strip, fhflist.readlines()))
 
-        with Pool() as p:
+        with Pool(args.workers) as p:
             res = p.map(count_file_chars, flist)
 
-        print('processing results...')
+        while True:
+            print('processing results...')
+            with Pool(args.workers) as p:
+                res = p.map(process_results, list(list_chunks(args.workers, res)))
 
-        cc = {}
-        tc = {}
-        failed_files = []
+            print(len(res))
+            if len(res) < args.workers:
+                break
 
-        res_len = len(res)
+        res = process_results(res)
 
-        for i, r in enumerate(res):
-            sys.stdout.write(f'\rprocessing result {i}/{res_len}')
-            sys.stdout.flush()
-            cr = r[0]
-            tr = r[1]
-            if r[2] is not None:
-                failed_files.append(r[2])
-
-            cc = merge_char_count(cc, cr)
-            tc = merge_char_count(tc, tr)
+        cc = res[0]
+        tc = res[1]
+        failed_files = res[2]
 
         print('writing results')
 
