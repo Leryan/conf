@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# wget https://cdn.kernel.org/pub/linux/kernel/v4.x/linux-4.10.7.tar.xz
+# tar xf linux-4.10.7.tar.xz
+# find linux-4.10.7 -type f > flist
+# python charcount.py -c -s -w ${CPUCOUNT_OR_SOMETHING_LIKE_THAT}
+
 import argparse
 import encodings
 import json
