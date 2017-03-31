@@ -7,18 +7,18 @@ import sys
 
 from termcolor import colored
 
-TEST_CHARS = []
+TEST_BYTES = []
 
 def init_chars():
     for i in range(ord('a'), ord('z')):
-        TEST_CHARS.append(chr(i))
+        TEST_BYTES.append(chr(i))
 
     for i in range(ord('0'), ord('9')):
-        TEST_CHARS.append(chr(i))
+        TEST_BYTES.append(chr(i))
 
 def gen_input():
-    for i in range(0, len(TEST_CHARS)):
-        content = ''.join(TEST_CHARS[0:i])
+    for i in range(0, len(TEST_BYTES)):
+        content = ''.join(TEST_BYTES[0:i])
         yield bytes(content, encoding='ascii')
 
 def gen_test(cbi, k, d):
