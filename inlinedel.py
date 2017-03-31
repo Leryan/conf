@@ -3,16 +3,19 @@ import sys
 
 from termcolor import colored
 
-def gen_input():
-    chars = []
+TEST_CHARS = []
+
+def init():
     for i in range(ord('a'), ord('z')):
-        chars.append(chr(i))
+        TEST_CHARS.append(chr(i))
 
     for i in range(ord('0'), ord('9')):
-        chars.append(chr(i))
+        TEST_CHARS.append(chr(i))
 
-    for i in range(0, len(chars)):
-        yield ''.join(chars[0:i])
+
+def gen_input():
+    for i in range(0, len(TEST_CHARS)):
+        yield ''.join(TEST_CHARS[0:i])
 
 def gen_test(content, k, d):
     fc = ''
@@ -70,11 +73,11 @@ def inline_del(k, d):
         f.truncate(flen - del_max_count * d - truncate_rem)
 
 def test_inline_del(content, k, d):
-    cb = bytes(content, encoding='ascii')
+    cbi = bytes(content, encoding='ascii')
     cbw = bytes(gen_test(content, k, d), encoding='ascii')
 
     with open('t1', 'wb') as f:
-        f.write(cb)
+        f.write(cbi)
 
     inline_del(k, d)
 
@@ -88,13 +91,14 @@ def test_inline_del(content, k, d):
             txt = colored('nok', 'red')
             output = sys.stderr
 
-        output.write(f"{txt}: in:{cb} out:{cbr} want:{cbw} k:{k} d:{d}\n")
+        output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
 
 def test_inputs_kd(k, d):
     for inp in gen_input():
         test_inline_del(inp, k, d)
 
 if __name__ == '__main__':
+    init()
     test_inputs_kd(3, 1)
     test_inputs_kd(3, 2)
     test_inputs_kd(4, 2)
