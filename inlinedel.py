@@ -3,7 +3,18 @@ import sys
 
 from termcolor import colored
 
-def dfs(content, byte_keep, byte_del):
+def gen_input():
+    chars = []
+    for i in range(ord('a'), ord('z')):
+        chars.append(chr(i))
+
+    for i in range(ord('0'), ord('9')):
+        chars.append(chr(i))
+
+    for i in range(0, len(chars)):
+        yield ''.join(chars[0:i])
+
+def gen_test(content, byte_keep, byte_del):
     fc = ''
 
     for i in range(0, len(content), byte_del + byte_keep):
@@ -12,13 +23,8 @@ def dfs(content, byte_keep, byte_del):
 
     return fc
 
-def t1(content, byte_keep, byte_del):
+def inline_del(byte_keep, byte_del):
     results = ''
-    cb = bytes(content, encoding='ascii')
-    cbw = bytes(dfs(content, byte_keep, byte_del), encoding='ascii')
-
-    with open('t1', 'wb') as f:
-        f.write(cb)
 
     with open('t1', 'r+b') as f:
         f.seek(0, 2)
@@ -51,29 +57,40 @@ def t1(content, byte_keep, byte_del):
         f.flush()
         f.close()
 
+        return results
+
+def test_inline_del(content, byte_keep, byte_del):
+    cb = bytes(content, encoding='ascii')
+    cbw = bytes(gen_test(content, byte_keep, byte_del), encoding='ascii')
+
+    with open('t1', 'wb') as f:
+        f.write(cb)
+
+    results = inline_del(byte_keep, byte_del)
+
     with open('t1', 'rb') as f:
         cbr = f.read()
+
         txt = colored('ok', 'green')
+        output = sys.stdout
+
         if cbr != cbw:
             txt = colored('nok', 'red')
-            sys.stdout.write(results)
+            output = sys.stderr
+            sys.stderr.write(results)
 
-        print(f"{txt}: in:{cb} out:{cbr} want:{cbw} k:{byte_keep} d:{byte_del}")
+        output.write(f"{txt}: in:{cb} out:{cbr} want:{cbw} k:{byte_keep} d:{byte_del}\n")
 
-def go(k, d):
-    chars = []
-    for i in range(ord('a'), ord('z')):
-        chars.append(chr(i))
+def test_inputs_kd(k, d):
+    for inp in gen_input():
+        test_inline_del(inp, k, d)
 
-    for i in range(ord('0'), ord('9')):
-        chars.append(chr(i))
-
-    for i in range(0, len(chars)):
-        t1(''.join(chars[0:i]), k, d)
-
-go(3, 1)
-go(3, 2)
-go(4, 2)
-go(4, 3)
-go(2, 2)
-go(2, 4)
+if __name__ == '__main__':
+    test_inputs_kd(3, 1)
+    test_inputs_kd(3, 2)
+    test_inputs_kd(4, 2)
+    test_inputs_kd(4, 3)
+    test_inputs_kd(2, 2)
+    test_inputs_kd(2, 4)
+    test_inputs_kd(2, 3)
+    test_inputs_kd(1, 3)
