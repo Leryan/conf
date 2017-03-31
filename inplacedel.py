@@ -4,6 +4,7 @@
 
 import io
 import sys
+import argparse
 
 from termcolor import colored
 
@@ -23,7 +24,7 @@ def gen_input():
 
 def gen_test(cbi, k, d):
     """
-    Do the same thing as inline_del, but with a much simpler and safer algo: copy data.
+    Do the same thing as inplace_del, but with a much simpler and safer algo: copy data.
     Intended for tests only.
     """
     cbt = io.BytesIO()
@@ -35,7 +36,7 @@ def gen_test(cbi, k, d):
     cbt.seek(0)
     return cbt.read()
 
-def inline_del(f, k, d):
+def inplace_del(f, k, d):
     """
     f: file or anything acting as a binary file (BytesIO...)
     k: keep k bytes
@@ -64,6 +65,7 @@ def inline_del(f, k, d):
 
     del_max_count = int(flen / (k + d))
     truncate_rem = 0
+    p = 0
 
     for i in range(0, del_max_count):
         write_at = k * (i + 1)
@@ -75,6 +77,11 @@ def inline_del(f, k, d):
         f.seek(write_at)
         f.write(buff)
 
+        pn = int((write_at + k) * 100 / flen)
+        if p != pn:
+            print('{}%'.format(p))
+            p = pn
+
     f.seek(del_max_count * (k + d) + k)
     rem = f.read()
     if len(rem) <= d:
@@ -82,13 +89,13 @@ def inline_del(f, k, d):
 
     f.truncate(flen - del_max_count * d - truncate_rem)
 
-def test_inline_del(cbi, k, d):
+def test_inplace_del(cbi, k, d):
     cbw = gen_test(cbi, k, d)
 
     f = io.BytesIO(cbi)
     f.seek(0)
 
-    inline_del(f, k, d)
+    inplace_del(f, k, d)
 
     f.seek(0)
     cbr = f.read()
@@ -104,15 +111,25 @@ def test_inline_del(cbi, k, d):
 
 def test_inputs_kd(k, d):
     for inp in gen_input():
-        test_inline_del(inp, k, d)
+        test_inplace_del(inp, k, d)
 
 if __name__ == '__main__':
-    init_chars()
-    test_inputs_kd(3, 1)
-    test_inputs_kd(3, 2)
-    test_inputs_kd(4, 2)
-    test_inputs_kd(4, 3)
-    test_inputs_kd(2, 2)
-    test_inputs_kd(2, 4)
-    test_inputs_kd(2, 3)
-    test_inputs_kd(1, 3)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-t', dest='tests')
+    parser.add_argument('-f', dest='fpath')
+    args = parser.parse_args()
+
+    if args.fpath:
+        with open(args.fpath, 'r+b') as f:
+            inplace_del(f, int(args.tests.split(':')[0]), int(args.tests.split(':')[1]))
+
+    if args.tests:
+        init_chars()
+        test_inputs_kd(3, 1)
+        test_inputs_kd(3, 2)
+        test_inputs_kd(4, 2)
+        test_inputs_kd(4, 3)
+        test_inputs_kd(2, 2)
+        test_inputs_kd(2, 4)
+        test_inputs_kd(2, 3)
+        test_inputs_kd(1, 3)
