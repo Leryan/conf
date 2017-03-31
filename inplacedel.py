@@ -159,9 +159,10 @@ def test_inplace_del_chunks(cbi, k, d):
     return failed
 
 def test_inputs_kd(k, d):
+    failed = False
     for inp in gen_input():
-        failed = False or test_inplace_del(inp, k, d)
-        failed = False or test_inplace_del_chunks(inp, k, d)
+        failed = failed or test_inplace_del(inp, k, d)
+        failed = failed or test_inplace_del_chunks(inp, k, d)
 
     return failed
 
@@ -185,14 +186,17 @@ if __name__ == '__main__':
 
     elif args.tests:
         init_chars()
-        failed = False or test_inputs_kd(3, 1)
-        failed = False or test_inputs_kd(3, 2)
-        failed = False or test_inputs_kd(4, 2)
-        failed = False or test_inputs_kd(4, 3)
-        failed = False or test_inputs_kd(2, 2)
-        failed = False or test_inputs_kd(2, 4)
-        failed = False or test_inputs_kd(2, 3)
-        failed = False or test_inputs_kd(1, 3)
+        failed = False
+        failed = failed or test_inputs_kd(3, 1)
+        failed = failed or test_inputs_kd(3, 2)
+        failed = failed or test_inputs_kd(4, 2)
+        failed = failed or test_inputs_kd(4, 3)
+        failed = failed or test_inputs_kd(2, 2)
+        failed = failed or test_inputs_kd(2, 4)
+        failed = failed or test_inputs_kd(2, 3)
+        failed = failed or test_inputs_kd(1, 3)
+        failed = failed or test_inputs_kd(1, 8)
+        failed = failed or test_inputs_kd(8, 1)
 
         if failed:
             sys.exit(1)
