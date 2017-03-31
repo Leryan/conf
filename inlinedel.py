@@ -9,7 +9,7 @@ from termcolor import colored
 
 TEST_CHARS = []
 
-def init():
+def init_chars():
     for i in range(ord('a'), ord('z')):
         TEST_CHARS.append(chr(i))
 
@@ -18,16 +18,22 @@ def init():
 
 def gen_input():
     for i in range(0, len(TEST_CHARS)):
-        yield ''.join(TEST_CHARS[0:i])
+        content = ''.join(TEST_CHARS[0:i])
+        yield bytes(content, encoding='ascii')
 
-def gen_test(content, k, d):
-    fc = ''
+def gen_test(cbi, k, d):
+    """
+    Do the same thing as inline_del, but with a much simpler and safer algo: copy data.
+    Intended for tests only.
+    """
+    cbt = io.BytesIO()
 
-    for i in range(0, len(content), d + k):
-        fcn = content[i:i + k]
-        fc = '{}{}'.format(fc, fcn)
+    for i in range(0, len(cbi), d + k):
+        cbtn = cbi[i:i + k]
+        cbt.write(cbtn)
 
-    return fc
+    cbt.seek(0)
+    return cbt.read()
 
 def inline_del(f, k, d):
     """
@@ -76,9 +82,8 @@ def inline_del(f, k, d):
 
     f.truncate(flen - del_max_count * d - truncate_rem)
 
-def test_inline_del(content, k, d):
-    cbi = bytes(content, encoding='ascii')
-    cbw = bytes(gen_test(content, k, d), encoding='ascii')
+def test_inline_del(cbi, k, d):
+    cbw = gen_test(cbi, k, d)
 
     f = io.BytesIO(cbi)
     f.seek(0)
@@ -102,7 +107,7 @@ def test_inputs_kd(k, d):
         test_inline_del(inp, k, d)
 
 if __name__ == '__main__':
-    init()
+    init_chars()
     test_inputs_kd(3, 1)
     test_inputs_kd(3, 2)
     test_inputs_kd(4, 2)
