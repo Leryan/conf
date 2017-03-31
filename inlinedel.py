@@ -35,11 +35,11 @@ def inline_del(k, d):
         content = [k][k][d][d][k][k][d][d]| still no remaining data to keep, truncate is accurate
             flen = 8
             rem  = 0
-        content = [k][k][d][d][k][k][d][d]|[k] remaining data to keep
+        content = [k][k][d][d][k][k][d][d]|[k] remaining data to keep.
             flen = 0
             rem  = 1
 
-    Loop over (each "full" set of keep) + 1 possible set.
+    Loop over (each "full" set of keep) + 1. +1 to keep any remaining data.
     At the end, go to the last set position + keep.
     If data remains, it's garbage and data length is used to truncate.
     """
