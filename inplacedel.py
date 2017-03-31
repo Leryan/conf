@@ -113,6 +113,7 @@ def inplace_del_chunks(f, k, d, csize=1024*1024*10):
     f.truncate(written)
 
 def test_inplace_del(cbi, k, d):
+    failed = False
     cbw = gen_test(cbi, k, d)
 
     f = io.BytesIO(cbi)
@@ -127,12 +128,15 @@ def test_inplace_del(cbi, k, d):
     output = sys.stdout
 
     if cbr != cbw:
+        failed = True
         txt = colored('nok', 'red')
         output = sys.stderr
 
     output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
+    return failed
 
 def test_inplace_del_chunks(cbi, k, d):
+    failed = False
     cbw = gen_test(cbi, k, d)
 
     f = io.BytesIO(cbi)
@@ -147,15 +151,19 @@ def test_inplace_del_chunks(cbi, k, d):
     output = sys.stdout
 
     if cbr != cbw:
+        failed = True
         txt = colored('nok', 'red')
         output = sys.stderr
 
     output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
+    return failed
 
 def test_inputs_kd(k, d):
     for inp in gen_input():
-        test_inplace_del(inp, k, d)
-        test_inplace_del_chunks(inp, k, d)
+        failed = False or test_inplace_del(inp, k, d)
+        failed = False or test_inplace_del_chunks(inp, k, d)
+
+    return failed
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
@@ -177,11 +185,14 @@ if __name__ == '__main__':
 
     elif args.tests:
         init_chars()
-        test_inputs_kd(3, 1)
-        test_inputs_kd(3, 2)
-        test_inputs_kd(4, 2)
-        test_inputs_kd(4, 3)
-        test_inputs_kd(2, 2)
-        test_inputs_kd(2, 4)
-        test_inputs_kd(2, 3)
-        test_inputs_kd(1, 3)
+        failed = False or test_inputs_kd(3, 1)
+        failed = False or test_inputs_kd(3, 2)
+        failed = False or test_inputs_kd(4, 2)
+        failed = False or test_inputs_kd(4, 3)
+        failed = False or test_inputs_kd(2, 2)
+        failed = False or test_inputs_kd(2, 4)
+        failed = False or test_inputs_kd(2, 3)
+        failed = False or test_inputs_kd(1, 3)
+
+        if failed:
+            sys.exit(1)
