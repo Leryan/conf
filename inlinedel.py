@@ -1,4 +1,4 @@
-import time
+import io
 import sys
 
 from termcolor import colored
@@ -26,8 +26,9 @@ def gen_test(content, k, d):
 
     return fc
 
-def inline_del(k, d):
+def inline_del(f, k, d):
     """
+    f: file or anything acting as a binary file (BytesIO...)
     k: keep k bytes
     d: delete d bytes each k bytes
 
@@ -47,51 +48,51 @@ def inline_del(k, d):
     If data remains, it's garbage and data length is used to truncate.
     """
 
-    with open('t1', 'r+b') as f:
-        f.seek(0, 2)
-        flen = f.tell()
-        f.seek(0)
+    pos_bak = f.tell()
+    f.seek(0, 2)
+    flen = f.tell()
+    f.seek(pos_bak)
 
-        del_max_count = int(flen / (k + d))
-        truncate_rem = 0
+    del_max_count = int(flen / (k + d))
+    truncate_rem = 0
 
-        for i in range(0, del_max_count):
-            write_at = k * (i + 1)
-            buff_from = (k + d) * (i + 1)
+    for i in range(0, del_max_count):
+        write_at = k * (i + 1)
+        buff_from = (k + d) * (i + 1)
 
-            f.seek(buff_from)
-            buff = f.read(k)
+        f.seek(buff_from)
+        buff = f.read(k)
 
-            f.seek(write_at)
-            f.write(buff)
+        f.seek(write_at)
+        f.write(buff)
 
-        f.seek(del_max_count * (k + d) + k)
-        rem = f.read()
-        if len(rem) <= d:
-            truncate_rem += len(rem)
+    f.seek(del_max_count * (k + d) + k)
+    rem = f.read()
+    if len(rem) <= d:
+        truncate_rem += len(rem)
 
-        f.truncate(flen - del_max_count * d - truncate_rem)
+    f.truncate(flen - del_max_count * d - truncate_rem)
 
 def test_inline_del(content, k, d):
     cbi = bytes(content, encoding='ascii')
     cbw = bytes(gen_test(content, k, d), encoding='ascii')
 
-    with open('t1', 'wb') as f:
-        f.write(cbi)
+    f = io.BytesIO(cbi)
+    f.seek(0)
 
-    inline_del(k, d)
+    inline_del(f, k, d)
 
-    with open('t1', 'rb') as f:
-        cbr = f.read()
+    f.seek(0)
+    cbr = f.read()
 
-        txt = colored('ok', 'green')
-        output = sys.stdout
+    txt = colored('ok', 'green')
+    output = sys.stdout
 
-        if cbr != cbw:
-            txt = colored('nok', 'red')
-            output = sys.stderr
+    if cbr != cbw:
+        txt = colored('nok', 'red')
+        output = sys.stderr
 
-        output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
+    output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
 
 def test_inputs_kd(k, d):
     for inp in gen_input():
