@@ -43,7 +43,6 @@ def inline_del(k, d):
     At the end, go to the last set position + keep.
     If data remains, it's garbage and data length is used to truncate.
     """
-    results = ''
 
     with open('t1', 'r+b') as f:
         f.seek(0, 2)
@@ -52,6 +51,7 @@ def inline_del(k, d):
 
         del_max_count = int(flen / (k + d))
         truncate_rem = 0
+
         for i in range(0, del_max_count):
             write_at = k * (i + 1)
             buff_from = (k + d) * (i + 1)
@@ -59,12 +59,8 @@ def inline_del(k, d):
             f.seek(buff_from)
             buff = f.read(k)
 
-            results += f"{colored('P', 'yellow')}: l{flen} r{buff_from} w{write_at} {buff} p{f.tell()}\n"
-
             f.seek(write_at)
             f.write(buff)
-
-            results += f"{colored('A', 'green')}: l{flen} r{buff_from} w{write_at} {buff} p{f.tell()}\n"
 
         f.seek(del_max_count * (k + d) + k)
         rem = f.read()
@@ -72,10 +68,6 @@ def inline_del(k, d):
             truncate_rem += len(rem)
 
         f.truncate(flen - del_max_count * d - truncate_rem)
-        f.flush()
-        f.close()
-
-        return results
 
 def test_inline_del(content, k, d):
     cb = bytes(content, encoding='ascii')
@@ -84,7 +76,7 @@ def test_inline_del(content, k, d):
     with open('t1', 'wb') as f:
         f.write(cb)
 
-    results = inline_del(k, d)
+    inline_del(k, d)
 
     with open('t1', 'rb') as f:
         cbr = f.read()
@@ -95,7 +87,6 @@ def test_inline_del(content, k, d):
         if cbr != cbw:
             txt = colored('nok', 'red')
             output = sys.stderr
-            sys.stderr.write(results)
 
         output.write(f"{txt}: in:{cb} out:{cbr} want:{cbw} k:{k} d:{d}\n")
 
