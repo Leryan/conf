@@ -65,7 +65,6 @@ def inplace_del(f, k, d):
 
     del_max_count = int(flen / (k + d))
     truncate_rem = 0
-    p = 0
 
     for i in range(0, del_max_count):
         write_at = k * (i + 1)
@@ -77,17 +76,41 @@ def inplace_del(f, k, d):
         f.seek(write_at)
         f.write(buff)
 
-        pn = int((write_at + k) * 100 / flen)
-        if p != pn:
-            print('{}%'.format(p))
-            p = pn
-
     f.seek(del_max_count * (k + d) + k)
     rem = f.read()
     if len(rem) <= d:
         truncate_rem += len(rem)
 
     f.truncate(flen - del_max_count * d - truncate_rem)
+
+def inplace_del_chunks(f, k, d, csize=1024*1024*10):
+    written = 0
+    read_max = (k + d) * csize
+    while True:
+
+        cb = f.read(read_max)
+        seek_next = f.tell()
+
+        bio = io.BytesIO(cb)
+        bio.seek(0)
+
+        inplace_del(bio, k, d)
+
+        bio.seek(0)
+        wc = bio.read()
+
+        f.seek(written)
+        f.write(wc)
+        f.seek(seek_next)
+
+        written += len(wc)
+
+        f.seek(seek_next)
+
+        if len(cb) < read_max:
+            break
+
+    f.truncate(written)
 
 def test_inplace_del(cbi, k, d):
     cbw = gen_test(cbi, k, d)
@@ -109,21 +132,50 @@ def test_inplace_del(cbi, k, d):
 
     output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
 
+def test_inplace_del_chunks(cbi, k, d):
+    cbw = gen_test(cbi, k, d)
+
+    f = io.BytesIO(cbi)
+    f.seek(0)
+
+    inplace_del_chunks(f, k, d, 2)
+
+    f.seek(0)
+    cbr = f.read()
+
+    txt = colored('ok', 'green')
+    output = sys.stdout
+
+    if cbr != cbw:
+        txt = colored('nok', 'red')
+        output = sys.stderr
+
+    output.write(f"{txt}: in:{cbi} out:{cbr} want:{cbw} k:{k} d:{d}\n")
+
 def test_inputs_kd(k, d):
     for inp in gen_input():
         test_inplace_del(inp, k, d)
+        test_inplace_del_chunks(inp, k, d)
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('-t', dest='tests')
+    parser.add_argument('-t', dest='tests', action='store_true')
     parser.add_argument('-f', dest='fpath')
+    parser.add_argument('-c', dest='chunks', default=0, type=int)
+    parser.add_argument('-s', dest='sizes', required=True)
     args = parser.parse_args()
 
     if args.fpath:
-        with open(args.fpath, 'r+b') as f:
-            inplace_del(f, int(args.tests.split(':')[0]), int(args.tests.split(':')[1]))
+        k = int(args.sizes.split(':')[0])
+        d = int(args.sizes.split(':')[1])
 
-    if args.tests:
+        with open(args.fpath, 'r+b') as f:
+            if args.chunks == 0:
+                inplace_del(f, k, d)
+            else:
+                inplace_del_chunks(f, k, d, args.chunks)
+
+    elif args.tests:
         init_chars()
         test_inputs_kd(3, 1)
         test_inputs_kd(3, 2)
