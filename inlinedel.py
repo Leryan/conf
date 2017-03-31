@@ -24,6 +24,25 @@ def gen_test(content, k, d):
     return fc
 
 def inline_del(k, d):
+    """
+    k: keep k bytes
+    d: delete d bytes each k bytes
+
+    for k = 2 and d = 2, available scenarios:
+        content = [k][k][d][d]|[k][k][d] no remaining data to keep, but truncate must be ajusted
+            flen = 7
+            rem  = 0
+        content = [k][k][d][d][k][k][d][d]| still no remaining data to keep, truncate is accurate
+            flen = 8
+            rem  = 0
+        content = [k][k][d][d][k][k][d][d]|[k] remaining data to keep
+            flen = 0
+            rem  = 1
+
+    Loop over (each "full" set of keep) + 1 possible set.
+    At the end, go to the last set position + keep.
+    If data remains, it's garbage and data length is used to truncate.
+    """
     results = ''
 
     with open('t1', 'r+b') as f:
@@ -46,7 +65,6 @@ def inline_del(k, d):
             f.write(buff)
 
             results += f"{colored('A', 'green')}: l{flen} r{buff_from} w{write_at} {buff} p{f.tell()}\n"
-
 
         f.seek(del_max_count * (k + d) + k)
         rem = f.read()
