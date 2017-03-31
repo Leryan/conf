@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+
+# Python >= 3.6.0
+
 import io
 import sys
 
@@ -11,7 +15,6 @@ def init():
 
     for i in range(ord('0'), ord('9')):
         TEST_CHARS.append(chr(i))
-
 
 def gen_input():
     for i in range(0, len(TEST_CHARS)):
