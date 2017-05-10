@@ -3,8 +3,17 @@
 #include <stdint.h>
 #include <time.h>
 
+#ifndef LINES
 #define LINES 1000
+#endif
+
+#ifndef COLUMNS
 #define COLUMNS 64 * 1024 // L1 cache size on i3-3110M
+#endif
+
+#ifndef BUILD_TYPE
+#define BUILD_TYPE "default"
+#endif
 
 void cache_hit(uint8_t **t) {
     uint64_t i = 0, j = 0;
@@ -47,7 +56,7 @@ void bench(void) {
     clock_t t_end;
     clock_t t1, t2;
 
-    puts("init...");
+    printf("build type: %s\n", BUILD_TYPE);
 #ifdef ALLOC_IN_PLACE
     t = calloc(LINES, sizeof(uint8_t *));
     for(j = 0; j < LINES; ++j) {
@@ -56,7 +65,6 @@ void bench(void) {
 #else
     init_array(&t);
 #endif
-    puts("bench...");
 
     /* cache hit */
     t_begin = clock();
