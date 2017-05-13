@@ -4,7 +4,7 @@
 #include <time.h>
 
 #ifndef LINES
-#define LINES 1000
+#define LINES 10000
 #endif
 
 #ifndef COLUMNS
@@ -72,7 +72,7 @@ void bench(void) {
     t_end = clock();
 
     t1 = t_end - t_begin;
-    printf("cache hit time:  %ld\n", t1);
+    printf("cache hit time:  %.2lf\n", (t1) / (double)CLOCKS_PER_SEC);
     /* */
 
     /* cache miss */
@@ -81,10 +81,10 @@ void bench(void) {
     t_end = clock();
 
     t2 = t_end - t_begin;
-    printf("cache miss time: %ld\n", t2);
+    printf("cache miss time: %.2lf\n", (t2) / (double)CLOCKS_PER_SEC);
     /* */
 
-    printf("run time factor: %f\n", ((double)t2)/((double)t1));
+    printf("run time factor: %.2lf\n", ((double)t2)/((double)t1));
 
     for(j = 0; j < LINES; ++j) {
         free(t[j]);
