@@ -17,7 +17,7 @@ def bench_len_vs_try():
     t1 = time.time()
     for i in range(0, tries):
       try:
-          a = t[arr_len]
+          a = t[1]
       except IndexError:
           pass
     print(time.time() - t1)
