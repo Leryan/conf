@@ -52,6 +52,4 @@ Install `markdown`
 Shortcut   | Use for
 -----------|-----------
 `C-x C-c`  | Quit
------------|-----------
 `C-x C-s`  | Save
------------|-----------
