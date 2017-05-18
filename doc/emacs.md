@@ -51,6 +51,7 @@ Install `markdown`
 
 Shortcut   | Use for
 -----------|-----------
+`C-x C-f`  | Open new file
 `C-x C-c`  | Quit
 `C-x C-s`  | Save
 `C-spc`    | Select text
@@ -65,3 +66,9 @@ Shortcut   | Use for
 `C-x 2` | Horizontal window split
 `C-x 3` | Vertical window split
 `C-o`   | Select another window
+`C-e`   | Move to EOF
+`C-a`   | Move to line start
+`M-g g` | Move to line number [input]
+`M-g c` | Mot to char number [input]
+`M-<`   | Move to buffer start
+`M->`   | Move to buffer end
