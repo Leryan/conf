@@ -53,3 +53,15 @@ Shortcut   | Use for
 -----------|-----------
 `C-x C-c`  | Quit
 `C-x C-s`  | Save
+`C-spc`    | Select text
+`C-w`      | Cut
+`M-w`      | Copy
+`C-y`      | Paste
+`C-n`      | Jump to next line
+`C-p`      | Jump to previous line
+`C-x b <name>`| Create/go to buffer
+`C-x C-b`     | List buffers
+`C-x k <name>`| Kill buffer
+`C-x 2` | Horizontal window split
+`C-x 3` | Vertical window split
+`C-o`   | Select another window
