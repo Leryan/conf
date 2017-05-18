@@ -54,6 +54,8 @@ Install `markdown`
 
 ## Shortcuts
 
+### General
+
 Shortcut   | Use for
 -----------|-----------
 `C-x C-f`  | Open new file
@@ -64,18 +66,33 @@ Shortcut   | Use for
 `M-w`      | Copy
 `C-y`      | Paste
 `C-/`      | Undo
+
+### Search, move
+
+Shortcut   | Use for
+-----------|--------------
 `C-s`-`C-r`| Search forward-backward
 `C-n`      | Jump to next line
 `C-p`      | Jump to previous line
-`C-x b <name>`| Create/go to buffer
-`C-x C-b`     | List buffers
-`C-x k <name>`| Kill buffer
-`C-x 2` | Horizontal window split
-`C-x 3` | Vertical window split
-`C-o`   | Select another window
 `C-e`   | Move to EOF
 `C-a`   | Move to line start
 `M-g g` | Move to line number [input]
 `M-g c` | Mot to char number [input]
 `M-<`   | Move to buffer start
 `M->`   | Move to buffer end
+
+### Buffer
+
+Shortcut      | Use for
+--------------|-----------------
+`C-x b <name>`| Create/go to buffer
+`C-x C-b`     | List buffers
+`C-x k <name>`| Kill buffer
+
+### Window
+
+`C-x 2` | Horizontal window split
+`C-x 3` | Vertical window split
+`C-x o` | Select another window
+`C-x 0` | Kill current window
+
