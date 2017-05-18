@@ -33,24 +33,20 @@
       myPackages)
 ```
 
-### Installed modes
-
- * elpy
- * flycheck
- * ac-php
- * php-mode
- * company
- * company-php
- * py-autopep8
- * material-theme
-
 ### elpy, flycheck, py-autopep8
 
-Install `python-jedi` for completion, `python-autopep8` for pep8 and `flake8` for flycheck.
+ * `jedi` for completion
+ * `autopep8` for pep8
+ * `flake8` for flycheck.
 
 ### markdown-mode
 
-Install `markdown`
+ * `markdown`
+
+### php
+
+ * `php-cli`
+ * `cscope`
 
 ## Shortcuts
 
