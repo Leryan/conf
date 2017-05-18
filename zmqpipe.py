@@ -10,9 +10,7 @@ MSG = "MESSAGE"
 
 def pipe_worker(q):
     while not q.closed:
-        print('coucou')
         message = q.recv()
-    sys.exit(1)
   
 def pipe_main(recv_q):
     for num in range(ITERS):

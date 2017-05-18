@@ -164,14 +164,18 @@ def fixed_amount(l, n):
     for i in range(0, len(l), n):
         yield l[i:i+n]
 
+def start_wait(plist):
+    for p in plist:
+        p.start()
+
+    for p in plist:
+        p.join()
+
 def do_count(args):
     manager = Manager()
     queue = manager.Queue()
     results = manager.Queue()
     processes = []
-
-    for i in range(0, args.workers):
-        processes.append(Process(target=count_file_chars, args=(queue, results)))
 
     with open(args.flist, 'r') as fhflist:
         flist = map(str.strip, fhflist.readlines())
@@ -180,13 +184,11 @@ def do_count(args):
     for f in flist:
         queue.put(f)
 
+    for i in range(0, args.workers):
+        processes.append(Process(target=count_file_chars, args=(queue, results)))
+
     t_count_start = time.time()
-
-    for p in processes:
-        p.start()
-    for p in processes:
-        p.join()
-
+    start_wait(processes)
     t_count = time.time() - t_count_start
 
     try:
@@ -211,21 +213,15 @@ def do_merge(args):
     results = manager.Queue()
     processes = []
 
-    for i in range(0, args.workers):
-        processes.append(Process(target=process_results, args=(queue, results)))
-
     for i in range(0, len(res), args.batch_len):
         batch = res[i:i+args.batch_len]
         queue.put_nowait(batch)
 
+    for i in range(0, args.workers):
+        processes.append(Process(target=process_results, args=(queue, results)))
+
     t_merge_start = time.time()
-
-    for p in processes:
-        p.start()
-
-    for p in processes:
-        p.join()
-
+    start_wait(processes)
     try:
         res = []
         while not results.empty():
