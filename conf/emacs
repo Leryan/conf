@@ -21,7 +21,10 @@
     py-autopep8
     material-theme
     puppet-mode
-    yaml-mode))
+    yaml-mode
+    rust-mode
+    ruby-mode
+    markdown-mode))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -72,3 +75,7 @@
                (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
                (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)    ;go back
                ))
+(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist
+             '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
