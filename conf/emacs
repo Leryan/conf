@@ -26,7 +26,8 @@
     ruby-mode
     markdown-mode
     elixir-mode
-    alchemist))
+    alchemist
+    neotree))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -82,3 +83,5 @@
 (add-to-list 'auto-mode-alist
              '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
+(require 'neotree)
+(global-set-key [f8] 'neotree-toggle)
