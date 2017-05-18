@@ -10,23 +10,23 @@ def bench_len_vs_try():
     # Python 3.6.1: faster than try/except fail
     t1 = time.time()
     for i in range(0, tries):
-      a = len(t)
+        a = len(t)
     print('len(): {}'.format(time.time() - t1))
 
     # Python 3.6.1: faster than len()
     t1 = time.time()
     for i in range(0, tries):
-      try:
-          a = t[1]
-      except IndexError:
-          pass
+        try:
+            a = t[0]
+        except IndexError:
+            pass
     print('try -> no exception: {}'.format(time.time() - t1))
 
     # Python 3.6.1: slowest
     t1 = time.time()
     for i in range(0, tries):
-      try:
-          a = t[arr_len]
-      except IndexError:
-          pass
+        try:
+            a = t[arr_len]
+        except IndexError:
+            pass
     print('try -> exception: {}'.format(time.time() - t1))
