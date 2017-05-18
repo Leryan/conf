@@ -24,7 +24,9 @@
     yaml-mode
     rust-mode
     ruby-mode
-    markdown-mode))
+    markdown-mode
+    elixir-mode
+    alchemist))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -58,6 +60,7 @@
   (add-hook 'elpy-mode-hook 'flycheck-mode))
 (require 'py-autopep8)
 (require 'yaml-mode)
+(require 'alchemist)
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
