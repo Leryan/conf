@@ -91,6 +91,8 @@ Shortcut      | Use for
 
 ### Window
 
+Shortcut| Use for
+--------|----------
 `C-x 2` | Horizontal window split
 `C-x 3` | Vertical window split
 `C-x o` | Select another window
