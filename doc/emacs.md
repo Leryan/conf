@@ -1,5 +1,10 @@
 # Emacs memo
 
+## Docs and blogs
+
+ * https://realpython.com/blog/python/emacs-the-best-python-editor/
+ * https://www.philnewton.net/guides/emacs-as-a-php-editor/
+
 ## Modes
 
 ### MELPA
