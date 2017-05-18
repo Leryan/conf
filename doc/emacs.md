@@ -63,6 +63,8 @@ Shortcut   | Use for
 `C-w`      | Cut
 `M-w`      | Copy
 `C-y`      | Paste
+`C-/`      | Undo
+`C-s`-`C-r`| Search forward-backward
 `C-n`      | Jump to next line
 `C-p`      | Jump to previous line
 `C-x b <name>`| Create/go to buffer
