@@ -66,12 +66,12 @@ Shortcut   | Use for
 `M-w`      | Copy
 `C-y`      | Paste
 `C-/`      | Undo
+`C-s`-`C-r`| Search forward-backward
 
-### Search, move
+### Move
 
 Shortcut   | Use for
 -----------|--------------
-`C-s`-`C-r`| Search forward-backward
 `C-n`      | Jump to next line
 `C-p`      | Jump to previous line
 `C-e`   | Move to EOF
