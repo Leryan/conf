@@ -7,6 +7,7 @@ microbench.bench_
 
 import time
 
+
 def bench_len_vs_try():
     """
     Test if array contains at least one element.
@@ -35,3 +36,10 @@ def bench_len_vs_try():
         except IndexError:
             pass
     print('try -> exception: {}'.format(time.time() - t1))
+
+
+def main():
+    bench_len_vs_try()
+
+if __name__ == '__main__':
+    main()
