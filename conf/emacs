@@ -12,6 +12,7 @@
 
 (defvar myPackages
   '(better-defaults
+    quickrun
     elpy
     flycheck
     ac-php
@@ -62,6 +63,7 @@
 (require 'py-autopep8)
 (require 'yaml-mode)
 (require 'alchemist)
+(require 'quickrun)
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
