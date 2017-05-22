@@ -15,6 +15,7 @@
 
 (defvar myPackages
   '(better-defaults
+    ssh
     quickrun
     elpy
     flycheck
@@ -105,3 +106,4 @@
 (global-set-key [escape] 'keyboard-escape-quit)
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
+(setq tramp-default-method "ssh")
