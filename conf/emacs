@@ -28,30 +28,26 @@
     markdown-mode
     elixir-mode
     alchemist
-    neotree))
+    neotree
+    robe))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
       (package-install package)))
       myPackages)
+(require 'py-autopep8)
+(require 'yaml-mode)
+(require 'alchemist)
+(require 'quickrun)
+(require 'cl)
+(require 'php-mode)
+(require 'neotree)
+(require 'ruby-mode)
 
-(autoload 'markdown-mode "markdown-mode.el"
-   "Major mode for editing Markdown files" t)
-(setq auto-mode-alist
-   (cons '("\.md" . markdown-mode) auto-mode-alist))
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (material-theme better-defaults))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
-
+(autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
+(setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
+(custom-set-variables '(package-selected-packages (quote (material-theme better-defaults))))
+(custom-set-faces)
 
 (setq inhibit-startup-message t) ;; hide the startup message
 (load-theme 'material t) ;; load material theme
@@ -59,18 +55,13 @@
 (elpy-enable)
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
-  (add-hook 'elpy-mode-hook 'flycheck-mode))
-(require 'py-autopep8)
-(require 'yaml-mode)
-(require 'alchemist)
-(require 'quickrun)
+  (add-hook 'elpy-mode-hook 'flycheck-mode)
+)
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
 (add-hook 'after-init-hook 'global-company-mode)
-(require 'cl)
-  (require 'php-mode)
-  (add-hook 'php-mode-hook
+(add-hook 'php-mode-hook
             '(lambda ()
                (auto-complete-mode t)
                (require 'ac-php)
@@ -81,9 +72,7 @@
                (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
                (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)    ;go back
                ))
-(add-to-list 'auto-mode-alist '("\\.rb$" . enh-ruby-mode))
-(add-to-list 'auto-mode-alist
-             '("\\(?:\\.rb\\|ru\\|rake\\|thor\\|jbuilder\\|gemspec\\|podspec\\|/\\(?:Gem\\|Rake\\|Cap\\|Thor\\|Vagrant\\|Guard\\|Pod\\)file\\)\\'" . enh-ruby-mode))
+(add-hook 'ruby-mode-hook 'rob-mode)
+(eval-after-load 'company '(push 'company-robe company-backends))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
-(require 'neotree)
 (global-set-key [f8] 'neotree-toggle)
