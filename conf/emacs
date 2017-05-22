@@ -107,3 +107,11 @@
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq tramp-default-method "ssh")
+(require 'ssh)
+    (add-hook 'ssh-mode-hook
+              (lambda ()
+                (setq ssh-directory-tracking-mode t)
+                (shell-dirtrack-mode t)
+                (setq dirtrackp nil)))
+(setq make-backup-files nil) ; stop creating backup~ files
+(setq auto-save-default nil) ; stop creating #autosave# files
