@@ -36,12 +36,15 @@
     robe
     projectile
     flx-ido
-    magit))
+    magit
+    helm
+    helm-company))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
       (package-install package)))
       myPackages)
+(require 'helm-config)
 (require 'py-autopep8)
 (require 'yaml-mode)
 (require 'alchemist)
@@ -80,7 +83,7 @@
 (when (require 'flycheck nil t)
   (setq elpy-modules (delq 'elpy-module-flymake elpy-modules))
   (add-hook 'elpy-mode-hook 'flycheck-mode)
-)
+  )
 (add-to-list 'auto-mode-alist '("\\.yaml\\'" . yaml-mode))
 (add-to-list 'auto-mode-alist '("\\.yml\\'" . yaml-mode))
 (add-hook 'elpy-mode-hook 'py-autopep8-enable-on-save)
@@ -115,3 +118,13 @@
                 (setq dirtrackp nil)))
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
+(setq company-idle-delay 0)
+(setq company-dabbrev-downcase 0)
+(setq company-minimum-prefix-length 2)
+(setq company-show-numbers "on")
+(setq company-selection-wrap-around "on")
+(eval-after-load 'company
+  '(progn
+     (define-key company-mode-map (kbd "C-:") 'helm-company)
+     (define-key company-active-map (kbd "C-:") 'helm-company)))
+(helm-mode 1)
