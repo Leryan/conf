@@ -22,6 +22,7 @@
     ac-php
     php-mode
     company
+    company-quickhelp
     company-php
     py-autopep8
     material-theme
@@ -35,7 +36,6 @@
     neotree
     robe
     projectile
-    flx-ido
     magit
     helm
     helm-company))
@@ -53,13 +53,6 @@
 (require 'php-mode)
 (require 'neotree)
 (require 'ruby-mode)
-(require 'flx-ido)
-
-(ido-mode 1)
-(ido-everywhere 1)
-(flx-ido-mode 1)
-(setq ido-enable-flex-matching t)
-(setq ido-use-faces nil)
 
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
@@ -68,7 +61,7 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(package-selected-packages (quote (magit flx-ido material-theme better-defaults))))
+ '(package-selected-packages (quote (magit material-theme better-defaults))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -99,23 +92,15 @@
                (define-key php-mode-map  (kbd "C-]") 'ac-php-find-symbol-at-point)   ;goto define
                (define-key php-mode-map  (kbd "C-t") 'ac-php-location-stack-back)    ;go back
                ))
-(add-hook 'ruby-mode-hook 'rob-mode)
+(add-hook 'ruby-mode-hook 'robe-mode)
 (eval-after-load 'company '(push 'company-robe company-backends))
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (global-set-key [f8] 'neotree-toggle)
 (projectile-mode)
-(define-key isearch-mode-map [escape] 'isearch-abort)
-(define-key isearch-mode-map "\e" 'isearch-abort)
-(global-set-key [escape] 'keyboard-escape-quit)
 ;; Magit
 (global-set-key (kbd "C-x g") 'magit-status)
 (setq tramp-default-method "ssh")
 (require 'ssh)
-    (add-hook 'ssh-mode-hook
-              (lambda ()
-                (setq ssh-directory-tracking-mode t)
-                (shell-dirtrack-mode t)
-                (setq dirtrackp nil)))
 (setq make-backup-files nil) ; stop creating backup~ files
 (setq auto-save-default nil) ; stop creating #autosave# files
 (setq company-idle-delay 0)
@@ -123,8 +108,6 @@
 (setq company-minimum-prefix-length 2)
 (setq company-show-numbers "on")
 (setq company-selection-wrap-around "on")
-(eval-after-load 'company
-  '(progn
-     (define-key company-mode-map (kbd "C-:") 'helm-company)
-     (define-key company-active-map (kbd "C-:") 'helm-company)))
 (helm-mode 1)
+(company-quickhelp-mode 1)
+(setq company-quickhelp-delay nil)
