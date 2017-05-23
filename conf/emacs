@@ -1,5 +1,5 @@
 ;; Make emacs a bit faster by tuning GC: https://github.com/lewang/flx#gc-optimization
-(setq gc-cons-threshold 20000000)
+(setq gc-cons-threshold 104857600)
 
 ;; INSTALL PACKAGES
 ;; --------------------------------------
