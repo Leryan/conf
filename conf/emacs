@@ -23,6 +23,7 @@
     php-mode
     company
     company-quickhelp
+    company-c-headers
     company-php
     py-autopep8
     material-theme
@@ -94,6 +95,7 @@
                ))
 (add-hook 'ruby-mode-hook 'robe-mode)
 (eval-after-load 'company '(push 'company-robe company-backends))
+(add-to-list 'company-backends 'company-c-headers)
 (add-to-list 'auto-mode-alist '("\\.rs\\'" . rust-mode))
 (global-set-key [f8] 'neotree-toggle)
 (projectile-mode)
