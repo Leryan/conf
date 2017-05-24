@@ -39,7 +39,8 @@
     projectile
     magit
     helm
-    helm-company))
+    helm-company
+    multiple-cursors))
 
 (mapc #'(lambda (package)
     (unless (package-installed-p package)
@@ -54,6 +55,7 @@
 (require 'php-mode)
 (require 'neotree)
 (require 'ruby-mode)
+(require 'multiple-cursors)
 
 (autoload 'markdown-mode "markdown-mode.el" "Major mode for editing Markdown files" t)
 (setq auto-mode-alist (cons '("\.md" . markdown-mode) auto-mode-alist))
