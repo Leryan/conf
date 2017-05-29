@@ -16,6 +16,7 @@
 (defvar myPackages
   '(better-defaults
     ssh
+    web-mode
     quickrun
     elpy
     flycheck
