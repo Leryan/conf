@@ -124,3 +124,14 @@
     (shell-command
      (format "%s -f TAGS -e -R %s" path-to-ctags (directory-file-name dir-name)))
   )
+(global-whitespace-mode nil) ;; activate
+'(whitespace-empty ((t nil)))
+'(whitespace-hspace ((t (:foreground "DarkOrange4"))))
+'(whitespace-indentation ((t (:foreground "gray25"))))
+'(whitespace-line ((t (:underline (:color "DarkOrange4" :style wave)))))
+'(whitespace-newline ((t (:foreground "gray25"))))
+'(whitespace-space ((t (:foreground "gray25"))))
+'(whitespace-space-after-tab ((t (:foreground "DarkOrange4"))))
+'(whitespace-space-before-tab ((t (:background "DarkOrange4" :foreground "DarkOrange4"))))
+'(whitespace-tab ((t (:foreground "gray25"))))
+'(whitespace-trailing ((t (:foreground "DarkOrange4"))))
