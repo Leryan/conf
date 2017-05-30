@@ -43,6 +43,13 @@ __tmux() {
     fi
 }
 
+__keychain() {
+	which keychain > /dev/null 2>&1
+	if [ "$?" = "0" ]; then
+		eval $(keychain --systemd --quiet --eval --agents ssh id_ecdsa)
+	fi
+}
+
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
 	alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
@@ -99,9 +106,8 @@ fi
 
 # environment
 if [ "${_INTERACTIVE}" = "1" ]; then
-	which keychain > /dev/null 2>&1
-	if [ "$?" = "0" ]; then
-		eval $(keychain --systemd --quiet --eval --agents ssh id_ecdsa)
+	if [ "${_BP_KEYCHAIN}" = "1" ]; then
+		__keychain
 	fi
 fi
 
