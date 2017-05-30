@@ -47,6 +47,7 @@ __tmux() {
 if [ "${_INTERACTIVE}" = "1" ]; then
 	alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
 	alias ls="ls -F --color=always --group-directories-first"
+	alias l="ls"
 	alias ll="ls -l"
 	alias lla="ls -la"
 	if (($(id -u) == 0)); then
