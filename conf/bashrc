@@ -21,9 +21,8 @@ export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
 
 # functions
 __git_ps1() {
-    git branch > /dev/null 2> /dev/null
-    rc="$?"
-    if [ "$rc" = "0" ]; then
+    git branch > /dev/null 2>&1
+    if [ "$?" = "0" ]; then
         branch=$(git branch |grep '^\*'|cut -f2 -d' ')
         echo "git: $branch: "
     fi
