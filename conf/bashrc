@@ -98,7 +98,10 @@ fi
 
 # environment
 if [ "${_INTERACTIVE}" = "1" ]; then
-	eval $(keychain --systemd --quiet --eval --agents ssh id_ecdsa)
+	which keychain > /dev/null 2>&1
+	if [ "$?" = "0" ]; then
+		eval $(keychain --systemd --quiet --eval --agents ssh id_ecdsa)
+	fi
 fi
 
 # tmux
