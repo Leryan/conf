@@ -55,7 +55,7 @@ __tmux_ps1() {
 __keychain() {
 	which keychain > /dev/null 2>&1
 	if [ "$?" = "0" ]; then
-		eval $(keychain --systemd --quiet --eval --agents ssh id_ecdsa)
+		eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
 	fi
 }
 
