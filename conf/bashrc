@@ -24,7 +24,7 @@ __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
         branch=$(git branch |grep '^\*'|cut -f2 -d' ')
-        echo "git: $branch: "
+        echo "git: ${branch}: "
     fi
 }
 
@@ -39,6 +39,16 @@ __tmux() {
         else
             tmux list-sessions
         fi
+    fi
+}
+
+__tmux_ps1() {
+    tmux list-sessions > /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+        tc=$(tmux list-sessions | wc -l)
+        echo "ts:${tc}"
+    else
+        echo "ts:0"
     fi
 }
 
@@ -62,6 +72,8 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 	else
 		alias rr="rm -rf"
 	fi
+    alias ts="tmux list-sessions"
+    alias ta="tmux attach"
 fi
 
 # prompt
@@ -112,7 +124,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 		_usr_txt='\h'
 	fi
 
-	export PS1=$(echo -e "${bldwht}${chrc1}(${_usr_color}${_usr_txt}${bldwht})${chrd}(${bldblu}\$?${bldwht})${chrd}(${bldgrn}\w${bldwht})\n${chrc2}${chrd}${chrar} \$(__git_ps1)${txtrst}")
+	export PS1=$(echo -e "${bldwht}${chrc1}(${_usr_color}${_usr_txt}${bldwht})${chrd}(${txtwht}\$(__tmux_ps1)${bldwht})${chrd}(${bldblu}rc:\$?${bldwht})${chrd}(${bldgrn}\w${bldwht})\n${chrc2}${chrd}${chrar} \$(__git_ps1)${txtrst}")
 fi
 
 # environment
