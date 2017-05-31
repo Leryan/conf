@@ -158,10 +158,6 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 	if [ "${_BP_KEYCHAIN}" = "1" ]; then
 		__keychain
 	fi
-fi
-
-# tmux
-if [ "${_INTERACTIVE}" = "1" ]; then
 	if [ "${_BP_TMUX}" = "1" ]; then
 		__tmux
 	fi
