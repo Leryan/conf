@@ -4,6 +4,26 @@ if [ -f ~/.bash_params ]; then
 	source ~/.bash_params
 fi
 
+_INTERACTIVE=0
+case "$-" in
+	*i*)_INTERACTIVE=1;;
+	*);;
+esac
+
+# bash behavior
+shopt -s checkwinsize
+export HISTCONTROL=ignoreboth:erasedups
+
+# exports
+export XMODIFIERS=emacs
+export EDITOR=emacs
+export PAGER=less
+export GOPATH="$HOME/doc/go"
+export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
+
+# functions
+if [ "${_INTERACTIVE}" = "1" ]; then
+
 txtblk="\[\033[0;30m\]" # Black - Regular
 txtred="\[\033[0;31m\]" # Red
 txtgrn="\[\033[0;32m\]" # Green
@@ -38,24 +58,6 @@ bakcyn="\[\033[46m\]"   # Cyan
 bakwht="\[\033[47m\]"   # White
 txtrst="\[\033[0m\]"    # Text Reset
 
-_INTERACTIVE=0
-case "$-" in
-	*i*)_INTERACTIVE=1;;
-	*);;
-esac
-
-# bash behavior
-shopt -s checkwinsize
-export HISTCONTROL=ignoreboth:erasedups
-
-# exports
-export XMODIFIERS=emacs
-export EDITOR=emacs
-export PAGER=less
-export GOPATH="$HOME/doc/go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
-
-# functions
 __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
@@ -94,6 +96,7 @@ __tmux_ps1() {
 		echo -n ""
 	fi
 }
+fi
 
 __keychain() {
 	which keychain > /dev/null 2>&1
@@ -124,8 +127,8 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 	else
 		alias rr="rm -rf"
 	fi
-    alias ts="tmux list-sessions"
-    alias ta="tmux attach"
+	alias ts="tmux list-sessions"
+	alias ta="tmux attach"
 fi
 
 # prompt
