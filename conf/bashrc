@@ -60,11 +60,11 @@ __keychain() {
 }
 
 git-push-all() {
-    ref=$(git branch --format '%(refname)')
-    branch=${ref#refs/heads/}
-    for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
-        git push ${remote} ${branch}
-    done
+	ref=$(git branch --format '%(refname)')
+	branch=${ref#refs/heads/}
+	for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
+		git push ${remote} ${branch}
+	done
 }
 
 # aliases
