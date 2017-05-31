@@ -144,7 +144,7 @@ __prompt_command() {
 		if [ "$_rc" = "0" ]; then
 			_rctxt=""
 		else
-			_rctxt="${bldred}${_rc} "
+			_rctxt="${txtred}${_rc} "
 		fi
 
 		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${chrar}${txtrst} ")
