@@ -59,6 +59,14 @@ __keychain() {
 	fi
 }
 
+git-push-all() {
+    ref=$(git branch --format '%(refname)')
+    branch=${ref#refs/heads/}
+    for remote in $(git remote -v | awk '{print $1}' | sort | uniq); do
+        git push ${remote} ${branch}
+    done
+}
+
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
 	alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
