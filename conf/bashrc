@@ -38,10 +38,6 @@ bakcyn="\[\033[46m\]"   # Cyan
 bakwht="\[\033[47m\]"   # White
 txtrst="\[\033[0m\]"    # Text Reset
 
-chrc1="\342\224\214" # corner up-left
-chrc1="\xe2\x94\x8c"
-chrc2="\342\224\224" # corner down-left
-chrd="\342\224\200"  # dash
 chrar="\xe2\x9d\xad" # arrow right
 
 _INTERACTIVE=0
@@ -66,7 +62,7 @@ __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
         branch=$(git branch |grep '^\*'|cut -f2 -d' ')
-        echo "git: ${branch}: "
+        echo "${branch} "
     fi
 }
 
@@ -88,7 +84,14 @@ __tmux_ps1() {
 	tmux list-sessions > /dev/null 2>&1
 	if [ "$?" = "0" ]; then
 		tc=$(tmux list-sessions | wc -l)
-		echo -n "ts:${tc} "
+		if ((${tc} > 10)); then
+			_tscolor=${txtred}
+		elif ((${tc} > 1)); then
+			_tscolor=${txtgrn}
+		else
+			_tscolor=${txtwht}
+		fi
+		echo -n "${_tscolor}⌗ "
 	else
 		echo -n ""
 	fi
@@ -139,12 +142,12 @@ __prompt_command() {
 		fi
 
 		if [ "$_rc" = "0" ]; then
-			_rccolor="${txtgrn}"
+			_rctxt=""
 		else
-			_rccolor="${bldred}"
+			_rctxt="${bldred}${_rc} "
 		fi
 
-		export PS1=$(echo -e "${bldwht} ${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rccolor}rc:${_rc}${bldwht} ${bldgrn}\w${bldwht}\n${chrar} $(__git_ps1)${txtrst}")
+		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${chrar}${txtrst} ")
 	else
 		PS1="$ "
 	fi
