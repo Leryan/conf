@@ -1,8 +1,8 @@
+PROMPT_COMMAND=__prompt_command
+
 if [ -f ~/.bash_params ]; then
 	source ~/.bash_params
 fi
-
-PROMPT_COMMAND=__prompt_command
 
 txtblk="\[\033[0;30m\]" # Black - Regular
 txtred="\[\033[0;31m\]" # Red
@@ -37,8 +37,6 @@ bakpur="\[\033[45m\]"   # Purple
 bakcyn="\[\033[46m\]"   # Cyan
 bakwht="\[\033[47m\]"   # White
 txtrst="\[\033[0m\]"    # Text Reset
-
-chrar="\xe2\x9d\xad" # arrow right
 
 _INTERACTIVE=0
 case "$-" in
@@ -147,7 +145,7 @@ __prompt_command() {
 			_rctxt="${txtred}${_rc} "
 		fi
 
-		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${chrar}${txtrst} ")
+		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n❭${txtrst} ")
 	else
 		PS1="$ "
 	fi
