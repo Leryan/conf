@@ -96,6 +96,9 @@ __tmux_ps1() {
 		echo -n ""
 	fi
 }
+dbash() {
+	docker exec -ti $1 /bin/bash
+}
 fi
 
 __keychain() {
