@@ -58,7 +58,7 @@ bakcyn="\[\033[46m\]"   # Cyan
 bakwht="\[\033[47m\]"   # White
 txtrst="\[\033[0m\]"    # Text Reset
 
-__git_ps1() {
+function __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
         branch=$(git branch |grep '^\*'|cut -f2 -d' ')
@@ -66,7 +66,7 @@ __git_ps1() {
     fi
 }
 
-__tmux() {
+function __tmux() {
     tmux list-sessions > /dev/null 2>&1
     if [ ! "$?" = "0" ]&&[ -z "$TMUX" ]; then
         tmux
@@ -80,7 +80,7 @@ __tmux() {
     fi
 }
 
-__tmux_ps1() {
+function __tmux_ps1() {
 	tmux list-sessions > /dev/null 2>&1
 	if [ "$?" = "0" ]; then
 		tc=$(tmux list-sessions | wc -l)
@@ -96,19 +96,30 @@ __tmux_ps1() {
 		echo -n ""
 	fi
 }
-dbash() {
+
+function dbash() {
 	docker exec -ti $1 /bin/bash
+}
+
+function fuck() {
+    last_cmd=$(history -p !!)
+    echo -n "run command '${last_cmd}' with sudo? [Y/n]: "
+    read -s -n 1 confirm
+    echo ""
+    if [ "${confirm}" = "Y" ]; then
+        sudo ${last_cmd}
+    fi
 }
 fi
 
-__keychain() {
+function __keychain() {
 	which keychain > /dev/null 2>&1
 	if [ "$?" = "0" ]; then
 		eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
 	fi
 }
 
-git-push-all() {
+function git-push-all() {
 	ref=$(git branch --format '%(refname)')
 	branch=${ref#refs/heads/}
 	for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
@@ -132,10 +143,11 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 	fi
 	alias ts="tmux list-sessions"
 	alias ta="tmux attach"
+#    alias _fuck='sudo $(history -p \!\!)'
 fi
 
 # prompt
-__prompt_command() {
+function __prompt_command() {
 	local _rc="$?"
 	if [ "${_INTERACTIVE}" = "1" ]; then
 		_usr_color=${bldblu}
@@ -166,3 +178,4 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 		__tmux
 	fi
 fi
+
