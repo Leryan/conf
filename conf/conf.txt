@@ -1,3 +1,4 @@
 pylintrc=~/.pylintrc
 emacs=~/.emacs
+bashrc=~/.bashrc
 xorg.kbd.conf=/etc/X11/xorg.conf.d/00-kbd.conf

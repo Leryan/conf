@@ -1,0 +1,25 @@
+{
+    "gitlab": {
+        "prod": {
+            "url": "http://prod/api/v4",
+            "token": "token",
+            "clone": "ssh://git@prod"
+        },
+        "dev": {
+            "url": "http://preprod/api/v4",
+            "token": "token",
+            "clone": "http://preprod",
+        },
+        "backup": {
+            "url": "https://backup/api/v4",
+            "token": "token",
+            "clone": "ssh://git@backup",
+            "mirror_base": "http://user:pass@dev"
+        }
+    },
+    "source": "dev",
+    "namespace": "namespace_name",
+    "namespace_kind": "group",
+    "push_pull": true,
+    "workdir": "mirror"
+}
