@@ -1,0 +1,14 @@
+killall dbus-daemon
+killall redshift
+eval $(dbus-launch)
+pulseaudio --start &
+~/.screenlayout/home.sh
+xset -dpms
+/usr/lib/xfce4/notifyd/xfce4-notifyd &
+redshift-gtk &
+setxkbmap fr bepo
+nitrogen --restore
+parcellite &
+volumeicon &
+nm-applet &
+orage &
