@@ -1,6 +1,6 @@
 killall dbus-daemon
 killall redshift
-eval $(dbus-launch)
+export $(dbus-launch)
 pulseaudio --start &
 ~/.screenlayout/home.sh
 xset -dpms
