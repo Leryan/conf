@@ -7,7 +7,7 @@ pulseaudio --start &
 ~/.screenlayout/home.sh
 xset -dpms
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
-redshift-gtk &
+redshift-gtk -l 48.85241:2.3488 &
 setxkbmap fr bepo
 nitrogen --restore
 parcellite &
