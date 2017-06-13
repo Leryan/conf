@@ -1,3 +1,4 @@
 _BP_TMUX=0
 _BP_KEYCHAIN=0
+#_BP_TERM_UTF8=1
 #_BP_KEYCHAIN_KEYS="id_ecdsa id_rsa"

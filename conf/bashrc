@@ -91,7 +91,11 @@ function __tmux_ps1() {
 		else
 			_tscolor=${txtwht}
 		fi
-		echo -n "${_tscolor}\xe2\x8c\x97 "
+        local _symbol="\xe2\x8c\x97"
+        if [ "${_BP_TERM_UTF8}" = "0" ]; then
+            _symbol="#"
+        fi
+		echo -n "${_tscolor}${_symbol} "
 	else
 		echo -n ""
 	fi
@@ -150,20 +154,24 @@ fi
 function __prompt_command() {
 	local _rc="$?"
 	if [ "${_INTERACTIVE}" = "1" ]; then
-		_usr_color=${bldblu}
-		_usr_txt='\u@\h'
+		local _usr_color=${bldblu}
+		local _usr_txt='\u@\h'
 		if [ $(id -u) = 0 ]; then
 			_usr_color=${bldred}
 			_usr_txt='\h'
 		fi
 
-		if [ "$_rc" = "0" ]; then
-			_rctxt=""
-		else
+		_rctxt=""
+		if [ ! "${_rc}" = "0" ]; then
 			_rctxt="${txtred}${_rc} "
 		fi
 
-		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n\xe2\x9d\xad${txtrst} ")
+        local _arrow="\xe2\x9d\xad"
+        if [ "${_BP_TERM_UTF8}" = "0" ]; then
+            _arrow=">"
+        fi
+
+		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
 	else
 		PS1="$ "
 	fi
