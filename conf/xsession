@@ -1,12 +1,14 @@
 killall dbus-daemon
 killall redshift
 export $(dbus-launch)
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
+export _JAVA_AWT_WM_NONREPARENTING=1
 pulseaudio --start &
 ~/.screenlayout/home.sh
 xset -dpms
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
-redshift-gtk &
 setxkbmap "fr,fr,us" "bepo,,"
+redshift-gtk -l 48.85241:2.3488 &
 nitrogen --restore
 parcellite &
 volumeicon &
