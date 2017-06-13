@@ -1,6 +1,8 @@
 killall dbus-daemon
 killall redshift
 export $(dbus-launch)
+export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
+export _JAVA_AWT_WM_NONREPARENTING=1
 pulseaudio --start &
 ~/.screenlayout/home.sh
 xset -dpms
