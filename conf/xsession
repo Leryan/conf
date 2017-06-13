@@ -6,7 +6,7 @@ pulseaudio --start &
 xset -dpms
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 redshift-gtk &
-setxkbmap fr bepo
+setxkbmap "fr,fr,us" "bepo,,"
 nitrogen --restore
 parcellite &
 volumeicon &
