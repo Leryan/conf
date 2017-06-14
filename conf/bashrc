@@ -10,6 +10,10 @@ case "$-" in
 	*);;
 esac
 
+if [ -z ${XDG_RUNTIME_DIR} ]; then
+    export XDG_RUNTIME_DIR=/run/user/$(id -u)
+fi
+
 # bash behavior
 shopt -s checkwinsize
 export HISTCONTROL=ignoreboth:erasedups
