@@ -7,7 +7,7 @@ set nobackup
 set smarttab
 set softtabstop=4
 set wildmenu
-set wildmenu=longest:list
+set wildmode=longest:list
 set modeline
 set laststatus=2
 set cc=79
