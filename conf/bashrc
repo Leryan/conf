@@ -20,7 +20,7 @@ export HISTCONTROL=ignoreboth:erasedups
 
 # exports
 export XMODIFIERS=emacs
-export EDITOR=emacs
+export EDITOR=vim
 export PAGER=less
 export GOPATH="$HOME/doc/go"
 export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
