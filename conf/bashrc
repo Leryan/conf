@@ -71,13 +71,13 @@ function __git_ps1() {
 }
 
 function __tmux() {
-    if [ "${TERM}" = "screen" ]; then
+    if [ ! -z "${TMUX}" ]||[ "${TERM}" = "screen" ]; then
         return
     fi
     tmux list-sessions > /dev/null 2>&1
-    if [ ! "$?" = "0" ]&&[ -z "$TMUX" ]; then
+    if [ ! "$?" = "0" ]&&[ -z "${TMUX}" ]; then
         tmux
-    elif [ -z "$TMUX" ]; then
+    elif [ -z "${TMUX}" ]; then
         tsessions=$(tmux list-sessions|wc -l)
         if [ "${tsessions}" = 1 ]; then
             tmux a
