@@ -1,5 +1,11 @@
 PROMPT_COMMAND=__prompt_command
 
+if [ -f /usr/bin/systemctl ]; then
+    _systemd_version=$(systemctl --version|head -n 1|cut -f2 -d' ')
+else
+    _systemd_version=0
+fi
+
 if [ -f ~/.bash_params ]; then
 	source ~/.bash_params
 fi
@@ -76,7 +82,11 @@ function __tmux() {
     fi
     tmux list-sessions > /dev/null 2>&1
     if [ ! "$?" = "0" ]&&[ -z "${TMUX}" ]; then
-        tmux
+        if ((${_systemd_version} >= 232)); then
+            systemd-run --user --scope tmux
+        else
+            tmux
+        fi
     elif [ -z "${TMUX}" ]; then
         tsessions=$(tmux list-sessions|wc -l)
         if [ "${tsessions}" = 1 ]; then
