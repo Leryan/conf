@@ -140,6 +140,15 @@ function __keychain() {
 	fi
 }
 
+function __settitle() {
+    cur_cmd="${@}"
+    cmd="$(hostname) | ${@}"
+    if [ "${cur_cmd}" = "__prompt_command" ]; then
+        cmd="$(hostname) | bash"
+    fi
+    echo -ne "\033]0;${cmd}\007"
+}
+
 function git-push-all() {
 	ref=$(git branch --format '%(refname)')
 	branch=${ref#refs/heads/}
@@ -204,3 +213,4 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 	fi
 fi
 
+trap '__settitle "${BASH_COMMAND}"' DEBUG
