@@ -4,7 +4,7 @@ floating_modifier $mod
 
 # start a terminal
 bindcode $mod+36 exec gnome-terminal
-bindcode $mod+Shift+36 exec chromium
+bindcode $mod+Shift+36 exec firefox
 
 # kill focused window
 bindcode $mod+Shift+24 kill
