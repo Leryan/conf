@@ -1,0 +1,12 @@
+[Unit]
+Description=OpenArena Server
+After=network.target
+
+[Service]
+PrivateTmp=true
+User=openarena
+Group=openarena
+ExecStart=/home/openarena/openarena/oa_ded.x86_64 +exec /home/openarena/.openarena/baseoa/q3config_server.cfg +map oa_shine
+
+[Install]
+WantedBy=multi-user.target

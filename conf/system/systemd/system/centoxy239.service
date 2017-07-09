@@ -1,0 +1,12 @@
+[Unit]
+Description=Boot centoxy239 container
+After=network.target
+
+[Service]
+Type=forking
+ExecStart=/home/wrk/doc/depots/g/capensis/capenmisc/setups/start_centoxy.sh
+ExecStop=/usr/bin/lxc-stop -n centoxy239
+ExecStop=/home/wrk/doc/depots/g/capensis/capenmisc/setups/stop_centoxy.sh
+
+[Install]
+WantedBy=multi-user.target

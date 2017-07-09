@@ -1,6 +1,6 @@
-pylintrc=~/.pylintrc
-emacs=~/.emacs
-bashrc=~/.bashrc
-xorg.kbd.conf=/etc/X11/xorg.conf.d/00-kbd.conf
-xsession=~/.xsession
-i3=~/.i3
+user/pylintrc=~/.pylintrc
+user/emacs=~/.emacs
+user/bashrc=~/.bashrc
+user/xsession=~/.xsession
+user/i3=~/.i3
+system/xorg.kbd.conf=/etc/X11/xorg.conf.d/00-kbd.conf

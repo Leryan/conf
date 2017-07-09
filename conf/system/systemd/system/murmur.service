@@ -1,0 +1,14 @@
+[Unit]
+Description=Murmur Server
+After=network.target
+
+[Service]
+PrivateTmp=true
+User=murmur
+Group=murmur
+Type=forking
+WorkingDirectory=/home/murmur/
+ExecStart=/home/murmur/murmur-static/murmur.x86
+
+[Install]
+WantedBy=multi-user.target

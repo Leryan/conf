@@ -1,0 +1,10 @@
+[Match]
+Name=lxcbr0
+
+[Network]
+Address=10.2.2.254/24
+IPForward=yes
+IPMasquerade=yes
+
+[Route]
+Gateway=10.2.2.254/24

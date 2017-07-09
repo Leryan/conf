@@ -1,0 +1,12 @@
+[Unit]
+Description=ttrss_update
+After=network.target postgresql.service
+
+[Service]
+User=ttrss
+Group=ttrss
+Restart=always
+ExecStart=/srv/www/ttrss/ttrss/update_daemon2.php
+
+[Install]
+WantedBy=multi-user.target
