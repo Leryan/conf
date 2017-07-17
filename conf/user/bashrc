@@ -7,13 +7,13 @@ else
 fi
 
 if [ -f ~/.bash_params ]; then
-	source ~/.bash_params
+    source ~/.bash_params
 fi
 
 _INTERACTIVE=0
 case "$-" in
-	*i*)_INTERACTIVE=1;;
-	*);;
+    *i*)_INTERACTIVE=1;;
+    *);;
 esac
 
 if [ -z ${XDG_RUNTIME_DIR} ]; then
@@ -98,28 +98,28 @@ function __tmux() {
 }
 
 function __tmux_ps1() {
-	tmux list-sessions > /dev/null 2>&1
-	if [ "$?" = "0" ]; then
-		tc=$(tmux list-sessions | wc -l)
-		if ((${tc} > 10)); then
-			_tscolor=${txtred}
-		elif ((${tc} > 1)); then
-			_tscolor=${txtgrn}
-		else
-			_tscolor=${txtwht}
-		fi
+    tmux list-sessions > /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+        tc=$(tmux list-sessions | wc -l)
+        if ((${tc} > 10)); then
+            _tscolor=${txtred}
+        elif ((${tc} > 1)); then
+            _tscolor=${txtgrn}
+        else
+            _tscolor=${txtwht}
+        fi
         local _symbol="\xe2\x8c\x97"
         if [ "${_BP_TERM_UTF8}" = "0" ]; then
             _symbol="#"
         fi
-		echo -n "${_tscolor}${_symbol} "
-	else
-		echo -n ""
-	fi
+        echo -n "${_tscolor}${_symbol} "
+    else
+        echo -n ""
+    fi
 }
 
 function dbash() {
-	docker exec -ti $1 /bin/bash
+    docker exec -ti $1 /bin/bash
 }
 
 function fuck() {
@@ -134,10 +134,10 @@ function fuck() {
 fi
 
 function __keychain() {
-	which keychain > /dev/null 2>&1
-	if [ "$?" = "0" ]; then
-		eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
-	fi
+    which keychain > /dev/null 2>&1
+    if [ "$?" = "0" ]; then
+        eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
+    fi
 }
 
 function __settitle() {
@@ -150,67 +150,67 @@ function __settitle() {
 }
 
 function git-push-all() {
-	ref=$(git branch --format '%(refname)')
-	branch=${ref#refs/heads/}
-	for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
-		echo "=> push ${remote}"
-		git push ${remote} ${branch}
-	done
+    ref=$(git branch --format '%(refname)')
+    branch=${ref#refs/heads/}
+    for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
+        echo "=> push ${remote}"
+        git push ${remote} ${branch}
+    done
 }
 
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
-	alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
-	alias ls="ls -F --color=always --group-directories-first"
-	alias l="ls"
-	alias ll="ls -l"
-	alias lla="ls -la"
-	if (($(id -u) == 0)); then
-		alias rm="rm -i"
-		alias rr="rm -ri"
-	else
-		alias rr="rm -rf"
-	fi
-	alias ts="tmux list-sessions"
-	alias ta="tmux attach"
-#    alias _fuck='sudo $(history -p \!\!)'
+    alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
+    alias ls="ls -F --color=always --group-directories-first"
+    alias l="ls"
+    alias ll="ls -l"
+    alias lla="ls -la"
+    if (($(id -u) == 0)); then
+        alias rm="rm -i"
+        alias rr="rm -ri"
+    else
+        alias rr="rm -rf"
+    fi
+    alias ts="tmux list-sessions"
+    alias ta="tmux attach"
+    alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
 fi
 
 # prompt
 function __prompt_command() {
-	local _rc="$?"
-	if [ "${_INTERACTIVE}" = "1" ]; then
-		local _usr_color=${bldblu}
-		local _usr_txt='\u@\h'
-		if [ $(id -u) = 0 ]; then
-			_usr_color=${bldred}
-			_usr_txt='\h'
-		fi
+    local _rc="$?"
+    if [ "${_INTERACTIVE}" = "1" ]; then
+        local _usr_color=${bldblu}
+        local _usr_txt='\u@\h'
+        if [ $(id -u) = 0 ]; then
+            _usr_color=${bldred}
+            _usr_txt='\h'
+        fi
 
-		_rctxt=""
-		if [ ! "${_rc}" = "0" ]; then
-			_rctxt="${txtred}${_rc} "
-		fi
+        _rctxt=""
+        if [ ! "${_rc}" = "0" ]; then
+            _rctxt="${txtred}${_rc} "
+        fi
 
         local _arrow="\xe2\x9d\xad"
         if [ "${_BP_TERM_UTF8}" = "0" ]; then
             _arrow=">"
         fi
 
-		export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
-	else
-		PS1="$ "
-	fi
+        export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
+    else
+        PS1="$ "
+    fi
 }
 
 # environment
 if [ "${_INTERACTIVE}" = "1" ]; then
-	if [ "${_BP_KEYCHAIN}" = "1" ]; then
-		__keychain
-	fi
-	if [ "${_BP_TMUX}" = "1" ]; then
-		__tmux
-	fi
+    if [ "${_BP_KEYCHAIN}" = "1" ]; then
+        __keychain
+    fi
+    if [ "${_BP_TMUX}" = "1" ]; then
+        __tmux
+    fi
 fi
 
 trap '__settitle "${BASH_COMMAND}"' DEBUG
