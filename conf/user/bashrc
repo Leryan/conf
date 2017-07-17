@@ -16,6 +16,10 @@ case "$-" in
     *);;
 esac
 
+if [ "${_INTERACTIVE}" = "1" ]; then
+    source /usr/share/stderred/stderred.sh
+fi
+
 if [ -z ${XDG_RUNTIME_DIR} ]; then
     export XDG_RUNTIME_DIR=/run/user/$(id -u)
 fi
