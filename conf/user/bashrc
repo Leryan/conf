@@ -171,15 +171,27 @@ function git-push-all() {
 }
 
 function enter-netns() {
+    if [ -z "${1}" ]; then
+        echo -e "missing netns name:\n$(ip netns list)"
+        return
+    fi
     netns="${1}"
     sudo ip netns exec ${netns} /bin/bash -l -c "su - wrk"
 }
 
 function lxc-ip() {
+    if [ -z "${1}" ]; then
+        echo -e "missing container name:\n$(sudo lxc-ls --active)"
+        return
+    fi
     sudo lxc-attach -n $1 --clear-env -- ip a
 }
 
 function lxc-bash() {
+    if [ -z "${1}" ]; then
+        echo -e "missing container name:\n$(sudo lxc-ls --active)"
+        return
+    fi
     sudo lxc-attach -n $1 --clear-env --set-var HOME=/root --set-var TERM=xterm -- /bin/bash -l
 }
 
