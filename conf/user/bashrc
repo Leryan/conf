@@ -123,6 +123,13 @@ function __tmux_ps1() {
     fi
 }
 
+function __netns_ps1() {
+    cur_netns=$(ip netns|grep -v id)
+    if [ ! "${cur_netns}" = "" ]; then
+        echo -n "${cur_netns} "
+    fi
+}
+
 function dbash() {
     docker exec -ti $1 /bin/bash
 }
@@ -163,6 +170,19 @@ function git-push-all() {
     done
 }
 
+function enter-netns() {
+    netns="${1}"
+    sudo ip netns exec ${netns} /bin/bash -l -c "su - wrk"
+}
+
+function lxc-ip() {
+    sudo lxc-attach -n $1 --clear-env -- ip a
+}
+
+function lxc-bash() {
+    sudo lxc-attach -n $1 --clear-env --set-var HOME=/root --set-var TERM=xterm -- /bin/bash -l
+}
+
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
     alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
@@ -179,6 +199,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias ts="tmux list-sessions"
     alias ta="tmux attach"
     alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
+    alias mpva='mpv --no-video'
 fi
 
 # prompt
@@ -202,7 +223,7 @@ function __prompt_command() {
             _arrow=">"
         fi
 
-        export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
+        export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
     else
         PS1="$ "
     fi
