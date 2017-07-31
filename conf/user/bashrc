@@ -161,6 +161,12 @@ function __settitle() {
     echo -ne "\033]0;${cmd}\007"
 }
 
+function __pyvenv() {
+    if [ ! -z "${VIRTUAL_ENV}" ]; then
+        echo -n "($(basename ${VIRTUAL_ENV})) "
+    fi
+}
+
 function git-push-all() {
     ref=$(git branch --format '%(refname)')
     branch=${ref#refs/heads/}
@@ -235,7 +241,7 @@ function __prompt_command() {
             _arrow=">"
         fi
 
-        export PS1=$(echo -e "${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
+        export PS1=$(echo -e "$(__pyvenv)${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
     else
         PS1="$ "
     fi
