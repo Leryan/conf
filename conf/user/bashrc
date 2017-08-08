@@ -144,7 +144,7 @@ fi
 function __keychain() {
     which keychain > /dev/null 2>&1
     if [ "$?" = "0" ]; then
-        eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
+        eval $(keychain --systemd --quiet --eval --ignore-missing --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"} --noask)
     fi
 }
 
