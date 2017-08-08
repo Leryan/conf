@@ -214,6 +214,8 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias ta="tmux attach"
     alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
     alias mpva='mpv --no-video'
+    alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
+    alias kcclean="ssh-add -D"
 fi
 
 # prompt
