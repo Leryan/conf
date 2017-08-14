@@ -262,7 +262,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 fi
 
 if [ -f ~/.cargo/env ]; then
-    source ~/.carge/env
+    source ~/.cargo/env
 fi
 
 trap '__settitle "${BASH_COMMAND}"' DEBUG
