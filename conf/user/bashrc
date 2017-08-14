@@ -29,7 +29,7 @@ export XMODIFIERS=emacs
 export EDITOR=vim
 export PAGER=less
 export GOPATH="$HOME/doc/go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$GOPATH/bin"
 export PERL5LIB="$HOME/doc/perl5"
 
 # functions
@@ -256,7 +256,13 @@ if [ "${_INTERACTIVE}" = "1" ]; then
 fi
 
 if [ "${_INTERACTIVE}" = "1" ]; then
-    source /usr/share/stderred/stderred.sh
+    if [ -f /usr/share/stderred/stderred.sh ]; then
+        source /usr/share/stderred/stderred.sh
+    fi
+fi
+
+if [ -f ~/.cargo/env ]; then
+    source ~/.carge/env
 fi
 
 trap '__settitle "${BASH_COMMAND}"' DEBUG
