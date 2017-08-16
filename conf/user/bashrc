@@ -16,10 +16,6 @@ case "$-" in
     *);;
 esac
 
-if [ "${_INTERACTIVE}" = "1" ]; then
-    source /usr/share/stderred/stderred.sh
-fi
-
 if [ -z ${XDG_RUNTIME_DIR} ]; then
     export XDG_RUNTIME_DIR=/run/user/$(id -u)
 fi
@@ -33,7 +29,7 @@ export XMODIFIERS=emacs
 export EDITOR=vim
 export PAGER=less
 export GOPATH="$HOME/doc/go"
-export PATH="$PATH:$HOME/.local/bin:$GOPATH/bin"
+export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin:$GOPATH/bin"
 export PERL5LIB="$HOME/doc/perl5"
 
 # functions
@@ -148,7 +144,7 @@ fi
 function __keychain() {
     which keychain > /dev/null 2>&1
     if [ "$?" = "0" ]; then
-        eval $(keychain --systemd --quiet --eval --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"})
+        eval $(keychain --systemd --quiet --eval --ignore-missing --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"} --noask --timeout 240)
     fi
 }
 
@@ -218,6 +214,8 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias ta="tmux attach"
     alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
     alias mpva='mpv --no-video'
+    alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
+    alias kcclean="ssh-add -D"
 fi
 
 # prompt
@@ -255,6 +253,16 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     if [ "${_BP_TMUX}" = "1" ]; then
         __tmux
     fi
+fi
+
+if [ "${_INTERACTIVE}" = "1" ]; then
+    if [ -f /usr/share/stderred/stderred.sh ]; then
+        source /usr/share/stderred/stderred.sh
+    fi
+fi
+
+if [ -f ~/.cargo/env ]; then
+    source ~/.cargo/env
 fi
 
 trap '__settitle "${BASH_COMMAND}"' DEBUG
