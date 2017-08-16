@@ -1,5 +1,5 @@
 set $mod Mod4
-font pango:monospace 9
+font pango:Fira Mono 9
 floating_modifier $mod
 
 # start a terminal
