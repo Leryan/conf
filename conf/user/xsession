@@ -1,5 +1,6 @@
 killall dbus-daemon
 killall redshift
+numlockx on
 setxkbmap fr,fr,us bepo,, -option "xkb_options" "grp:alt_caps_toggle"
 export $(dbus-launch)
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
