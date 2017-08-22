@@ -172,6 +172,22 @@ function git-push-all() {
     done
 }
 
+function git-update-merge() {
+    if [ "${1}" = "" ]; then
+        echo "missing parameter: origin name"
+        return
+    fi
+
+    if [ "${2}" = "" ]; then
+        echo "missing parameter: source branch name"
+        return
+    fi
+
+    origin=${1}
+    branch=${2}
+    git fetch ${origin} ${branch}:${branch} && git merge ${branch}
+}
+
 function enter-netns() {
     if [ -z "${1}" ]; then
         echo -e "missing netns name:\n$(ip netns list)"
