@@ -188,6 +188,44 @@ function git-update-merge() {
     git fetch ${origin} ${branch}:${branch} && git merge ${branch}
 }
 
+function git-commit-interactive() {
+    local resultvar=$1
+
+    local commit_types=()
+    commit_types+=('fix')
+    commit_types+=('feat')
+    commit_types+=('docs')
+    commit_types+=('refactor')
+    commit_types+=('test')
+
+    local i=0
+    for ct in "${commit_types[@]}"; do
+        echo "[${i}] ${ct}"
+        i=$((i+1))
+    done
+    read -p "Choose commit type: " commit_type
+
+    local commit_string="${commit_types[$commit_type]}"
+
+    read -p "Choose scope (enter if none): " commit_scope
+
+    if [ ! "${commit_scope}" = "" ]; then
+        commit_string="${commit_string}(${commit_scope})"
+    fi
+
+    read -p "Commit: " commit_msg
+
+    commit_string="${commit_string}: ${commit_msg}"
+
+    eval $resultvar="'${commit_string}'"
+}
+
+function gitco() {
+    git-commit-interactive cs
+    read -p "Final commit: ${cs}"
+    git commit $* -m "${cs}"
+}
+
 function enter-netns() {
     if [ -z "${1}" ]; then
         echo -e "missing netns name:\n$(ip netns list)"
