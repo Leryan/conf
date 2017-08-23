@@ -72,7 +72,7 @@ txtrst="\[\033[0m\]"    # Text Reset
 function __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
-        branch=$(git branch |grep '^\*'|cut -f2 -d' ')
+        local branch=$(git branch |grep '^\*'|cut -f2 -d' ')
         echo "${branch} "
     fi
 }
@@ -99,28 +99,31 @@ function __tmux() {
 }
 
 function __tmux_ps1() {
+    local tscolor=""
+    local symbol="\xe2\x8c\x97"
+
     tmux list-sessions > /dev/null 2>&1
+
     if [ "$?" = "0" ]; then
-        tc=$(tmux list-sessions | wc -l)
+        local tc=$(tmux list-sessions | wc -l)
         if ((${tc} > 10)); then
-            _tscolor=${txtred}
+            tscolor=${txtred}
         elif ((${tc} > 1)); then
-            _tscolor=${txtgrn}
+            tscolor=${txtgrn}
         else
-            _tscolor=${txtwht}
+            tscolor=${txtwht}
         fi
-        local _symbol="\xe2\x8c\x97"
         if [ "${_BP_TERM_UTF8}" = "0" ]; then
-            _symbol="#"
+            symbol="#"
         fi
-        echo -n "${_tscolor}${_symbol} "
+        echo -n "${tscolor}${symbol} "
     else
         echo -n ""
     fi
 }
 
 function __netns_ps1() {
-    cur_netns=$(ip netns|grep -v id)
+    local cur_netns=$(ip netns | grep -v id)
     if [ ! "${cur_netns}" = "" ]; then
         echo -n "${cur_netns} "
     fi
@@ -131,7 +134,7 @@ function dbash() {
 }
 
 function fuck() {
-    last_cmd=$(history -p !!)
+    local last_cmd=$(history -p !!)
     echo -n "run command '${last_cmd}' with sudo? [Y/n]: "
     read -s -n 1 confirm
     echo ""
@@ -149,8 +152,8 @@ function __keychain() {
 }
 
 function __settitle() {
-    cur_cmd="${@}"
-    cmd="$(hostname) | ${@}"
+    local cur_cmd="${@}"
+    local cmd="$(hostname) | ${@}"
     if [ "${cur_cmd}" = "__prompt_command" ]; then
         cmd="$(hostname) | bash"
     fi
@@ -164,8 +167,8 @@ function __pyvenv() {
 }
 
 function git-push-all() {
-    ref=$(git branch --format '%(refname)')
-    branch=${ref#refs/heads/}
+    local ref=$(git branch --format '%(refname)')
+    local branch=${ref#refs/heads/}
     for remote in $(git remote -v | grep '(push)$' | awk '{print $1}' | sort | uniq); do
         echo "=> push ${remote}"
         git push ${remote} ${branch}
@@ -183,8 +186,8 @@ function git-update-merge() {
         return
     fi
 
-    origin=${1}
-    branch=${2}
+    local origin=${1}
+    local branch=${2}
     git fetch ${origin} ${branch}:${branch} && git merge ${branch}
 }
 
@@ -231,7 +234,7 @@ function enter-netns() {
         echo -e "missing netns name:\n$(ip netns list)"
         return
     fi
-    netns="${1}"
+    local netns="${1}"
     sudo ip netns exec ${netns} /bin/bash -l -c "su - wrk"
 }
 
@@ -274,26 +277,26 @@ fi
 
 # prompt
 function __prompt_command() {
-    local _rc="$?"
+    local rc="$?"
     if [ "${_INTERACTIVE}" = "1" ]; then
-        local _usr_color=${bldblu}
-        local _usr_txt='\u@\h'
+        local usr_color=${bldblu}
+        local usr_txt='\u@\h'
         if [ $(id -u) = 0 ]; then
-            _usr_color=${bldred}
-            _usr_txt='\h'
+            usr_color=${bldred}
+            usr_txt='\h'
         fi
 
-        _rctxt=""
+        local rctxt=""
         if [ ! "${_rc}" = "0" ]; then
-            _rctxt="${txtred}${_rc} "
+            rctxt="${txtred}${_rc} "
         fi
 
-        local _arrow="\xe2\x9d\xad"
+        local arrow="\xe2\x9d\xad"
         if [ "${_BP_TERM_UTF8}" = "0" ]; then
-            _arrow=">"
+            arrow=">"
         fi
 
-        export PS1=$(echo -e "$(__pyvenv)${_usr_color}${_usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${_rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${_arrow}${txtrst} ")
+        export PS1=$(echo -e "$(__pyvenv)${usr_color}${usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${arrow}${txtrst} ")
     else
         PS1="$ "
     fi
