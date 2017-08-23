@@ -6,11 +6,16 @@
 	"installed_packages":
 	[
 		"AutoPEP8",
+		"Color Highlighter",
+		"ColorPicker",
 		"Elixir",
+		"Git",
 		"GitGutter",
+		"Inc-Dec-Value",
 		"INI",
 		"Jedi - Python autocompletion",
 		"Package Control",
-		"Puppet"
+		"Puppet",
+		"Wrap Plus"
 	]
 }
