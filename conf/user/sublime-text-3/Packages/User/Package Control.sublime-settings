@@ -1,0 +1,16 @@
+{
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"AutoPEP8",
+		"Elixir",
+		"GitGutter",
+		"INI",
+		"Jedi - Python autocompletion",
+		"Package Control",
+		"Puppet"
+	]
+}
