@@ -1,10 +1,6 @@
 PROMPT_COMMAND=__prompt_command
 
-if [ -f /usr/bin/systemctl ]; then
-    _systemd_version=$(systemctl --version|head -n 1|cut -f2 -d' ')
-else
-    _systemd_version=0
-fi
+_SYSTEMD_VERSION=""
 
 if [ -f ~/.bash_params ]; then
     source ~/.bash_params
@@ -69,6 +65,18 @@ bakcyn="\[\033[46m\]"   # Cyan
 bakwht="\[\033[47m\]"   # White
 txtrst="\[\033[0m\]"    # Text Reset
 
+function __cache_systemd_version() {
+    if [ ! "${_SYSTEMD_VERSION}" = "" ]; then
+        return
+    fi
+
+    if [ -f /usr/bin/systemctl ]; then
+        _SYSTEMD_VERSION=$(systemctl --version|head -n 1|cut -f2 -d' ')
+    else
+        _SYSTEMD_VERSION=0
+    fi
+}
+
 function __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
@@ -83,7 +91,8 @@ function __tmux() {
     fi
     tmux list-sessions > /dev/null 2>&1
     if [ ! "$?" = "0" ]&&[ -z "${TMUX}" ]; then
-        if ((${_systemd_version} >= 232)); then
+        __cache_systemd_version
+        if ((${_SYSTEMD_VERSION} >= 232)); then
             systemd-run --user --scope tmux
         else
             tmux
