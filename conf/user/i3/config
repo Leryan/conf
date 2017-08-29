@@ -130,7 +130,7 @@ mode "resize" {
 
 bindcode $mod+27 mode "resize"
 
-new_window none
+new_window pixel 2
 hide_edge_borders both
 
 # Start i3bar to display a workspace bar (plus the system information i3status
