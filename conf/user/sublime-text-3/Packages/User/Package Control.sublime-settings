@@ -5,6 +5,7 @@
 	],
 	"installed_packages":
 	[
+		"Anaconda",
 		"AutoPEP8",
 		"Color Highlighter",
 		"ColorPicker",
@@ -13,11 +14,10 @@
 		"GitGutter",
 		"Inc-Dec-Value",
 		"INI",
-		"Jedi - Python autocompletion",
 		"Markdown Preview",
 		"Package Control",
 		"Puppet",
-		"Pylinter",
+		"SideBarEnhancements",
 		"SublimeREPL",
 		"Wrap Plus"
 	]

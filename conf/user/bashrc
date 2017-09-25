@@ -297,7 +297,7 @@ function __prompt_command() {
 
         local rctxt=""
         if [ ! "${_rc}" = "0" ]; then
-            rctxt="${txtred}${_rc} "
+            rctxt="${txtred}♥ ${_rc} "
         fi
 
         local arrow="\xe2\x9d\xad"
