@@ -1,0 +1,4 @@
+if [ -z "$GOPATH" ]; then
+    export GOPATH="${HOME}/doc/go"
+    export PATH="${PATH}:${GOPATH}/bin"
+fi
