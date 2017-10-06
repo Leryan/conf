@@ -4,7 +4,7 @@ floating_modifier $mod
 
 # start a terminal
 bindcode $mod+36 exec gnome-terminal
-bindcode $mod+Shift+36 exec firefox
+bindcode $mod+Shift+36 exec $HOME/Downloads/firefox/firefox
 bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
 
 # kill focused window

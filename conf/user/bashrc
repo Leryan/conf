@@ -282,6 +282,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias mpva='mpv --no-video'
     alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
     alias kcclean="ssh-add -D"
+    alias updatenow="yaourt -Syu --aur --noconfirm"
 fi
 
 # prompt
