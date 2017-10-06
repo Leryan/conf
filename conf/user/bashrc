@@ -26,7 +26,7 @@ export EDITOR=vim
 export PAGER=less
 if [ -z "$GOPATH" ]; then
     export GOPATH="$HOME/doc/go"
-    export $PATH="$PATH:$GOPATH/bin"
+    export PATH="$PATH:$GOPATH/bin"
 fi
 export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin"
 export PERL5LIB="$HOME/doc/perl5"
