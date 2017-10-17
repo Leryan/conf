@@ -178,6 +178,12 @@ function __pyvenv() {
     fi
 }
 
+function venv_enter() {
+    if [ ! -z "$1" ]; then
+        source ~/doc/pyvenv/${1}/bin/activate
+    fi
+}
+
 function git-push-all() {
     local ref=$(git branch --format '%(refname)')
     local branch=${ref#refs/heads/}
