@@ -184,6 +184,10 @@ function venv_enter() {
     fi
 }
 
+function drop_caches() {
+    sudo sh -c "echo 3 > /proc/sys/vm/drop_caches"
+}
+
 function git-push-all() {
     local ref=$(git branch --format '%(refname)')
     local branch=${ref#refs/heads/}
