@@ -1,0 +1,9 @@
+[Unit]
+Description=VPN Watcher
+After=openvpn-client@bossk.service
+
+[Service]
+ExecStart=/home/wrk/check_vpn.sh
+
+[Install]
+WantedBy=multi-user.target
