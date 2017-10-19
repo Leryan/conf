@@ -1,0 +1,89 @@
+#!/bin/bash
+device="{{ format_device }}"
+locale="{{ format_locale }}"
+keymap="{{ format_keymap }}"
+ssh_key="{{ format_ssh_key }}"
+locales=()
+locales+=("{{ format_locale }}")
+locales+=("en_US.UTF-8")
+
+packages="base efibootmgr grub vim tmux btrfs-progs dosfstools openssh"
+
+parted -s ${device} \
+    unit B \
+    mklabel gpt \
+    mkpart primary 0% 256MiB \
+    mkpart primary 256MiB 768MiB \
+    mkpart primary 768MiB 100% || exit 1
+
+sync && partprobe ${device} || exit 1
+
+(
+echo t
+echo 1
+echo 1
+echo w
+) | fdisk ${device} || exit 1
+
+sync && partprobe ${device} || exit 1
+
+mkfs.vfat -F32 ${device}1 || exit 1
+mkfs.ext2 -F ${device}2 || exit 1
+mkfs.btrfs -f ${device}3 || exit 1
+
+mount ${device}3 /mnt && \
+    btrfs subvol create /mnt/archlinux && \
+    btrfs subvol create /mnt/home || exit 1
+
+umount /mnt && \
+    mount ${device}3 -o subvol=archlinux /mnt && \
+    mkdir /mnt/home && \
+    mount ${device}3 -o subvol=home /mnt/home || exit 1
+
+mkdir -p /mnt/boot/ && \
+    mount ${device}2 /mnt/boot && \
+    mkdir /mnt/boot/efi && \
+    mount ${device}1 /mnt/boot/efi && \
+
+pacstrap /mnt ${packages} || exit 1
+arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi/ --bootloader-id=arch_grub --recheck
+
+eval $(blkid -o udev ${device}3)
+echo "UUID=${ID_FS_PARTUUID}  /   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=archlinux 0 0" > /mnt/etc/fstab
+
+echo "UUID=${ID_FS_PARTUUID}  /home   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=home 0 0" >>/mnt/etc/fstab
+
+eval $(blkid -o udev ${device}2)
+echo "UUID=${ID_FS_PARTUUID}  /boot/ ${ID_FS_TYPE}  rw,realtime,block_validity 0 0" >> /mnt/etc/fstab
+
+eval $(blkid -o udev ${device}1)
+echo "UUID=${ID_FS_PARTUUID}  /boot/efi/ ${ID_FS_TYPE}  rw,realtime 0 0" >> /mnt/etc/fstab
+
+genfstab /mnt | grep efivars >> /mnt/etc/fstab
+
+eval $(blkid -o udev ${device}3)
+cat > /mnt/preboot.sh << EOF
+#!/bin/sh
+mkdir /root/.ssh && chmod 700 /root/.ssh && echo "${ssh_key}" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
+
+grub_cmdline_linux="root=UUID=${ID_FS_PARTUUID}"
+sed -e 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=${grub_cmdline_linux}/' -i /etc/default/grub
+grub-mkconfig -o /boot/grub/grub.cfg
+
+systemctl enable sshd
+systemctl enable systemd-networkd
+EOF
+
+chmod +x /mnt/preboot.sh
+
+arch-chroot /mnt /preboot.sh
+
+cat > /mnt/etc/systemd/eth0.network << EOF
+[Match]
+Name=eth0
+
+[Network]
+DHCP=yes
+EOF
+
+reboot
