@@ -67,7 +67,7 @@ sed -i /mnt/etc/hosts -e 's/localhost$/localhost ${format_hostname}/g'
 grub_cmdline_linux="root=UUID=$(lsblk -rno UUID ${format_device}3) net.ifnames=0"
 sed -e "s/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=\"${grub_cmdline_linux}\"/" -i /mnt/etc/default/grub
 mkdir /mnt/root/.ssh && chmod 700 /mnt/root/.ssh && echo "${format_ssh_key}" > /mnt/root/.ssh/authorized_keys && chmod 600 /mnt/root/.ssh/authorized_keys
-cat > /mnt/etc/systemd/eth0.network << EOF
+cat > /mnt/etc/systemd/network/eth0.network << EOF
 [Match]
 Name=eth0
 
