@@ -52,46 +52,16 @@ pacstrap /mnt ${format_packages} || exit 1
 echo ${format_arch_repo} > /mnt/etc/pacman.d/mirrorlist
 arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi/ --bootloader-id=arch_grub --recheck
 
-eval $(blkid -o udev ${format_device}3)
-echo "UUID=${ID_FS_UUID}  /   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=archlinux 0 0" > /mnt/etc/fstab
+genfstab -U /mnt |sed 's/realtime/noatime/g' > /mnt/etc/fstab
 
-echo "UUID=${ID_FS_UUID}  /home   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=home 0 0" >>/mnt/etc/fstab
-
-eval $(blkid -o udev ${format_device}2)
-echo "UUID=${ID_FS_UUID}  /boot/ ${ID_FS_TYPE}  rw,block_validity 0 0" >> /mnt/etc/fstab
-
-eval $(blkid -o udev ${format_device}1)
-echo "UUID=${ID_FS_UUID}  /boot/efi/ ${ID_FS_TYPE}  rw 0 0" >> /mnt/etc/fstab
-
-genfstab /mnt | grep efivars >> /mnt/etc/fstab
-
-eval $(blkid -o udev ${format_device}3)
-cat > /mnt/preboot.sh << EOF
-#!/bin/sh
-mkdir /root/.ssh && chmod 700 /root/.ssh && echo "${format_ssh_key}" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
-
-echo "KEYMAP=${format_keymap}" > /etc/vconsole.conf
-echo "${format_locale}" >> /etc/locale.gen
-echo "en_US.UTF-8" >> /etc/locale.gen
-locale-gen
-
-echo "${format_hostname}" > /etc/hostname
-sed -i /etc/hosts -e 's/localhost$/localhost ${format_hostname}/g'
-
-grub_cmdline_linux="root=UUID=${ID_FS_UUID}"
-sed -e 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=${grub_cmdline_linux}/' -i /etc/default/grub
-grub-mkconfig -o /boot/grub/grub.cfg
-
-systemctl enable sshd
-systemctl enable systemd-networkd
-
-mkinitcpio -p linux
-EOF
-
-chmod +x /mnt/preboot.sh
-
-arch-chroot /mnt /preboot.sh
-
+echo "KEYMAP=${format_keymap}" > /mnt/etc/vconsole.conf
+echo "${format_locale}" >> /mnt/etc/locale.gen
+echo "en_US.UTF-8" >> /mnt/etc/locale.gen
+echo "${format_hostname}" > /mnt/etc/hostname
+sed -i /mnt/etc/hosts -e 's/localhost$/localhost ${format_hostname}/g'
+grub_cmdline_linux="root=UUID=$(lsblk -rno ${format_device}3)"
+sed -e 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=${grub_cmdline_linux}/' -i /mnt/etc/default/grub
+mkdir /mnt/root/.ssh && chmod 700 /mnt/root/.ssh && echo "${format_ssh_key}" > /mnt/root/.ssh/authorized_keys && chmod 600 /mnt/root/.ssh/authorized_keys
 cat > /mnt/etc/systemd/eth0.network << EOF
 [Match]
 Name=eth0
@@ -100,4 +70,20 @@ Name=eth0
 DHCP=yes
 EOF
 
-sync && umount -R /mnt && reboot
+cat > /mnt/preboot.sh << EOF
+#!/bin/sh
+locale-gen
+
+mkinitcpio -p linux
+
+grub-mkconfig -o /boot/grub/grub.cfg
+
+systemctl enable sshd
+systemctl enable systemd-networkd
+EOF
+
+chmod +x /mnt/preboot.sh && \
+    arch-chroot /mnt /preboot.sh && \
+    sync && \
+    umount -R /mnt && \
+    reboot
