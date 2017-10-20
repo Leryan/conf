@@ -8,12 +8,15 @@ format_locale="en_GB.UTF-8"
 format_keymap="fr-bepo"
 format_packages="base efibootmgr grub vim tmux btrfs-progs dosfstools openssh"
 
+format_s_efi=256
+format_s_boot=512
+
 parted -s ${format_device} \
     unit B \
     mklabel gpt \
-    mkpart primary 0% 256MiB \
-    mkpart primary 256MiB 768MiB \
-    mkpart primary 768MiB 100% || exit 1
+    mkpart primary 0% ${format_s_efi}MiB \
+    mkpart primary ${format_s_efi}MiB $((${format_s_efi}+${format_s_boot}))MiB \
+    mkpart primary $((${format_s_efi}+${format_s_boot}))MiB 100% || exit 1
 
 sync && partprobe ${format_device} || exit 1
 
