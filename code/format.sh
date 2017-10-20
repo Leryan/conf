@@ -1,9 +1,9 @@
 #!/bin/bash
 arch_repo='http://mir.archlinux.fr/$repo/os/$arch'
-device="{{ format_device }}"
-locale="{{ format_locale }}"
-keymap="{{ format_keymap }}"
-ssh_key="{{ format_ssh_key }}"
+device="/dev/sda"
+locale="en_GB.UTF-8"
+keymap="fr-bepo"
+ssh_key=""
 packages="base efibootmgr grub vim tmux btrfs-progs dosfstools openssh"
 
 parted -s ${device} \
