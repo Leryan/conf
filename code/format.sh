@@ -1,15 +1,20 @@
 #!/bin/bash
 format_ssh_key=""
-format_hostname=""
+format_hostname="padme"
 
 format_arch_repo='http://mir.archlinux.fr/$repo/os/$arch'
-format_device="/dev/sda"
-format_locale="en_GB.UTF-8"
+format_device="$1"
+format_locale="en_GB.UTF-8 UTF-8"
 format_keymap="fr-bepo"
 format_packages="base efibootmgr grub vim tmux btrfs-progs dosfstools openssh"
 
 format_s_efi=256
 format_s_boot=512
+
+if [ "${format_device}" = "" ]; then
+	echo "missing device on first parameter"
+	exit 1
+fi
 
 parted -s ${format_device} \
     unit B \
@@ -56,10 +61,10 @@ genfstab -U /mnt | sed 's/relatime/noatime/g' > /mnt/etc/fstab || exit 1
 
 echo "KEYMAP=${format_keymap}" > /mnt/etc/vconsole.conf
 echo "${format_locale}" >> /mnt/etc/locale.gen
-echo "en_US.UTF-8" >> /mnt/etc/locale.gen
+echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 echo "${format_hostname}" > /mnt/etc/hostname
 sed -i /mnt/etc/hosts -e 's/localhost$/localhost ${format_hostname}/g'
-grub_cmdline_linux="root=UUID=$(lsblk -rno ${format_device}3) net.ifnames=0"
+grub_cmdline_linux="root=UUID=$(lsblk -rno UUID ${format_device}3) net.ifnames=0"
 sed -e "s/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=${grub_cmdline_linux}/" -i /mnt/etc/default/grub
 mkdir /mnt/root/.ssh && chmod 700 /mnt/root/.ssh && echo "${format_ssh_key}" > /mnt/root/.ssh/authorized_keys && chmod 600 /mnt/root/.ssh/authorized_keys
 cat > /mnt/etc/systemd/eth0.network << EOF
@@ -85,5 +90,4 @@ EOF
 chmod +x /mnt/preboot.sh && \
     arch-chroot /mnt /preboot.sh && \
     sync && \
-    umount -R /mnt && \
-    reboot
+    umount -R /mnt
