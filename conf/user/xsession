@@ -17,5 +17,5 @@ parcellite &
 volumeicon &
 nm-applet &
 orage &
-kwalletd &
+gnome-keyring-daemon -s -c pkcs11,secrets
 owncloud &
