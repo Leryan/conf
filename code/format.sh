@@ -45,14 +45,14 @@ umount /mnt && \
 mkdir -p /mnt/boot/ && \
     mount ${format_device}2 /mnt/boot && \
     mkdir /mnt/boot/efi && \
-    mount ${format_device}1 /mnt/boot/efi && \
+    mount ${format_device}1 /mnt/boot/efi || exit 1
 
 echo "Server = ${format_arch_repo}" > /etc/pacman.d/mirrorlist
 pacstrap /mnt ${format_packages} || exit 1
 echo "Server = ${format_arch_repo}" > /mnt/etc/pacman.d/mirrorlist
-arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi/ --bootloader-id=arch_grub --recheck
+arch-chroot /mnt grub-install --target=x86_64-efi --efi-directory=/boot/efi/ --bootloader-id=arch_grub --recheck || exit 1
 
-genfstab -U /mnt |sed 's/realtime/noatime/g' > /mnt/etc/fstab
+genfstab -U /mnt |sed 's/realtime/noatime/g' > /mnt/etc/fstab || exit 1
 
 echo "KEYMAP=${format_keymap}" > /mnt/etc/vconsole.conf
 echo "${format_locale}" >> /mnt/etc/locale.gen
