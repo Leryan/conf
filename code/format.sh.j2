@@ -4,9 +4,6 @@ device="{{ format_device }}"
 locale="{{ format_locale }}"
 keymap="{{ format_keymap }}"
 ssh_key="{{ format_ssh_key }}"
-locales=()
-locales+=("{{ format_locale }}")
-locales+=("en_US.UTF-8")
 packages="base efibootmgr grub vim tmux btrfs-progs dosfstools openssh"
 
 parted -s ${device} \
@@ -56,10 +53,10 @@ echo "UUID=${ID_FS_UUID}  /   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=ar
 echo "UUID=${ID_FS_UUID}  /home   ${ID_FS_TYPE} rw,noatime,ssd,space_cache,subvol=home 0 0" >>/mnt/etc/fstab
 
 eval $(blkid -o udev ${device}2)
-echo "UUID=${ID_FS_UUID}  /boot/ ${ID_FS_TYPE}  rw,realtime,block_validity 0 0" >> /mnt/etc/fstab
+echo "UUID=${ID_FS_UUID}  /boot/ ${ID_FS_TYPE}  rw,block_validity 0 0" >> /mnt/etc/fstab
 
 eval $(blkid -o udev ${device}1)
-echo "UUID=${ID_FS_UUID}  /boot/efi/ ${ID_FS_TYPE}  rw,realtime 0 0" >> /mnt/etc/fstab
+echo "UUID=${ID_FS_UUID}  /boot/efi/ ${ID_FS_TYPE}  rw 0 0" >> /mnt/etc/fstab
 
 genfstab /mnt | grep efivars >> /mnt/etc/fstab
 
@@ -68,12 +65,19 @@ cat > /mnt/preboot.sh << EOF
 #!/bin/sh
 mkdir /root/.ssh && chmod 700 /root/.ssh && echo "${ssh_key}" > /root/.ssh/authorized_keys && chmod 600 /root/.ssh/authorized_keys
 
+echo "KEYMAP=${format_keymap}" > /etc/vconsole.conf
+echo "${format_locale}" >> /etc/locale.gen
+echo "en_US.UTF-8" >> /etc/locale.gen
+locale-gen
+
 grub_cmdline_linux="root=UUID=${ID_FS_UUID}"
 sed -e 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX=${grub_cmdline_linux}/' -i /etc/default/grub
 grub-mkconfig -o /boot/grub/grub.cfg
 
 systemctl enable sshd
 systemctl enable systemd-networkd
+
+mkinitcpio -p linux
 EOF
 
 chmod +x /mnt/preboot.sh
