@@ -16,9 +16,21 @@ if [ -z ${XDG_RUNTIME_DIR} ]; then
     export XDG_RUNTIME_DIR=/run/user/$(id -u)
 fi
 
+function __histfile() {
+    local histpath="$HOME/doc/bash_history"
+    if [ ! -d ${histpath} ]; then
+        mkdir -p ${histpath}
+    fi
+
+    local histdate=$(date "+%Y.%M.%d_%H.%m.%S.%N")
+
+    echo ${histpath}/${histdate}
+}
+
 # bash behavior
 shopt -s checkwinsize
 export HISTCONTROL=ignoreboth:erasedups
+export HISTFILE="$(__histfile)"
 
 # exports
 export XMODIFIERS=emacs
