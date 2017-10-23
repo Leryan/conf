@@ -23,6 +23,9 @@ function __histfile() {
     fi
 
     local histdate=$(date "+%Y.%m.%d_%H.%M.%S.%N")
+    local histlast=$(ls -1t ${histpath}/ | head -n 1)
+
+    history -r ${histlast}
 
     echo ${histpath}/${histdate}
 }
@@ -30,7 +33,7 @@ function __histfile() {
 # bash behavior
 shopt -s checkwinsize
 export HISTCONTROL=ignoreboth:erasedups
-export HISTFILE="$(__histfile)"
+#export HISTFILE="$(__histfile)"
 
 # exports
 export XMODIFIERS=emacs
@@ -338,6 +341,7 @@ function __prompt_command() {
     else
         PS1="$ "
     fi
+    history -a ${HISTFILE}
 }
 
 # environment
