@@ -22,7 +22,7 @@ function __histfile() {
         mkdir -p ${histpath}
     fi
 
-    local histdate=$(date "+%Y.%M.%d_%H.%m.%S.%N")
+    local histdate=$(date "+%Y.%m.%d_%H.%M.%S.%N")
 
     echo ${histpath}/${histdate}
 }
