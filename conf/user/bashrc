@@ -17,8 +17,9 @@ if [ -z ${XDG_RUNTIME_DIR} ]; then
 fi
 
 # bash behavior
-shopt -s checkwinsize
 export HISTCONTROL=ignoreboth:erasedups
+shopt -s checkwinsize
+shopt -s histappend
 
 # exports
 export XMODIFIERS=emacs
@@ -326,6 +327,7 @@ function __prompt_command() {
     else
         PS1="$ "
     fi
+    history -a ${HISTFILE}
 }
 
 # environment
