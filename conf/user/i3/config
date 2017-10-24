@@ -10,7 +10,7 @@ bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
 # sounds
 bindcode $mod+Shift+76 exec mpv $HOME/doc/depots/m/blobs/coin.wav
 bindcode $mod+Shift+95 exec mpv $HOME/doc/depots/m/blobs/opening.wav
-bindcode $mod+Shift+96 exec mpv $HOME/doc/depots/m/blobs/ba-dum-tss_2.mp3
+bindcode $mod+Shift+96 exec mpv $HOME/doc/depots/m/blobs/imperial_march.wav
 
 # kill focused window
 bindcode $mod+Shift+24 kill
