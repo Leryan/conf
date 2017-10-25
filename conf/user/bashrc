@@ -302,6 +302,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
     alias mpva='mpv --no-video'
     alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
+    alias kcc="keychain --clear"
     alias kcclean="ssh-add -D"
     alias updatenow="yaourt -Syu --aur --noconfirm"
     function go-build-static() {
