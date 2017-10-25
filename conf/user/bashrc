@@ -181,6 +181,13 @@ function __pyvenv() {
 
 function venv_enter() {
     if [ ! -z "$1" ]; then
+        venv_version=""
+        if [ ! -z "$2" ]; then
+            venv_version="${2}"
+        fi
+        if [ ! -f ~/doc/pyvenv/${1}/bin/activate ]; then
+            virtualenv${venv_version} ~/doc/pyvenv/${1}/
+        fi
         source ~/doc/pyvenv/${1}/bin/activate
     fi
 }
