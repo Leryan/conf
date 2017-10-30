@@ -8,6 +8,7 @@ bindcode $mod+Shift+36 exec $HOME/Downloads/firefox/firefox
 bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
 
 # sounds
+bindcode $mod+Shift+73 exec mpv $HOME/doc/depots/m/blobs/xfiles.wav
 bindcode $mod+Shift+74 exec mpv $HOME/doc/depots/m/blobs/liberee.wav
 bindcode $mod+Shift+75 exec mpv $HOME/doc/depots/m/blobs/nelson.ogg
 bindcode $mod+Shift+76 exec mpv $HOME/doc/depots/m/blobs/coin.wav
