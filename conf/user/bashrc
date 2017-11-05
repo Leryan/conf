@@ -305,6 +305,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcc="keychain --clear"
     alias kcclean="ssh-add -D"
     alias updatenow="pacaur -Syua --noconfirm"
+    alias gitcod="git commit -am '.'"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
