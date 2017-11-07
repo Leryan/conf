@@ -16,9 +16,9 @@ bindcode $mod+Shift+71 exec aplay $HOME/doc/depots/m/blobs/coup.wav
 bindcode $mod+Shift+72 exec aplay $HOME/doc/depots/m/blobs/cri.wav
 bindcode $mod+Shift+73 exec aplay $HOME/doc/depots/m/blobs/xfiles.wav
 bindcode $mod+Shift+74 exec aplay $HOME/doc/depots/m/blobs/liberee.wav
-bindcode $mod+Shift+75 exec aplay $HOME/doc/depots/m/blobs/nelson.ogg
+bindcode $mod+Shift+75 exec aplay $HOME/doc/depots/m/blobs/nelson.wav
 bindcode $mod+Shift+76 exec aplay $HOME/doc/depots/m/blobs/coin.wav
-bindcode $mod+Shift+95 exec aplay $HOME/doc/depots/m/blobs/opening.wav
+bindcode $mod+Shift+95 exec aplay $HOME/doc/depots/m/blobs/badumtss.wav
 bindcode $mod+Shift+96 exec aplay $HOME/doc/depots/m/blobs/imperial_march.wav
 
 # kill focused window
