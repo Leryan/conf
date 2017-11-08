@@ -19,4 +19,3 @@ nm-applet &
 orage &
 gnome-keyring-daemon -s -c pkcs11,secrets
 owncloud &
-mpv ~/doc/depots/m/blobs/opening.wav &
