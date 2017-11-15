@@ -307,6 +307,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcclean="ssh-add -D"
     alias updatenow="pacaur -Syu --noconfirm"
     alias gitcod="git commit -am '.'"
+    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis/sources/canopsis"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
