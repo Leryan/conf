@@ -10,4 +10,5 @@ rmmod nvidia_modeset
 rmmod nvidia
 
 modprobe nvidia_drm
+sysctl vm.nr_hugepages=0
 systemctl restart lightdm
