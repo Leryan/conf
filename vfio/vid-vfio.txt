@@ -69,3 +69,4 @@ https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
 https://www.reddit.com/r/VFIO/comments/52ya06/return_nvidia_gpu_to_host/
 https://arseniyshestakov.com/2016/03/31/how-to-pass-gpu-to-vm-and-back-without-x-restart/
 https://fedoraproject.org/wiki/Features/KVM_Huge_Page_Backed_Memory
+https://vfio.blogspot.fr/2014/09/vfio-interrupts-and-how-to-coax-windows.html
