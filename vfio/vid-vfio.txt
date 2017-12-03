@@ -1,0 +1,38 @@
+grub: intel_iommu=on
+mkinitcpio: MODULES="aesni_intel usbhid xhci_hcd i915 nvidia vfio vfio_iommu_type1 vfio_pci vfio_virqfd"
+pacman: ovmf
+
+yoda /home/florent
+❭ cat /etc/modprobe.d/
+kvm.conf     nvidia.conf  vfio.conf    
+yoda /home/florent
+❭ cat /etc/modprobe.d/nvidia.conf 
+blacklist nouveau
+#blacklist nvidia
+#blacklist nvidia_drm
+#blacklist nvidia_modeset
+yoda /home/florent
+❭ cat /etc/modprobe.d/kvm.conf 
+options kvm ignore_msrs=1
+yoda /home/florent
+❭ cat /etc/modprobe.d/vfio.conf 
+#options vfio-pci ids=10de:13c2,10de:0fbb disable_vga=1
+options vfio-pci disable_vga=1
+
+
+<domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <features>
+    <hyperv>
+      <vendor_id state='on' value='001bba222444'/>
+    </hyperv>
+    <kvm>
+      <hidden state='on'/>
+    </kvm>
+  </features>
+  <qemu:commandline>
+    <qemu:env name='QEMU_AUDIO_DRV' value='pa'/>
+    <qemu:env name='QEMU_PA_SERVER' value='/run/user/1000/pulse/native'/>
+  </qemu:commandline>
+</domain>
+
++ passthrough usb
