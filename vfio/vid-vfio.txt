@@ -21,6 +21,16 @@ options vfio-pci disable_vga=1
 
 
 <domain type='kvm' xmlns:qemu='http://libvirt.org/schemas/domain/qemu/1.0'>
+  <memoryBacking>
+    <hugepages/>
+  </memoryBacking>
+  <vcpu placement='static'>4</vcpu>
+  <cputune>
+    <vcpupin vcpu='0' cpuset='4'/>
+    <vcpupin vcpu='1' cpuset='5'/>
+    <vcpupin vcpu='2' cpuset='6'/>
+    <vcpupin vcpu='3' cpuset='7'/>
+  </cputune>
   <features>
     <hyperv>
       <vendor_id state='on' value='001bba222444'/>
@@ -42,3 +52,4 @@ options vfio-pci disable_vga=1
 https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
 https://www.reddit.com/r/VFIO/comments/52ya06/return_nvidia_gpu_to_host/
 https://arseniyshestakov.com/2016/03/31/how-to-pass-gpu-to-vm-and-back-without-x-restart/
+https://fedoraproject.org/wiki/Features/KVM_Huge_Page_Backed_Memory
