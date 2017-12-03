@@ -36,3 +36,9 @@ options vfio-pci disable_vga=1
 </domain>
 
 + passthrough usb
+
+
+
+https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
+https://www.reddit.com/r/VFIO/comments/52ya06/return_nvidia_gpu_to_host/
+https://arseniyshestakov.com/2016/03/31/how-to-pass-gpu-to-vm-and-back-without-x-restart/
