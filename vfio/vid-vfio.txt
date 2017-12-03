@@ -42,11 +42,21 @@ options vfio-pci disable_vga=1
   <qemu:commandline>
     <qemu:env name='QEMU_AUDIO_DRV' value='pa'/>
     <qemu:env name='QEMU_PA_SERVER' value='/run/user/1000/pulse/native'/>
+    <qemu:env name='QEMU_AUDIO_TIMER_PERIOD' value=200/>
   </qemu:commandline>
 </domain>
 
 + passthrough usb
 
+
+Regedit :
+
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\PCI\VEN_10DE&DEV_0FBB&SUBSYS_19763842&REV_A1\3&13c0b0c5&0&48\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\PCI\VEN_10DE&DEV_0FBB&SUBSYS_19763842&REV_A1\4&2d78ab8f&0&0108\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\PCI\VEN_10DE&DEV_13C2&SUBSYS_19763842&REV_A1\3&13c0b0c5&0&40\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties
+Computer\HKEY_LOCAL_MACHINE\SYSTEM\CurrentControlSet\Enum\PCI\VEN_10DE&DEV_13C2&SUBSYS_19763842&REV_A1\4&2d78ab8f&0&0008\Device Parameters\Interrupt Management\MessageSignaledInterruptProperties
+
+DWORD32 MSISupported 1
 
 
 https://wiki.archlinux.org/index.php/PCI_passthrough_via_OVMF
