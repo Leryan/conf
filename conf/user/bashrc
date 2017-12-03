@@ -17,10 +17,12 @@ if [ -z ${XDG_RUNTIME_DIR} ]; then
 fi
 
 # bash behavior
-shopt -s checkwinsize
 export HISTCONTROL=ignoreboth:erasedups
+shopt -s checkwinsize
+shopt -s histappend
 
 # exports
+export AURDEST="${HOME}/doc/pacaur"
 export XMODIFIERS=emacs
 export EDITOR=vim
 export PAGER=less
@@ -142,7 +144,7 @@ function __netns_ps1() {
 }
 
 function dbash() {
-    docker exec -ti $1 /bin/bash
+    docker run -ti --entrypoint /bin/bash $@
 }
 
 function fuck() {
@@ -180,6 +182,13 @@ function __pyvenv() {
 
 function venv_enter() {
     if [ ! -z "$1" ]; then
+        venv_version=""
+        if [ ! -z "$2" ]; then
+            venv_version="${2}"
+        fi
+        if [ ! -f ~/doc/pyvenv/${1}/bin/activate ]; then
+            virtualenv${venv_version} ~/doc/pyvenv/${1}/
+        fi
         source ~/doc/pyvenv/${1}/bin/activate
     fi
 }
@@ -294,8 +303,11 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias mpvp='ls|sort -g|sed -r "s/(.*)/\"\1\"/g"|xargs mpv'
     alias mpva='mpv --no-video'
     alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
+    alias kcc="keychain --clear"
     alias kcclean="ssh-add -D"
-    alias updatenow="yaourt -Syu --aur --noconfirm"
+    alias updatenow="pacaur -Syu --noconfirm"
+    alias gitcod="git commit -am '.'"
+    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis/sources/canopsis"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
@@ -326,6 +338,7 @@ function __prompt_command() {
     else
         PS1="$ "
     fi
+    history -a ${HISTFILE}
 }
 
 # environment

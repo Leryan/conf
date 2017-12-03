@@ -7,6 +7,20 @@ bindcode $mod+36 exec gnome-terminal
 bindcode $mod+Shift+36 exec $HOME/Downloads/firefox/firefox
 bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
 
+# sounds
+bindcode $mod+Shift+67 exec aplay $HOME/doc/depots/m/blobs/shame.wav
+bindcode $mod+Shift+68 exec aplay $HOME/doc/depots/m/blobs/routine.wav
+bindcode $mod+Shift+69 exec aplay $HOME/doc/depots/m/blobs/apoil.wav
+bindcode $mod+Shift+70 exec aplay $HOME/doc/depots/m/blobs/oss_battre.wav
+bindcode $mod+Shift+71 exec aplay $HOME/doc/depots/m/blobs/coup.wav
+bindcode $mod+Shift+72 exec aplay $HOME/doc/depots/m/blobs/cri.wav
+bindcode $mod+Shift+73 exec aplay $HOME/doc/depots/m/blobs/xfiles.wav
+bindcode $mod+Shift+74 exec aplay $HOME/doc/depots/m/blobs/liberee.wav
+bindcode $mod+Shift+75 exec aplay $HOME/doc/depots/m/blobs/nelson.wav
+bindcode $mod+Shift+76 exec aplay $HOME/doc/depots/m/blobs/coin.wav
+bindcode $mod+Shift+95 exec aplay $HOME/doc/depots/m/blobs/badumtss.wav
+bindcode $mod+Shift+96 exec aplay $HOME/doc/depots/m/blobs/imperial_march.wav
+
 # kill focused window
 bindcode $mod+Shift+24 kill
 
