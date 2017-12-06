@@ -14,8 +14,9 @@ xset s noblank
 redshift-gtk -l 48.85241:2.3488 -t 5500:3000 -r &
 nitrogen --restore
 parcellite &
-volumeicon &
 nm-applet &
 orage &
 gnome-keyring-daemon -s -c pkcs11,secrets
 owncloud &
+volumeicon &
+usbguard-applet-qt &
