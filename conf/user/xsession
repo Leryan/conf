@@ -20,3 +20,5 @@ gnome-keyring-daemon -s -c pkcs11,secrets
 owncloud &
 volumeicon &
 usbguard-applet-qt &
+akregator --hide-mainwindow &
+#flameshot gui -p ~/Snapshots/ &

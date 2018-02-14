@@ -94,6 +94,7 @@ function __tmux() {
     if [ ! -z "${TMUX}" ]||[ "${TERM}" = "screen" ]; then
         return
     fi
+    return
     tmux list-sessions > /dev/null 2>&1
     if [ ! "$?" = "0" ]&&[ -z "${TMUX}" ]; then
         __cache_systemd_version
@@ -115,6 +116,8 @@ function __tmux() {
 function __tmux_ps1() {
     local tscolor=""
     local symbol="\xe2\x8c\x97"
+
+    return
 
     tmux list-sessions > /dev/null 2>&1
 
@@ -254,6 +257,15 @@ function git-commit-interactive() {
     eval $resultvar="'${commit_string}'"
 }
 
+function docker-ip() {
+    docker inspect $(docker ps|grep $1|awk '{print $1}')|grep -E '"IPAddress": "[0-9\.]+'|sed -r 's/.*"([0-9\.]+)".*/\1/g'
+}
+
+function docker-clean() {
+    docker rm -f $(docker ps -aq)
+    docker image prune -f
+}
+
 function gitco() {
     git-commit-interactive cs
     read -p "Final commit: ${cs}"
@@ -307,7 +319,9 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcclean="ssh-add -D"
     alias updatenow="pacaur -Syu --noconfirm"
     alias gitcod="git commit -am '.'"
-    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis/sources/canopsis"
+    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis"
+    alias catcd="cd $HOME/doc/depots/g/canopsis/cat/canopsis-cat"
+    alias cagocd="cd $GOPATH/src/git.canopsis.net/canopsis/go-revolution"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
