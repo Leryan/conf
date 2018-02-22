@@ -297,6 +297,14 @@ function lxc-bash() {
     sudo lxc-attach -n $1 --clear-env --set-var HOME=/root --set-var TERM=xterm -- /bin/bash -l
 }
 
+function cps-restore() {
+    mongorestore -h $1 -u cpsmongo -p canopsis --db canopsis --authenticationDatabase=canopsis --gzip --archive=$(readlink -e "${2}") --drop
+}
+
+function cps-dump() {
+    mongodump -h $1 -u cpsmongo -p canopsis --db canopsis --authenticationDatabase=canopsis --gzip --archive="${2}"
+}
+
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
     alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
