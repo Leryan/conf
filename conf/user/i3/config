@@ -7,7 +7,7 @@ bindcode $mod+36 exec konsole
 bindcode $mod+Shift+36 exec firefox
 #bindcode $mod+Shift+36 exec chromium
 #bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
-bindcode $mod+Shift+32 exec i3lock -i $HOME/doc/lockscreens/montagne_mononoke.jpg.png
+bindcode $mod+Shift+32 exec i3lock -i $HOME/doc/lockscreens/wallhaven-618958.jpg.png
 
 # sounds
 bindcode $mod+Shift+67 exec aplay $HOME/doc/depots/m/blobs/shame.wav
