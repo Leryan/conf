@@ -17,7 +17,7 @@ parcellite &
 nm-applet &
 orage &
 gnome-keyring-daemon -s -c pkcs11,secrets
-owncloud &
+#owncloud &
 volumeicon &
 usbguard-applet-qt &
 akregator --hide-mainwindow &
