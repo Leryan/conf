@@ -22,6 +22,8 @@
 		"Package Control",
 		"Puppet",
 		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeLinter-govet",
 		"SublimeREPL",
 		"Wrap Plus"
 	]
