@@ -6,7 +6,6 @@
 	"installed_packages":
 	[
 		"Anaconda",
-		"AutoPEP8",
 		"Color Highlighter",
 		"ColorPicker",
 		"Dockerfile Syntax Highlighting",
@@ -17,13 +16,13 @@
 		"GoSublime",
 		"Inc-Dec-Value",
 		"INI",
-		"MagicPython",
 		"Markdown Preview",
 		"Package Control",
 		"Puppet",
 		"SideBarEnhancements",
 		"SublimeLinter",
 		"SublimeLinter-govet",
+		"SublimeLinter-pylint",
 		"SublimeREPL",
 		"Wrap Plus"
 	]

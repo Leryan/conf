@@ -1,5 +1,4 @@
 // SublimeLinter Settings - User
 {
-	"delay": 0.1,
 	"show_panel_on_save": "window"
 }
