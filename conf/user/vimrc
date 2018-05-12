@@ -10,8 +10,11 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 
+let g:racer_experimental_completer = 1
+
 map <C-n> :NERDTreeToggle<CR>
 
+set hidden
 set number
 set background=light
 set expandtab
