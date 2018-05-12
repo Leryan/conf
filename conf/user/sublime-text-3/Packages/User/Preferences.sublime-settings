@@ -1,10 +1,16 @@
 {
+	"auto_complete": false,
 	"detect_indentation": true,
 	"draw_white_space": "all",
 	"font_face": "Fira Code",
-	"font_size": 11,
+	"font_size": 10,
 	"ignored_packages":
 	[
+		"GoPower",
+		"GoSublime",
+		"SublimeLinter",
+		"SublimeLinter-govet",
+		"SublimeLinter-pylint",
 		"Vintage"
 	],
 	"rulers":

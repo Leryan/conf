@@ -6,6 +6,7 @@
 	"installed_packages":
 	[
 		"Anaconda",
+		"C++ Completions",
 		"Color Highlighter",
 		"ColorPicker",
 		"Dockerfile Syntax Highlighting",
