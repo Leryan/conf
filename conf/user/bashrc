@@ -185,7 +185,7 @@ function __pyvenv() {
 
 function __customenv() {
     if [ ! -z "${PB_CUSTOM_ENV}" ]; then
-        echo -n "(go:${PB_CUSTOM_ENV}) "
+        echo -n "(${PB_CUSTOM_ENV}) "
     fi
 }
 
