@@ -1,9 +1,25 @@
+execute pathogen#infect()
+
+let g:acp_enableAtStartup = 1
+
+inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_cmd = 'CtrlP'
+let g:ctrlp_working_path_mode = 'ra'
+
+let g:racer_experimental_completer = 1
+
+map <C-n> :NERDTreeToggle<CR>
+
+set hidden
 set number
-set background=dark
+set background=light
 set expandtab
 set tabstop=4
 set shiftwidth=4
 set nobackup
+set ignorecase
 set smarttab
 set softtabstop=4
 set wildmenu
