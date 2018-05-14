@@ -39,9 +39,13 @@ let g:racer_experimental_completer = 1
 
 map <C-n> :NERDTreeToggle<CR>
 
+autocmd FileType go map <F2> :GoRename 
+autocmd FileType go map <F3> :GoTestFunc<CR>
+autocmd FileType go map <F4> :GoCoverageToggle<CR>
+
 set hidden
 set number
-set background=light
+set background=dark
 set expandtab
 set tabstop=4
 set shiftwidth=4
