@@ -179,7 +179,13 @@ function __settitle() {
 
 function __pyvenv() {
     if [ ! -z "${VIRTUAL_ENV}" ]; then
-        echo -n "($(basename ${VIRTUAL_ENV})) "
+        echo -n "(py:$(basename ${VIRTUAL_ENV})) "
+    fi
+}
+
+function __customenv() {
+    if [ ! -z "${PB_CUSTOM_ENV}" ]; then
+        echo -n "(go:${PB_CUSTOM_ENV}) "
     fi
 }
 
@@ -357,7 +363,7 @@ function __prompt_command() {
             arrow=">"
         fi
 
-        export PS1=$(echo -e "$(__pyvenv)${usr_color}${usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${arrow}${txtrst} ")
+        export PS1=$(echo -e "$(__customenv)$(__pyvenv)${usr_color}${usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${arrow}${txtrst} ")
     else
         PS1="$ "
     fi
