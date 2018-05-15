@@ -28,22 +28,6 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlP'
 let g:ctrlp_working_path_mode = 'ra'
 
-let g:go_metalinter_autosave = 1
-let g:go_metalinter_autosave_enabled = ['vet', 'golint']
-let g:go_fmt_command = "goimports"
-let g:go_gocode_unimported_packages = 1
-let g:go_template_use_pkg = 1
-let g:go_highlight_functions = 1
-let g:go_highlight_function_calls = 1
-
-let g:racer_experimental_completer = 1
-
-map <C-n> :NERDTreeToggle<CR>
-
-autocmd FileType go map <F2> :GoRename 
-autocmd FileType go map <F3> :GoTestFunc<CR>
-autocmd FileType go map <F4> :GoCoverageToggle<CR>
-
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -57,6 +41,27 @@ let g:syntastic_go_checkers = ['golint', 'govet', 'go']
 
 " disable sign column if no error reported
 set signcolumn=yes
+
+let g:go_metalinter_autosave = 0
+let g:go_metalinter_autosave_enabled = []
+let g:go_fmt_command = "goimports"
+let g:go_gocode_unimported_packages = 1
+let g:go_template_use_pkg = 1
+let g:go_highlight_functions = 1
+let g:go_highlight_function_calls = 1
+let g:go_list_type = "quickfix"
+
+let g:racer_experimental_completer = 1
+
+let g:ycm_min_num_of_chars_for_completion = 1
+let g:ycm_max_num_candidates = 10
+let g:ycm_complete_in_comments = 1
+
+map <C-n> :NERDTreeToggle<CR>
+
+autocmd FileType go map <F2> :GoRename 
+autocmd FileType go map <F3> :GoTestFunc<CR>
+autocmd FileType go map <F4> :GoCoverageToggle<CR>
 
 set hidden
 set number
