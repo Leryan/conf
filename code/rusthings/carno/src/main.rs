@@ -41,18 +41,17 @@ trait Identifiable {
 
 trait Repository<T: Identifiable> {
     fn find(&self, id: String) -> Option<Result<T, RepositoryError>> {
-        if id == String::from("found") {
-            return Some(Ok(
-                T::new(String::from("found"))
-            ));
+        match id.as_str() {
+            "found" =>
+                return Some(Ok(
+                    T::new(String::from("found"))
+                )),
+            "err" =>
+                return Some(Err(
+                    RepositoryError::IOError("no connection".to_string())
+                )),
+            _ => None
         }
-
-        if id == String::from("err") {
-            return Some(Err(
-                RepositoryError::IOError("no connection".to_string())
-            ));
-        }
-        None
     }
 }
 
