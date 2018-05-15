@@ -69,7 +69,6 @@ impl<T> GenericRepository<T> {
 
 impl<T: Identifiable> Repository<T> for GenericRepository<T> {}
 
-///*
 fn find_and_print<Data: Identifiable + Debug, R: Repository<Data>>(t: String, repo: R) {
     let resf = repo.find("found".to_string());
     let resn = repo.find("none".to_string());
@@ -78,7 +77,6 @@ fn find_and_print<Data: Identifiable + Debug, R: Repository<Data>>(t: String, re
     println!("{:?} not found: {:?}", t, resn);
     println!("{:?} error: {:?}", t, rese);
 }
-//*/
 
 fn main() {
     /* wont build
