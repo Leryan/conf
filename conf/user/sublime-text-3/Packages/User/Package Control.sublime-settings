@@ -5,14 +5,16 @@
 	],
 	"installed_packages":
 	[
+		"Advanced CSV",
 		"Anaconda",
-		"AutoPEP8",
+		"C++ Completions",
 		"Color Highlighter",
 		"ColorPicker",
+		"Dockerfile Syntax Highlighting",
 		"Elixir",
 		"Git",
 		"GitGutter",
-		"Gofmt",
+		"GoImports",
 		"GoSublime",
 		"Inc-Dec-Value",
 		"INI",
@@ -20,6 +22,9 @@
 		"Package Control",
 		"Puppet",
 		"SideBarEnhancements",
+		"SublimeLinter",
+		"SublimeLinter-govet",
+		"SublimeLinter-pylint",
 		"SublimeREPL",
 		"Wrap Plus"
 	]

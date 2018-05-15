@@ -3,10 +3,11 @@ font pango:Fira Mono 9
 floating_modifier $mod
 
 # start a terminal
-bindcode $mod+36 exec gnome-terminal
-bindcode $mod+Shift+36 exec $HOME/Downloads/firefox/firefox
+bindcode $mod+36 exec konsole
+bindcode $mod+Shift+36 exec firefox
 #bindcode $mod+Shift+36 exec chromium
-bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
+#bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
+bindcode $mod+Shift+32 exec i3lock -i $HOME/doc/lockscreens/wallhaven-618958.jpg.png
 
 # sounds
 bindcode $mod+Shift+67 exec aplay $HOME/doc/depots/m/blobs/shame.wav
@@ -26,7 +27,7 @@ bindcode $mod+Shift+96 exec aplay $HOME/doc/depots/m/blobs/imperial_march.wav
 bindcode $mod+Shift+24 kill
 
 # start dmenu (a program launcher)
-bindcode $mod+40 exec dmenu_run
+bindcode $mod+40 exec rofi -show run -sort
 
 # change focus
 bindcode $mod+44 focus left

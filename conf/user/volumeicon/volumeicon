@@ -3,11 +3,11 @@ card=default
 channel=Master
 
 [Notification]
-show_notification=true
-notification_type=0
+show_notification=false
+notification_type=1
 
 [StatusIcon]
-stepsize=5
+stepsize=1
 onclick=xterm -e 'alsamixer'
 theme=Default
 use_panel_specific_icons=false

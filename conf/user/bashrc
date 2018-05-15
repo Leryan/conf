@@ -94,6 +94,7 @@ function __tmux() {
     if [ ! -z "${TMUX}" ]||[ "${TERM}" = "screen" ]; then
         return
     fi
+    return
     tmux list-sessions > /dev/null 2>&1
     if [ ! "$?" = "0" ]&&[ -z "${TMUX}" ]; then
         __cache_systemd_version
@@ -115,6 +116,8 @@ function __tmux() {
 function __tmux_ps1() {
     local tscolor=""
     local symbol="\xe2\x8c\x97"
+
+    return
 
     tmux list-sessions > /dev/null 2>&1
 
@@ -161,7 +164,7 @@ fi
 function __keychain() {
     which keychain > /dev/null 2>&1
     if [ "$?" = "0" ]; then
-        eval $(keychain --systemd --quiet --eval --ignore-missing --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"} --noask --timeout 240)
+        eval $(keychain --systemd --quiet --eval --ignore-missing --agents ssh ${_BP_KEYCHAIN_KEYS:-"id_ecdsa"} --noask --timeout 600)
     fi
 }
 
@@ -176,7 +179,13 @@ function __settitle() {
 
 function __pyvenv() {
     if [ ! -z "${VIRTUAL_ENV}" ]; then
-        echo -n "($(basename ${VIRTUAL_ENV})) "
+        echo -n "(py:$(basename ${VIRTUAL_ENV})) "
+    fi
+}
+
+function __customenv() {
+    if [ ! -z "${PB_CUSTOM_ENV}" ]; then
+        echo -n "(${PB_CUSTOM_ENV}) "
     fi
 }
 
@@ -254,6 +263,15 @@ function git-commit-interactive() {
     eval $resultvar="'${commit_string}'"
 }
 
+function docker-ip() {
+    docker inspect $(docker ps|grep $1|awk '{print $1}')|grep -E '"IPAddress": "[0-9\.]+'|sed -r 's/.*"([0-9\.]+)".*/\1/g'
+}
+
+function docker-clean() {
+    docker rm -f $(docker ps -aq)
+    docker image prune -f
+}
+
 function gitco() {
     git-commit-interactive cs
     read -p "Final commit: ${cs}"
@@ -285,8 +303,17 @@ function lxc-bash() {
     sudo lxc-attach -n $1 --clear-env --set-var HOME=/root --set-var TERM=xterm -- /bin/bash -l
 }
 
+function cps-restore() {
+    mongorestore -h $1 -u cpsmongo -p canopsis --db canopsis --authenticationDatabase=canopsis --gzip --archive=$(readlink -e "${2}") --drop
+}
+
+function cps-dump() {
+    mongodump -h $1 -u cpsmongo -p canopsis --db canopsis --authenticationDatabase=canopsis --gzip --archive="${2}"
+}
+
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
+    alias dk="docker-compose"
     alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
     alias ls="ls -F --color=always --group-directories-first"
     alias l="ls"
@@ -305,9 +332,11 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcadd="keychain ${_BP_KEYCHAIN_KEYS:-'id_ecdsa'}"
     alias kcc="keychain --clear"
     alias kcclean="ssh-add -D"
-    alias updatenow="pacaur -Syu --noconfirm"
+    alias updatenow="yaourt -Syu --aur"
     alias gitcod="git commit -am '.'"
-    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis/sources/canopsis"
+    alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis"
+    alias catcd="cd $HOME/doc/depots/g/canopsis/cat/canopsis-cat"
+    alias cagocd="cd $GOPATH/src/git.canopsis.net/canopsis/go-revolution"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
@@ -334,7 +363,7 @@ function __prompt_command() {
             arrow=">"
         fi
 
-        export PS1=$(echo -e "$(__pyvenv)${usr_color}${usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${arrow}${txtrst} ")
+        export PS1=$(echo -e "$(__customenv)$(__pyvenv)${usr_color}${usr_txt}${bldwht} ${txtwht}$(__tmux_ps1)${bldwht}$(__netns_ps1)${rctxt}${txtwht}$(__git_ps1)${bldgrn}\w${bldwht}\n${arrow}${txtrst} ")
     else
         PS1="$ "
     fi
