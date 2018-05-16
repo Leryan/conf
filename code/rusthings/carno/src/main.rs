@@ -41,13 +41,13 @@ struct Type2 {
 
 impl Identifiable for Type1 {
     fn new(id: String) -> Self {
-        return Self { id: id };
+        Self { id: id }
     }
 }
 
 impl Identifiable for Type2 {
     fn new(id: String) -> Self {
-        return Self { id: id };
+        Self { id: id }
     }
 }
 
@@ -66,25 +66,26 @@ struct MongoRepository<T> {
 
 impl<T> MongoRepository<T> {
     pub fn new(coll: Collection) -> Self {
-        return MongoRepository {
+        MongoRepository {
             phantom: std::marker::PhantomData,
             collection: coll,
-        };
+        }
     }
 }
 
 impl<'de, T: Identifiable + serde::Deserialize<'de>> Repository<T> for MongoRepository<T> {
     fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError> {
         let doc = doc!{"_id":id};
-        let res = try!(self.collection.find_one(Some(doc), None));
+
+        let res = self.collection.find_one(Some(doc), None)?;
+
         match res {
-            Some(cdata) => {
-                let tt: Result<T, bson::DecoderError> =
-                    bson::from_bson(bson::Bson::Document(cdata));
+            Some(data) => {
+                let tt: Result<T, bson::DecoderError> = bson::from_bson(bson::Bson::Document(data));
                 match tt {
-                    Ok(t) => return Ok(Some(t)),
-                    Err(err) => return Err(RepositoryError::DocumentError(err)),
-                };
+                    Ok(t) => Ok(Some(t)),
+                    Err(err) => Err(RepositoryError::DocumentError(err)),
+                }
             }
             None => Ok(None),
         }
