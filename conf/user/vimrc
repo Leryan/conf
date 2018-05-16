@@ -5,6 +5,7 @@
 " ln -s ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim ~/.vim/autoload/pathogen.vim
 "
 " git clone --recursive https://github.com/davidhalter/jedi-vim.git
+" git clone git://github.com/airblade/vim-gitgutter.git
 " git clone https://github.com/w0rp/ale
 " git clone https://github.com/tpope/vim-fugitive.git
 " git clone https://github.com/fatih/vim-go.git
@@ -53,6 +54,9 @@ let g:ale_set_quickfix = 1
 let g:ale_open_list = 1
 let g:ale_keep_list_window_open = 1
 let g:ale_list_window_size = 4
+
+let g:gitgutter_enabled = 1
+let g:gitgutter_signs = 1
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FZF<CR>
