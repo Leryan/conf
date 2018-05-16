@@ -36,7 +36,7 @@ trait Identifiable {
 }
 
 trait Repository<T: Identifiable> {
-    fn find(&self, id: String) -> Result<Option<T>, RepositoryError> {
+    fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError> {
         match id.as_str() {
             "found" => return Ok(Some(T::new(String::from("found")))),
             "err" => return Err(RepositoryError::IOError("no connection".to_string())),
@@ -60,9 +60,9 @@ impl<T> GenericRepository<T> {
 impl<T: Identifiable> Repository<T> for GenericRepository<T> {}
 
 fn find_and_print<Data: Identifiable + Debug, R: Repository<Data>>(t: String, repo: R) {
-    let resf = repo.find("found".to_string());
-    let resn = repo.find("none".to_string());
-    let rese = repo.find("err".to_string());
+    let resf = repo.find_by_id("found".to_string());
+    let resn = repo.find_by_id("none".to_string());
+    let rese = repo.find_by_id("err".to_string());
     println!("{:?} found: {:?}", t, resf);
     println!("{:?} not found: {:?}", t, resn);
     println!("{:?} error: {:?}", t, rese);
