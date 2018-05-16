@@ -7,7 +7,7 @@ enum RepositoryError {
 
 #[derive(Debug)]
 #[allow(dead_code)]
-struct BullShit{}
+struct BullShit {}
 
 #[derive(Debug)]
 struct Type1 {
@@ -21,17 +21,13 @@ struct Type2 {
 
 impl Identifiable for Type1 {
     fn new(id: String) -> Self {
-        return Self{
-            id: id,
-        };
+        return Self { id: id };
     }
 }
 
 impl Identifiable for Type2 {
     fn new(id: String) -> Self {
-        return Self{
-            id: id,
-        };
+        return Self { id: id };
     }
 }
 
@@ -42,15 +38,9 @@ trait Identifiable {
 trait Repository<T: Identifiable> {
     fn find(&self, id: String) -> Option<Result<T, RepositoryError>> {
         match id.as_str() {
-            "found" =>
-                return Some(Ok(
-                    T::new(String::from("found"))
-                )),
-            "err" =>
-                return Some(Err(
-                    RepositoryError::IOError("no connection".to_string())
-                )),
-            _ => None
+            "found" => return Some(Ok(T::new(String::from("found")))),
+            "err" => return Some(Err(RepositoryError::IOError("no connection".to_string()))),
+            _ => None,
         }
     }
 }
@@ -61,7 +51,7 @@ struct GenericRepository<T> {
 
 impl<T> GenericRepository<T> {
     pub fn new() -> Self {
-        return GenericRepository{
+        return GenericRepository {
             phantom: std::marker::PhantomData,
         };
     }
