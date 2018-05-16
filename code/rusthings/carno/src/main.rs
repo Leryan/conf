@@ -36,11 +36,11 @@ trait Identifiable {
 }
 
 trait Repository<T: Identifiable> {
-    fn find(&self, id: String) -> Option<Result<T, RepositoryError>> {
+    fn find(&self, id: String) -> Result<Option<T>, RepositoryError> {
         match id.as_str() {
-            "found" => return Some(Ok(T::new(String::from("found")))),
-            "err" => return Some(Err(RepositoryError::IOError("no connection".to_string()))),
-            _ => None,
+            "found" => return Ok(Some(T::new(String::from("found")))),
+            "err" => return Err(RepositoryError::IOError("no connection".to_string())),
+            _ => Ok(None),
         }
     }
 }
