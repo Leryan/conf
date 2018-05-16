@@ -1,3 +1,4 @@
+#[macro_use]
 extern crate bson;
 extern crate mongodb;
 extern crate serde;
@@ -6,16 +7,20 @@ extern crate serde_derive;
 
 use std::fmt::Debug;
 
-use bson::Document;
 use mongodb::coll::Collection;
 use mongodb::db::ThreadedDatabase;
 use mongodb::{Client, ThreadedClient};
 
 #[derive(Debug)]
 enum RepositoryError {
-    IOError(String),
     MongoError(mongodb::Error),
     DocumentError(bson::DecoderError),
+}
+
+impl From<mongodb::Error> for RepositoryError {
+    fn from(error: mongodb::Error) -> Self {
+        RepositoryError::MongoError(error)
+    }
 }
 
 #[derive(Debug)]
@@ -54,38 +59,34 @@ trait Repository<T: Identifiable> {
     fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError>;
 }
 
-struct GenericRepository<T> {
+struct MongoRepository<T> {
     phantom: std::marker::PhantomData<T>,
     collection: Collection,
 }
 
-impl<T> GenericRepository<T> {
+impl<T> MongoRepository<T> {
     pub fn new(coll: Collection) -> Self {
-        return GenericRepository {
+        return MongoRepository {
             phantom: std::marker::PhantomData,
             collection: coll,
         };
     }
 }
 
-impl<'de, T: Identifiable + serde::Deserialize<'de>> Repository<T> for GenericRepository<T> {
+impl<'de, T: Identifiable + serde::Deserialize<'de>> Repository<T> for MongoRepository<T> {
     fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError> {
-        let mut doc = Document::new();
-        doc.insert("_id", id);
-        let res = self.collection.find_one(Some(doc), None);
+        let doc = doc!{"_id":id};
+        let res = try!(self.collection.find_one(Some(doc), None));
         match res {
-            Ok(data) => match data {
-                Some(cdata) => {
-                    let tt: Result<T, bson::DecoderError> =
-                        bson::from_bson(bson::Bson::Document(cdata));
-                    match tt {
-                        Ok(t) => return Ok(Some(t)),
-                        Err(err) => return Err(RepositoryError::DocumentError(err)),
-                    };
-                }
-                None => Ok(None),
-            },
-            Err(err) => Err(RepositoryError::MongoError(err)),
+            Some(cdata) => {
+                let tt: Result<T, bson::DecoderError> =
+                    bson::from_bson(bson::Bson::Document(cdata));
+                match tt {
+                    Ok(t) => return Ok(Some(t)),
+                    Err(err) => return Err(RepositoryError::DocumentError(err)),
+                };
+            }
+            None => Ok(None),
         }
     }
 }
@@ -94,14 +95,14 @@ fn find_and_print<Data: Identifiable + Debug, R: Repository<Data>>(t: String, re
     let resf = repo.find_by_id("found".to_string());
     let resn = repo.find_by_id("none".to_string());
     let rese = repo.find_by_id("err".to_string());
-    println!("{:?} found: {:?}", t, resf);
+    println!("{:?} found    : {:?}", t, resf);
     println!("{:?} not found: {:?}", t, resn);
-    println!("{:?} error: {:?}", t, rese);
+    println!("{:?} error    : {:?}", t, rese);
 }
 
 fn main() {
     /* wont build
-    let repo_tb: GenericRepository<BullShit> = GenericRepository::new();
+    let repo_tb: MongoRepository<BullShit> = MongoRepository::new();
     find_and_print(String::from("tb"), repo_tb);
     println!("");
     */
@@ -110,8 +111,8 @@ fn main() {
     let type1_col = mgo.db("canopsis").collection("type1");
     let type2_col = mgo.db("canopsis").collection("type2");
 
-    let repo_t1: GenericRepository<Type1> = GenericRepository::new(type1_col);
-    let repo_t2: GenericRepository<Type2> = GenericRepository::new(type2_col);
+    let repo_t1: MongoRepository<Type1> = MongoRepository::new(type1_col);
+    let repo_t2: MongoRepository<Type2> = MongoRepository::new(type2_col);
     find_and_print(String::from("t1"), repo_t1);
     /* wont build unless implement Copy trait because repo_t1 moved into find_and_print
     repo_t1.find("bla".to_string());
