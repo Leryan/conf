@@ -9,7 +9,7 @@
 " git clone https://github.com/tpope/vim-fugitive.git
 " git clone https://github.com/fatih/vim-go.git
 " git clone https://github.com/scrooloose/nerdtree.git
-" git clone https://github.com/ctrlpvim/ctrlp.vim
+" https://github.com/junegunn/fzf.vim
 " git clone https://github.com/Valloric/YouCompleteMe
 "
 " # First, install clang/libclang for the clang completer
@@ -25,10 +25,6 @@ execute pathogen#infect()
 let g:acp_enableAtStartup = 1
 
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
@@ -60,6 +56,7 @@ let g:ycm_max_num_candidates = 10
 let g:ycm_complete_in_comments = 1
 
 map <C-n> :NERDTreeToggle<CR>
+map <C-p> :FZF<CR>
 
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
