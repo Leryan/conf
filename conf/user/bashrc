@@ -22,6 +22,7 @@ shopt -s checkwinsize
 shopt -s histappend
 
 # exports
+export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 export AURDEST="${HOME}/doc/pacaur"
 export XMODIFIERS=emacs
 export EDITOR=vim

@@ -5,11 +5,13 @@
 " ln -s ~/.vim/bundle/vim-pathogen/autoload/pathogen.vim ~/.vim/autoload/pathogen.vim
 "
 " git clone --recursive https://github.com/davidhalter/jedi-vim.git
-" git clone --depth=1 https://github.com/vim-syntastic/syntastic.git
+" git clone --depth=1 https://github.com/rust-lang/rust.vim.git
+" git clone git://github.com/airblade/vim-gitgutter.git
+" git clone https://github.com/w0rp/ale
 " git clone https://github.com/tpope/vim-fugitive.git
 " git clone https://github.com/fatih/vim-go.git
 " git clone https://github.com/scrooloose/nerdtree.git
-" git clone https://github.com/ctrlpvim/ctrlp.vim
+" git clone https://github.com/junegunn/fzf.vim
 " git clone https://github.com/Valloric/YouCompleteMe
 "
 " # First, install clang/libclang for the clang completer
@@ -18,6 +20,10 @@
 " git submodule update --recursive --init
 " ./install.py --clang-completer --system-libclang --go-completer --rust-completer
 "
+" Install the_silver_searcher then add in your ~/.${SHELL}rc:
+"
+" export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+"
 " Ready!
 
 execute pathogen#infect()
@@ -25,21 +31,6 @@ execute pathogen#infect()
 let g:acp_enableAtStartup = 1
 
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
-
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_enable_signs = 1
-let g:syntastic_go_checkers = ['golint', 'govet', 'go']
 
 " disable sign column if no error reported
 set signcolumn=yes
@@ -59,7 +50,17 @@ let g:ycm_min_num_of_chars_for_completion = 1
 let g:ycm_max_num_candidates = 10
 let g:ycm_complete_in_comments = 1
 
+let g:ale_set_loclist = 0
+let g:ale_set_quickfix = 1
+let g:ale_open_list = 1
+let g:ale_keep_list_window_open = 1
+let g:ale_list_window_size = 4
+
+let g:gitgutter_enabled = 1
+let g:gitgutter_signs = 1
+
 map <C-n> :NERDTreeToggle<CR>
+map <C-p> :FZF<CR>
 
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
