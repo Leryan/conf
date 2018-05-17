@@ -59,8 +59,12 @@ let g:ale_list_window_size = 4
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
 
+let g:fzf_buffers_jump = 1
+let g:fzf_command_prefix = 'Fzf'
+
 map <C-n> :NERDTreeToggle<CR>
-map <C-p> :FZF<CR>
+map <C-p> :FzfFiles<CR>
+map <C-b> :FzfBuffers<CR>
 
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
