@@ -86,7 +86,7 @@ function __cache_systemd_version() {
 function __git_ps1() {
     git branch > /dev/null 2>&1
     if [ "$?" = "0" ]; then
-        local branch=$(git branch |grep '^\*'|cut -f2 -d' ')
+        local branch=$(git symbolic-ref -q --short HEAD || git describe --tags --exact-match)
         echo "${branch} "
     fi
 }
