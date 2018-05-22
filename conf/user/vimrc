@@ -8,6 +8,8 @@
 "
 " python:
 "   pylint flake8
+"
+" :GoInstallBinaries
 
 set nocompatible
 filetype off
