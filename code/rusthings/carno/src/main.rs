@@ -14,12 +14,19 @@ use mongodb::{Client, ThreadedClient};
 #[derive(Debug)]
 enum RepositoryError {
     MongoError(mongodb::Error),
-    DocumentError(bson::DecoderError),
+    DecodeError(bson::DecoderError),
+    EncodeError(bson::EncoderError),
 }
 
 impl From<mongodb::Error> for RepositoryError {
     fn from(error: mongodb::Error) -> Self {
         RepositoryError::MongoError(error)
+    }
+}
+
+impl From<bson::EncoderError> for RepositoryError {
+    fn from(error: bson::EncoderError) -> Self {
+        RepositoryError::EncodeError(error)
     }
 }
 
@@ -30,7 +37,7 @@ struct BullShit {}
 #[derive(Debug, Serialize, Deserialize)]
 struct Type1 {
     #[serde(rename = "_id")]
-    pub id: String,
+    pub id: Option<String>,
 }
 
 #[derive(Debug, Serialize, Deserialize)]
@@ -41,7 +48,7 @@ struct Type2 {
 
 impl Identifiable for Type1 {
     fn new(id: String) -> Self {
-        Self { id: id }
+        Self { id: Some(id) }
     }
 }
 
@@ -55,7 +62,8 @@ trait Identifiable {
     fn new(id: String) -> Self;
 }
 
-trait Repository<T: Identifiable> {
+trait Repository<T> {
+    fn insert_one(&self, document: T) -> Result<(), RepositoryError>;
     fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError>;
 }
 
@@ -73,7 +81,19 @@ impl<T> MongoRepository<T> {
     }
 }
 
-impl<'de, T: Identifiable + serde::Deserialize<'de>> Repository<T> for MongoRepository<T> {
+impl<'de, T: Identifiable + serde::Deserialize<'de> + serde::Serialize> Repository<T>
+    for MongoRepository<T>
+{
+    fn insert_one(&self, document: T) -> Result<(), RepositoryError> {
+        //let bdoc = bson::to_bson(&document)?;
+        //let bson::Bson::Document(ddoc) = bdoc;
+        let ddoc = doc!{document};
+        match self.collection.insert_one(ddoc, None) {
+            Ok(_) => Ok(()),
+            Err(err) => Err(RepositoryError::MongoError(err)),
+        }
+    }
+
     fn find_by_id(&self, id: String) -> Result<Option<T>, RepositoryError> {
         let doc = doc!{"_id":id};
 
@@ -81,10 +101,11 @@ impl<'de, T: Identifiable + serde::Deserialize<'de>> Repository<T> for MongoRepo
 
         match res {
             Some(data) => {
-                let tt: Result<T, bson::DecoderError> = bson::from_bson(bson::Bson::Document(data));
-                match tt {
-                    Ok(t) => Ok(Some(t)),
-                    Err(err) => Err(RepositoryError::DocumentError(err)),
+                let bdata = bson::Bson::Document(data);
+                let sdata: Result<T, bson::DecoderError> = bson::from_bson(bdata);
+                match sdata {
+                    Ok(sdoc) => Ok(Some(sdoc)),
+                    Err(err) => Err(RepositoryError::DecodeError(err)),
                 }
             }
             None => Ok(None),
@@ -108,16 +129,32 @@ fn main() {
     println!("");
     */
 
-    let mgo = Client::with_uri("mongodb://cpsmongo:canopsis@localhost:27017/canopsis").unwrap();
-    let type1_col = mgo.db("canopsis").collection("type1");
-    let type2_col = mgo.db("canopsis").collection("type2");
+    match Client::with_uri("mongodb://cpsmongo:canopsis@localhost:27017/canopsis") {
+        Ok(mgo) => {
+            let sid: Result<String, RepositoryError> = Ok(String::from("found"));
+            match sid {
+                Ok(id) => {
+                    let t1 = Type1 { id: Some(id) };
+                    let type1_col = mgo.db("canopsis").collection("type1");
+                    let type2_col = mgo.db("canopsis").collection("type2");
 
-    let repo_t1: MongoRepository<Type1> = MongoRepository::new(type1_col);
-    let repo_t2: MongoRepository<Type2> = MongoRepository::new(type2_col);
-    find_and_print(String::from("t1"), repo_t1);
-    /* wont build unless implement Copy trait because repo_t1 moved into find_and_print
+                    let repo_t1: MongoRepository<Type1> = MongoRepository::new(type1_col);
+                    let repo_t2: MongoRepository<Type2> = MongoRepository::new(type2_col);
+                    match repo_t1.insert_one(t1) {
+                        Ok(_) => {
+                            find_and_print(String::from("t1"), repo_t1);
+                            /* wont build unless implement Copy trait because repo_t1 moved into find_and_print
     repo_t1.find("bla".to_string());
     */
-    println!("");
-    find_and_print(String::from("t2"), repo_t2);
+                            println!("");
+                            find_and_print(String::from("t2"), repo_t2);
+                        }
+                        Err(err) => println!("insert: {:?}", err),
+                    }
+                }
+                Err(err) => println!("object id: {:?}", err),
+            }
+        }
+        _ => panic!("pwet"),
+    }
 }
