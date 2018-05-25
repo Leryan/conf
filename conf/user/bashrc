@@ -273,6 +273,10 @@ function docker-clean() {
     docker image prune -f
 }
 
+function docker-clean-cano() {
+    docker rmi -f $(docker images|grep -E "(canopsis|none)"|grep -vE "influx|rabbit|mongo"|awk '{print $3}')
+}
+
 function gitco() {
     git-commit-interactive cs
     read -p "Final commit: ${cs}"
