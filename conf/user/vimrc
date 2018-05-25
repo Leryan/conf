@@ -37,6 +37,7 @@ Plug 'terryma/vim-multiple-cursors'
 Plug 'aquach/vim-http-client'
 Plug 'metakirby5/codi.vim'
 Plug 'ntpeters/vim-better-whitespace'
+Plug 'posva/vim-vue'
 
 call plug#end()
 

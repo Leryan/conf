@@ -1,2 +1,4 @@
 [MESSAGE CONTROL]
-disable=C0103,E1121,C0111,R0914
+; http://pylint-messages.wikidot.com/all-codes
+; http://pylint-messages.wikidot.com/all-messages
+disable=C0103,E1121,C0111,R0914,R0902,R0903,R0913
