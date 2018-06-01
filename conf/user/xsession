@@ -22,3 +22,5 @@ volumeicon &
 usbguard-applet-qt &
 akregator --hide-mainwindow &
 #flameshot gui -p ~/Snapshots/ &
+eval $(ssh-agent -s)
+/usr/bin/i3
