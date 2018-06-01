@@ -38,6 +38,8 @@ Plug 'aquach/vim-http-client'
 Plug 'metakirby5/codi.vim'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
+Plug 'fisadev/vim-isort'
+Plug 'vimjas/vim-python-pep8-indent'
 
 call plug#end()
 
