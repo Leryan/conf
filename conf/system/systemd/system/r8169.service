@@ -1,5 +1,5 @@
 [Unit]
-Description=reload r8169 kernel module after resume
+Description=reload r8169 kernel module after resume, fix <= 4.16.x kernels
 After=suspend.target
 
 [Service]
