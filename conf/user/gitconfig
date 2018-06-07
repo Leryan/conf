@@ -1,0 +1,15 @@
+[user]
+    email = bla@bla.bla
+    name = Florent Peterschmitt
+
+[credential]
+    helper = cache --timeout 86400
+
+[push]
+    default = simple
+
+[http]
+    postBuffer = 50M
+
+[core]
+    quotepath = false
