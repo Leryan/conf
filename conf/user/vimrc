@@ -3,7 +3,7 @@
 " system:
 "   pacman -S base-devel clang cmake rust the_silver_searcher fzf npm nodejs
 "   python-pylint python2-pylint python-jedi python2-jedi flake8
-"   python2-flake8 autopep8 python2-autopep8
+"   python2-flake8 autopep8 python2-autopep8 go
 "
 " shell:
 "   export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
