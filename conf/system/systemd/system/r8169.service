@@ -1,0 +1,11 @@
+[Unit]
+Description=reload r8169 kernel module after resume
+After=suspend.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/local/r8169.sh
+TimeoutSec=0
+
+[Install]
+WantedBy=suspend.target
