@@ -342,6 +342,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias canocd="cd $HOME/doc/depots/g/canopsis/canopsis/canopsis"
     alias catcd="cd $HOME/doc/depots/g/canopsis/cat/canopsis-cat"
     alias cagocd="cd $GOPATH/src/git.canopsis.net/canopsis/go-revolution"
+    alias grep="grep --color=always"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
