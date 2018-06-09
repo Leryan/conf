@@ -143,6 +143,8 @@ pacman -S i3-wm \
     gnome-keyring \
     vim \
     tmux \
+    openssh \
+    keychain \
     arandr \
     libva-intel-driver \
     xorg-server \
