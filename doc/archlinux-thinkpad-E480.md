@@ -108,13 +108,47 @@ localectl set-keymap fr-bepo
 ## Packages
 
 ```
-pacman -S i3-wm i3lock i3status nitrogen xterm dmenu rofi \
-    lightdm lightdm-gtk-greeter \
-    pulseaudio firefox libva-intel-driver xorg-xinit arandr xrandr \
-    redshift python-gobject python-xdg gnome-themes-extra pavucontrol \
-    chromium konsole ttf-fira-code ttf-fira-mono ttf-liberation ttf-droid \
-    ttf-dejavu networkmanager network-manager-applet networkmanager-openvpn \
-    docker lxc dnsmasq gnome-keyring vim tmux xorg-server polkit-gnome
+pacman -S i3-wm \
+    i3lock \
+    i3status \
+    nitrogen \
+    dmenu \
+    rofi \
+    orage \
+    lightdm \
+    lightdm-gtk-greeter \
+    gnome-themes-extra \
+    lxappearance \
+    pulseaudio \
+    pavucontrol \
+    volumeicon \
+    redshift \
+    python-gobject \
+    python-xdg \
+    chromium \
+    firefox \
+    konsole \
+    ttf-fira-code \
+    ttf-fira-mono \
+    ttf-liberation \
+    ttf-droid \
+    ttf-dejavu \
+    networkmanager \
+    network-manager-applet \
+    networkmanager-openvpn \
+    docker \
+    lxc \
+    dnsmasq \
+    polkit-gnome \
+    gnome-keyring \
+    vim \
+    tmux \
+    arandr \
+    libva-intel-driver \
+    xorg-server \
+    xorg-xinit \
+    xrandr \
+    xterm
 ```
 
 ## User
