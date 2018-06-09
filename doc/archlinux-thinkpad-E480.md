@@ -154,8 +154,7 @@ pacman -S i3-wm \
 ## User
 
 ```
-useradd -m florent
-usermod -a -G sudo,network,users florent
+useradd -m -G sudo,network,users florent
 ```
 
 
