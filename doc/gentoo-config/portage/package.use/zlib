@@ -1,0 +1,5 @@
+sys-libs/zlib minizip
+# required by net-libs/webkit-gtk-2.10.7::gentoo[gstreamer]
+# required by www-client/epiphany-3.18.3::gentoo
+# required by www-client/epiphany (argument)
+>=media-libs/gst-plugins-bad-1.6.3 opengl

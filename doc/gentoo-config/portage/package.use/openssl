@@ -1,0 +1,2 @@
+dev-libs/openssl
+dev-libs/openssl -bindist
