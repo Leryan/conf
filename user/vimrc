@@ -12,6 +12,7 @@
 " :GoInstallBinaries
 
 set nocompatible
+set encoding=utf-8
 filetype off
 
 " https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation

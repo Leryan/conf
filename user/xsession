@@ -1,12 +1,8 @@
-#killall dbus-daemon
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 killall redshift
 numlockx on
-setxkbmap fr,fr,us bepo,, -option "xkb_options" "grp:alt_caps_toggle" -option caps:none
-#export $(dbus-launch)
 export _JAVA_OPTIONS='-Dawt.useSystemAAFontSettings=on'
 export _JAVA_AWT_WM_NONREPARENTING=1
-#pulseaudio --start &
 ~/.screenlayout/home.sh
 xset s off
 xset -dpms
@@ -21,7 +17,5 @@ gnome-keyring-daemon -s -c pkcs11,secrets
 #owncloud &
 volumeicon &
 usbguard-applet-qt &
-akregator --hide-mainwindow &
 #flameshot gui -p ~/Snapshots/ &
-eval $(ssh-agent -s)
 /usr/bin/i3
