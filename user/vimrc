@@ -61,8 +61,8 @@ let g:go_list_type = "quickfix"
 
 let g:racer_experimental_completer = 1
 
-let g:ycm_min_num_of_chars_for_completion = 1
-let g:ycm_complete_in_comments = 1
+let g:ycm_min_num_of_chars_for_completion = 3
+let g:ycm_complete_in_comments = 0
 let g:ycm_python_binary_path = 'python'
 let g:ycm_autoclose_preview_window_after_insertion = 1
 
@@ -75,6 +75,7 @@ let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
 "let g:ale_list_window_size = 10
 
+" use Ctrl+j to go through warning and errors
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 let g:gitgutter_enabled = 1
