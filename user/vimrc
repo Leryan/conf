@@ -6,6 +6,8 @@
 "   python2-flake8 autopep8 python2-autopep8 python-isort python2-isort go
 "   python-virtualenv python2-virtualenv
 "
+"   vim-plug
+"
 " shell:
 "   export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 "
@@ -15,20 +17,12 @@ set nocompatible
 set encoding=utf-8
 filetype off
 
-" https://github.com/junegunn/vim-plug/wiki/tips#automatic-installation
-if empty(glob('~/.vim/autoload/plug.vim'))
-  silent !curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-    \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
-  autocmd VimEnter * PlugInstall --sync | source ~/.vimrc
-endif
-
 call plug#begin('~/.vim/plugged')
 
 Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'w0rp/ale'
 Plug 'tpope/vim-fugitive'
-Plug 'fatih/vim-go'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
@@ -40,6 +34,7 @@ Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
 Plug 'fisadev/vim-isort'
 Plug 'vimjas/vim-python-pep8-indent'
+Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 
 call plug#end()
 
