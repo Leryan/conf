@@ -13,7 +13,8 @@ nitrogen --restore
 parcellite &
 nm-applet &
 orage &
-gnome-keyring-daemon -s -c pkcs11,secrets
+# trizen -S gnome-keyring libsecret seahorse
+eval $(gnome-keyring-daemon -s -c pkcs11,secrets)
 #owncloud &
 volumeicon &
 usbguard-applet-qt &

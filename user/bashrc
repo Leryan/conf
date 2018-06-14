@@ -319,6 +319,8 @@ function cps-dump() {
 # aliases
 if [ "${_INTERACTIVE}" = "1" ]; then
     alias vim="nvim"
+    alias ovim="/usr/bin/vim"
+    alias cvim="venv_enter cano && vim"
     alias dk="docker-compose"
     alias sssh="ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no"
     alias ls="ls -F --color=always --group-directories-first"

@@ -73,7 +73,7 @@ let g:ale_keep_list_window_open = 0
 let g:ale_completion_enabled = 0
 let g:ale_lint_on_save = 1
 let g:ale_lint_on_text_changed = 'never'
-"let g:ale_list_window_size = 10
+let g:ale_list_window_size = 5
 
 " use Ctrl+j to go through warning and errors
 nmap <silent> <C-j> <Plug>(ale_next_wrap)
