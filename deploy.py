@@ -1,21 +1,12 @@
 #!/usr/bin/env python
 
-import glob
-import os
 import argparse
+import os
 import shutil
 
 
 def find_workdir(file_path):
     return os.path.dirname(os.path.abspath(file_path))
-
-
-def find_deploys(workdir):
-    """
-    :param str workdir: working directory where to start recursive search
-    """
-    deploys = glob.glob('deploy'.format(workdir), recursive=True)
-    return deploys
 
 
 class Deployer(object):
