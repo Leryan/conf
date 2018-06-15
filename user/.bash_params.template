@@ -1,4 +1,4 @@
 export _BP_TMUX=0
-export _BP_KEYCHAIN=0
+export _BP_KEYCHAIN=1
 export _BP_TERM_UTF8=${_BP_TERM_UTF8:-1}
 #export _BP_KEYCHAIN_KEYS="id_ecdsa id_rsa"
