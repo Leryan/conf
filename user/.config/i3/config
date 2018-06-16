@@ -7,7 +7,7 @@ bindcode $mod+36 exec $HOME/doc/depots/m/conf/st/st
 #bindcode $mod+Shift+36 exec firefox
 bindcode $mod+Shift+36 exec chromium --password-store=gnome
 #bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
-bindcode $mod+Shift+32 exec i3lock
+bindcode $mod+Shift+32 exec i3lock -c 000000
 
 # sounds
 bindcode $mod+Shift+67 exec aplay $HOME/doc/depots/m/blobs/shame.wav
@@ -153,5 +153,5 @@ hide_edge_borders both
 # Start i3bar to display a workspace bar (plus the system information i3status
 # finds out, if available)
 bar {
-        status_command i3status
+    status_command i3status
 }
