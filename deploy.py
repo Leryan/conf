@@ -12,6 +12,16 @@ def find_workdir(file_path):
     return os.path.dirname(os.path.abspath(file_path))
 
 
+class States:
+
+    LINK = 'link'
+    UNLINK = 'unlink'
+    OK = 'ok'
+    TOK = 'template ok'
+    COPY = 'copy'
+    MAKEDIRS = 'makedirs'
+
+
 class Deployer(object):
 
     def __init__(self, workdir, deploy_to, simulate, no_deploy_ext):
@@ -26,8 +36,6 @@ class Deployer(object):
     def deploy(self):
         if self.simulate:
             print('SIMULATION')
-        else:
-            print('DOING TASKS')
         print(f'deploying from: {self.workdir}')
         print(f'deploying to  : {self.deploy_to}')
 
@@ -47,15 +55,15 @@ class Deployer(object):
         directory = pjoin(root, dirname)
 
         if exists(directory) and not isdir(directory):
-            self._log('unlink not-a-dir', f'{directory}')
+            self._log(States.UNLINK, f'{directory}')
             if not self.simulate:
                 os.unlink(directory)
 
         elif exists(directory):
-            self._log('ok', f'directory {directory}')
+            self._log(States.OK, f'directory {directory}')
             return
 
-        self._log('makedirs', f'{directory}')
+        self._log(States.MAKEDIRS, f'{directory}')
         if not self.simulate:
             os.makedirs(directory)
 
@@ -67,13 +75,13 @@ class Deployer(object):
         link_points_ok = islink(filepath_deploy) and os.readlink(filepath_deploy) == filepath
 
         if link_is_file or not link_points_ok:
-            self._log('link', f'{filepath_deploy} -> {filepath}')
+            self._log(States.LINK, f'{filepath_deploy} -> {filepath}')
             if not self.simulate:
                 if exists(filepath_deploy):
                     os.unlink(filepath_deploy)
                 os.symlink(filepath, filepath_deploy)
         else:
-            self._log('ok', f'{filepath_deploy}')
+            self._log(States.OK, f'{filepath_deploy}')
 
     def _ensure_template(self, root, deployroot, filename):
         filepath_deploy = pjoin(
@@ -81,16 +89,16 @@ class Deployer(object):
         )
 
         if islink(filepath_deploy):
-            self._log('unlink', f'{filepath_deploy}')
+            self._log(States.UNLINK, f'{filepath_deploy}')
             if not self.simulate:
                 os.unlink(filepath_deploy)
 
         if isfile(filepath_deploy):
-            self._log('template ok', f'{filepath_deploy}')
+            self._log(States.TOK, f'{filepath_deploy}')
             return
 
         filepath = pjoin(root, filename)
-        self._log('copy', f'{filepath} -> {filepath_deploy}')
+        self._log(States.COPY, f'{filepath} -> {filepath_deploy}')
         if not self.simulate:
             shutil.copyfile(filepath, filepath_deploy)
 
