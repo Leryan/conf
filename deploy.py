@@ -26,18 +26,18 @@ class States:
 
 class Deployer(object):
 
-    def __init__(self, workdir, deploy_to, simulate, no_deploy_ext, force_rmtree):
+    def __init__(self, deploy_from, deploy_to, simulate, template_ext, force_rmtree):
         """
-        :param str workdir: where to work from
+        :param str deploy_from: where to work from
         :param str deploy_to: consider this path as the root where to deploy files
         :param bool simulate: do not do any action
-        :param str no_deploy_ext: template extention to be removed when copying
+        :param str template_ext: template extention to be removed when copying
         :param bool force_rmtree: do not ask for directory deletion before link/copy
         """
-        self.workdir = os.path.abspath(workdir)
+        self.deploy_from = os.path.abspath(deploy_from)
         self.deploy_to = os.path.abspath(deploy_to)
         self.simulate = simulate
-        self.no_deploy_ext = no_deploy_ext
+        self.template_ext = template_ext
         self.force_rmtree = force_rmtree
 
         if not exists(self.deploy_to):
@@ -46,7 +46,7 @@ class Deployer(object):
     def deploy(self):
         if self.simulate:
             print('SIMULATION')
-        print(f'deploying from: {self.workdir}')
+        print(f'deploying from: {self.deploy_from}')
         print(f'deploying to  : {self.deploy_to}')
 
         self._walk()
@@ -71,10 +71,10 @@ class Deployer(object):
 
     def _truncate(self, path):
         """
-        Replace the workdir part with the deploy_to path in path.
+        Replace the deploy_from part with the deploy_to path in path.
         :param str path:
         """
-        return path.replace(self.workdir, self.deploy_to)
+        return path.replace(self.deploy_from, self.deploy_to)
 
     def _ensure_dir(self, root, dirname):
         directory = pjoin(root, dirname)
@@ -120,7 +120,7 @@ class Deployer(object):
         :param str src: file to copy
         :param str dst: where to copy
         """
-        dst = dst.replace(self.no_deploy_ext, '')
+        dst = dst.replace(self.template_ext, '')
 
         if islink(dst):
             self._log(States.UNLINK, f'{dst}')
@@ -141,7 +141,7 @@ class Deployer(object):
             shutil.copyfile(src, dst)
 
     def _walk(self):
-        for rootdir, subdirs, files in os.walk(self.workdir):
+        for rootdir, subdirs, files in os.walk(self.deploy_from):
             deployroot = self._truncate(rootdir)
             for subdir in subdirs:
                 self._ensure_dir(deployroot, subdir)
@@ -150,7 +150,7 @@ class Deployer(object):
                 src = pjoin(rootdir, file_)
                 dst = pjoin(deployroot, file_)
 
-                if file_.endswith(self.no_deploy_ext):
+                if file_.endswith(self.template_ext):
                     self._ensure_template(src, dst)
                 else:
                     self._ensure_link(src, dst)
@@ -160,7 +160,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--deploy-from', default=find_workdir(__file__))
     parser.add_argument('--deploy-to', default=os.environ['HOME'])
-    parser.add_argument('--no-deploy-ext', default='.template')
+    parser.add_argument('--template-ext', default='.template')
     parser.add_argument('--simulate', action='store_true')
     parser.add_argument('--force-rmtree', action='store_true', help='if a directory must be replaced by a file or symlink, do not ask for deletion')
 
@@ -173,7 +173,7 @@ if __name__ == '__main__':
         args.deploy_from,
         args.deploy_to,
         args.simulate,
-        args.no_deploy_ext,
+        args.template_ext,
         args.force_rmtree,
     )
     d.deploy()
