@@ -4,7 +4,8 @@ import argparse
 import os
 import shutil
 
-from os.path import isfile, islink, isdir, exists
+from os.path import isfile, islink, isdir
+from os.path import exists as lexists
 from os.path import join as pjoin
 
 
