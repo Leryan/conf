@@ -132,7 +132,7 @@ class Deployer(object):
             if not self._ask_rmtree(dst):
                 return
 
-        if isfile(dst):
+        elif isfile(dst):
             self._log(States.TOK, f'{dst}')
             return
 
