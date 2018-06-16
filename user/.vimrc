@@ -21,7 +21,22 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-surround'
+" press - to get file explorer
+Plug 'tpope/vim-vinegar'
+" readline shortcuts: saving your life
+Plug 'tpope/vim-rsi'
+" if -> end and so...
+Plug 'tpope/vim-endwise'
+" \\w or \\s to quick nav
+Plug 'easymotion/vim-easymotion'
+" :Grepper, :h grepper
+Plug 'mhinz/vim-grepper'
+Plug 'tomtom/tcomment_vim'
+Plug 'ap/vim-css-color'
+Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
+Plug 'markonm/traces.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
