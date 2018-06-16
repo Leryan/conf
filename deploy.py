@@ -4,6 +4,9 @@ import argparse
 import os
 import shutil
 
+from os.path import isfile, islink, isdir, exists
+from os.path import join as pjoin
+
 
 def find_workdir(file_path):
     return os.path.dirname(os.path.abspath(file_path))
@@ -17,7 +20,7 @@ class Deployer(object):
         self.simulate = simulate
         self.no_deploy_ext = no_deploy_ext
 
-        if not os.path.exists(self.deploy_to):
+        if not exists(self.deploy_to):
             raise Exception(f'path {deploy_to} does not exists')
 
     def deploy(self):
@@ -30,6 +33,9 @@ class Deployer(object):
 
         self._walk()
 
+    def _log(self, status, msg):
+        print(f'{status}: {msg}')
+
     def _truncate(self, path):
         """
         Replace the workdir part with the deploy_to path in path.
@@ -38,50 +44,53 @@ class Deployer(object):
         return path.replace(self.workdir, self.deploy_to)
 
     def _ensure_dir(self, root, dirname):
-        directory = os.path.join(root, dirname)
+        directory = pjoin(root, dirname)
 
-        if os.path.exists(directory) and not os.path.isdir(directory):
-            print(f'unlink not-a-dir {directory}')
+        if exists(directory) and not isdir(directory):
+            self._log('unlink not-a-dir', f'{directory}')
             if not self.simulate:
                 os.unlink(directory)
 
-        elif os.path.exists(directory):
-            print(f'directory {directory} ok')
+        elif exists(directory):
+            self._log('ok', f'directory {directory}')
             return
 
-        print(f'makedirs {directory}')
+        self._log('makedirs', f'{directory}')
         if not self.simulate:
             os.makedirs(directory)
 
     def _ensure_link(self, root, deployroot, filename):
-        filepath = os.path.join(root, filename)
-        filepath_deploy = os.path.join(deployroot, filename)
+        filepath = pjoin(root, filename)
+        filepath_deploy = pjoin(deployroot, filename)
 
-        if os.path.isfile(filepath_deploy) or os.path.islink(filepath_deploy):
-            print(f'remove old link/file {filepath_deploy}')
+        link_is_file = isfile(filepath_deploy) and not islink(filepath_deploy)
+        link_points_ok = islink(filepath_deploy) and os.readlink(filepath_deploy) == filepath
+
+        if link_is_file or not link_points_ok:
+            self._log('link', f'{filepath_deploy} -> {filepath}')
             if not self.simulate:
-                os.unlink(filepath_deploy)
-
-        print(f'redeploy {filepath_deploy}')
-        if not self.simulate:
-            os.symlink(filepath, filepath_deploy)
+                if exists(filepath_deploy):
+                    os.unlink(filepath_deploy)
+                os.symlink(filepath, filepath_deploy)
+        else:
+            self._log('ok', f'{filepath_deploy}')
 
     def _ensure_template(self, root, deployroot, filename):
-        filepath_deploy = os.path.join(
+        filepath_deploy = pjoin(
             deployroot, filename.replace(self.no_deploy_ext, '')
         )
 
-        if os.path.islink(filepath_deploy):
-            print(f'unlink {filepath_deploy} (next action: copy)')
+        if islink(filepath_deploy):
+            self._log('unlink', f'{filepath_deploy}')
             if not self.simulate:
                 os.unlink(filepath_deploy)
 
-        if os.path.isfile(filepath_deploy):
-            print(f'{filepath_deploy} already deployed')
+        if isfile(filepath_deploy):
+            self._log('template ok', f'{filepath_deploy}')
             return
 
-        filepath = os.path.join(root, filename)
-        print(f'copy {filepath} to {filepath_deploy}')
+        filepath = pjoin(root, filename)
+        self._log('copy', f'{filepath} -> {filepath_deploy}')
         if not self.simulate:
             shutil.copyfile(filepath, filepath_deploy)
 
