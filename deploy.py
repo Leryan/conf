@@ -67,40 +67,51 @@ class Deployer(object):
         if not self.simulate:
             os.makedirs(directory)
 
-    def _ensure_link(self, root, deployroot, filename):
-        filepath = pjoin(root, filename)
-        filepath_deploy = pjoin(deployroot, filename)
+    def _ensure_link(self, src, dst):
+        """
+        :param str src: file to point to
+        :param str dst: symlink destination
+        """
+        link_points_ok = islink(dst) and os.readlink(dst) == src
+        link_exists = exists(dst)
 
-        link_is_file = isfile(filepath_deploy) and not islink(filepath_deploy)
-        link_points_ok = islink(filepath_deploy) and os.readlink(filepath_deploy) == filepath
-
-        if link_is_file or not link_points_ok:
-            self._log(States.LINK, f'{filepath_deploy} -> {filepath}')
-            if not self.simulate:
-                if exists(filepath_deploy):
-                    os.unlink(filepath_deploy)
-                os.symlink(filepath, filepath_deploy)
-        else:
-            self._log(States.OK, f'{filepath_deploy}')
-
-    def _ensure_template(self, root, deployroot, filename):
-        filepath_deploy = pjoin(
-            deployroot, filename.replace(self.no_deploy_ext, '')
-        )
-
-        if islink(filepath_deploy):
-            self._log(States.UNLINK, f'{filepath_deploy}')
-            if not self.simulate:
-                os.unlink(filepath_deploy)
-
-        if isfile(filepath_deploy):
-            self._log(States.TOK, f'{filepath_deploy}')
+        if link_points_ok:
+            self._log(States.OK, f'{dst}')
             return
 
-        filepath = pjoin(root, filename)
-        self._log(States.COPY, f'{filepath} -> {filepath_deploy}')
+        self._log(States.LINK, f'{dst} -> {src}')
         if not self.simulate:
-            shutil.copyfile(filepath, filepath_deploy)
+            if link_exists and isdir(dst):
+                shutil.rmtree(dst)
+            elif link_exists:
+                os.unlink(dst)
+
+            os.symlink(src, dst)
+
+    def _ensure_template(self, src, dst):
+        """
+        :param str src: file to copy
+        :param str dst: where to copy
+        """
+        dst = dst.replace(self.no_deploy_ext, '')
+
+        if islink(dst):
+            self._log(States.UNLINK, f'{dst}')
+            if not self.simulate:
+                os.unlink(dst)
+
+        elif isdir(dst):
+            self._log(States.UNLINK, f'{dst}')
+            if not self.simulate:
+                shutil.rmtree(dst)
+
+        if isfile(dst):
+            self._log(States.TOK, f'{dst}')
+            return
+
+        self._log(States.COPY, f'{src} -> {dst}')
+        if not self.simulate:
+            shutil.copyfile(src, dst)
 
     def _walk(self):
         for rootdir, subdirs, files in os.walk(self.workdir):
@@ -109,10 +120,13 @@ class Deployer(object):
                 self._ensure_dir(deployroot, subdir)
 
             for file_ in files:
+                src = pjoin(rootdir, file_)
+                dst = pjoin(deployroot, file_)
+
                 if file_.endswith(self.no_deploy_ext):
-                    self._ensure_template(rootdir, deployroot, file_)
+                    self._ensure_template(src, dst)
                 else:
-                    self._ensure_link(rootdir, deployroot, file_)
+                    self._ensure_link(src, dst)
 
 
 if __name__ == '__main__':
