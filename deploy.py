@@ -41,8 +41,11 @@ class Deployer(object):
         self.template_ext = template_ext
         self.force_rmtree = force_rmtree
 
-        if not exists(self.deploy_to):
-            raise Exception(f'path {deploy_to} does not exists')
+        if not os.path.exists(self.deploy_from):
+            raise Exception(f'path {deploy_from} does not exists or is a broken symlink')
+
+        if not os.path.exists(self.deploy_to):
+            raise Exception(f'path {deploy_to} does not exists or is a broken symlink')
 
     def deploy(self):
         if self.simulate:
