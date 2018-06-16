@@ -59,6 +59,11 @@ class Deployer(object):
         print(f'{status}: {msg}')
 
     def _ask_rmtree(self, path):
+        """
+        :param str path: path to remove recursively
+        :rtype bool:
+        :returns: True if path was removed, False otherwise
+        """
         if not self.force_rmtree:
             answer = input(f'removing {path} directory and any files, confirm? (Y/N): ')
             if answer != 'Y':
