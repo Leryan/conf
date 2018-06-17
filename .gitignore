@@ -2,6 +2,5 @@ __pycache__
 .vscode
 conf/user/sublime-text-3/Packages/User/Package Control.*
 conf/user/sublime-text-3/Packages/User/Color Highlighter/
-st/config.h
 *.o
 st/st
