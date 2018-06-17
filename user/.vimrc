@@ -29,14 +29,14 @@ Plug 'tpope/vim-rsi'
 " if -> end and so...
 Plug 'tpope/vim-endwise'
 " \\w or \\s to quick nav
-"Plug 'easymotion/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
 " :Grepper, :h grepper
-"Plug 'mhinz/vim-grepper'
-"Plug 'tomtom/tcomment_vim'
-"Plug 'ap/vim-css-color'
-"Plug 'jiangmiao/auto-pairs'
+Plug 'mhinz/vim-grepper'
+Plug 'tomtom/tcomment_vim'
+Plug 'ap/vim-css-color'
+Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
-"Plug 'markonm/traces.vim'
+Plug 'markonm/traces.vim'
 Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
@@ -58,6 +58,9 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " disable sign column if no error reported
 set signcolumn=yes
+
+" avoid conflict with tpope/vim-rsi
+let g:AutoPairsShortcutBackInsert = '<M-B>'
 
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = []
