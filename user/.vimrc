@@ -103,7 +103,7 @@ let g:fzf_command_prefix = 'Fzf'
 map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FzfFiles<CR>
 map <C-b> :FzfBuffers<CR>
-map <C-s> :OverCommandLine<CR>
+map <C-s> :OverCommandLine :%s/<CR>
 
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
