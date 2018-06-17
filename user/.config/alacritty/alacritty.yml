@@ -31,7 +31,7 @@ window:
 
   # Window decorations
   # Setting this to false will result in window without borders and title bar.
-  decorations: false
+  decorations: true
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 4
@@ -115,8 +115,8 @@ custom_cursor_colors: false
 colors:
   # Default colors
   primary:
-    background: '0x000000'
-    foreground: '0xeaeaea'
+    background: '0x272822'
+    foreground: '0xA09A7F'
 
   # Colors the cursor will use if `custom_cursor_colors` is true
   cursor:
@@ -125,25 +125,25 @@ colors:
 
   # Normal colors
   normal:
-    black:   '0x000000'
-    red:     '0xd54e53'
-    green:   '0xb9ca4a'
-    yellow:  '0xe6c547'
-    blue:    '0x7aa6da'
-    magenta: '0xc397d8'
-    cyan:    '0x70c0ba'
-    white:   '0xffffff'
+    black:   '0x272822'
+    red:     '0xF92672'
+    green:   '0xA6E22E'
+    yellow:  '0xFFE792'
+    blue:    '0xAE82FF'
+    magenta: '0xF92672'
+    cyan:    '0x66D9EF'
+    white:   '0xA09A7F'
 
   # Bright colors
   bright:
-    black:   '0x666666'
-    red:     '0xff3334'
-    green:   '0x9ec400'
-    yellow:  '0xe7c547'
-    blue:    '0x7aa6da'
-    magenta: '0xb77ee0'
-    cyan:    '0x54ced6'
-    white:   '0xffffff'
+    black:   '0x0081A3'
+    red:     '0xF92672'
+    green:   '0xF92672'
+    yellow:  '0xA6E22E'
+    blue:    '0xFFE792'
+    magenta: '0xAE82FF'
+    cyan:    '0xF92672'
+    white:   '0xA09A7F'
 
   # Dim colors (Optional)
   dim:
