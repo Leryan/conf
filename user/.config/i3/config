@@ -3,8 +3,8 @@ font pango:Fira Mono 9
 floating_modifier $mod
 
 # start a terminal
-bindcode $mod+36 exec $HOME/doc/depots/m/conf/st/st -e tmux
-bindcode $mod+Mod1+36 exec $HOME/doc/depots/m/conf/st/st
+bindcode $mod+36 exec st -e tmux
+bindcode $mod+Mod1+36 exec st
 #bindcode $mod+36 exec alacritty
 #bindcode $mod+Shift+36 exec firefox
 bindcode $mod+Shift+36 exec chromium --password-store=gnome
