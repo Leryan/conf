@@ -28,8 +28,8 @@ bindcode $mod+Shift+96 exec aplay $HOME/doc/depots/m/blobs/imperial_march.wav
 # kill focused window
 bindcode $mod+Shift+24 kill
 
-# start dmenu (a program launcher)
-bindcode $mod+40 exec rofi -show run -sort
+# program launcher
+bindcode $mod+40 exec rofi -show run -sort -matching fuzzy -columns 10 -lines 2 -terminal st -bw 0 -width 100 -font "mono 10" -padding 5
 
 # change focus
 bindcode $mod+44 focus left
