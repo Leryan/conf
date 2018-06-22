@@ -34,7 +34,6 @@ Plug 'easymotion/vim-easymotion'
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
 Plug 'ap/vim-css-color'
-Plug 'jiangmiao/auto-pairs'
 Plug 'w0rp/ale'
 Plug 'osyo-manga/vim-over'
 Plug 'tpope/vim-fugitive'
@@ -59,9 +58,6 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 " disable sign column if no error reported
 set signcolumn=yes
 
-" avoid conflict with tpope/vim-rsi
-let g:AutoPairsShortcutBackInsert = '<M-B>'
-
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = []
 let g:go_fmt_command = "goimports"
@@ -69,7 +65,8 @@ let g:go_gocode_unimported_packages = 1
 let g:go_template_use_pkg = 1
 let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
-let g:go_list_type = "quickfix"
+let g:go_list_type = "locationlist"
+let g:go_fmt_fail_silently = 1
 
 let g:racer_experimental_completer = 1
 
@@ -108,6 +105,12 @@ map <C-s> :OverCommandLine :%s/<CR>
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
 autocmd FileType go map <F4> :GoCoverageToggle<CR>
+
+" for ALE but not only, close location list with the associated buffer.
+augroup CloseLoclistWindowGroup
+	autocmd!
+	autocmd QuitPre * if empty(&buftype) | lclose | endif
+augroup END
 
 set hidden
 set number
