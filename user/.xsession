@@ -18,4 +18,5 @@ eval $(gnome-keyring-daemon -s -c pkcs11,secrets)
 #owncloud &
 volumeicon &
 usbguard-applet-qt &
+brightnessctl &
 #flameshot gui -p ~/Snapshots/ &

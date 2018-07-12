@@ -50,8 +50,11 @@ Plug 'fisadev/vim-isort'
 Plug 'vimjas/vim-python-pep8-indent'
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 Plug 'tpope/vim-sensible'
+Plug 'justinmk/vim-sneak'
 
 call plug#end()
+
+let g:sneak#label = 1
 
 let g:acp_enableAtStartup = 1
 
