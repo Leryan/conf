@@ -347,6 +347,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias cagocd="cd $GOPATH/src/git.canopsis.net/canopsis/go-revolution"
     alias grep="grep --color=always"
     alias gr="grep -rnI"
+    alias a="setxkbmap fr bepo"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
