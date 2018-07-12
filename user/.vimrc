@@ -73,6 +73,10 @@ let g:go_highlight_function_calls = 1
 let g:go_list_type = "locationlist"
 let g:go_fmt_fail_silently = 1
 
+let g:tagbar_autofocus = 1
+let g:tagbar_case_insensitive = 1
+let g:tagbar_show_linenumbers = 1
+
 let g:racer_experimental_completer = 1
 
 let g:ycm_min_num_of_chars_for_completion = 3
