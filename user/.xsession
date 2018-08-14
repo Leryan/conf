@@ -1,3 +1,4 @@
+~/doc/screen.$(hostname).sh
 /usr/lib/polkit-gnome/polkit-gnome-authentication-agent-1 &
 killall redshift
 numlockx on
