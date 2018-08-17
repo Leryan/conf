@@ -137,7 +137,7 @@ set wildmenu
 set wildmode=longest:list
 set modeline
 set laststatus=2
-set cc=79
+"set cc=79
 set nolist
 "set linebreak
 set formatoptions+=1
