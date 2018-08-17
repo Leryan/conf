@@ -22,7 +22,7 @@ shopt -s checkwinsize
 shopt -s histappend
 
 # exports
-export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
+export FZF_DEFAULT_COMMAND='ag --nocolor -U -g ""'
 export AURDEST="${HOME}/doc/pacaur"
 export XMODIFIERS=emacs
 export EDITOR=vim
@@ -342,9 +342,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcclean="ssh-add -D"
     alias updatenow="trizen -Syu"
     alias gitcod="git commit -am '.'"
-    alias wcd="cd $HOME/doc/depots/g/valoo"
-    alias wcdd="cd $HOME/doc/depots/g/valoo/docker"
-    alias grep="grep --color=always"
+    alias grep="grep --color=auto"
     alias gr="grep -rnI"
     alias a="setxkbmap fr bepo"
     function go-build-static() {
@@ -403,3 +401,5 @@ fi
 if [ "${_INTERACTIVE}" = "1" ]; then
     trap '__settitle "${BASH_COMMAND}"' DEBUG
 fi
+
+source ~/.bashrc_local
