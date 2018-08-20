@@ -34,6 +34,7 @@ Plug 'easymotion/vim-easymotion'
 Plug 'mhinz/vim-grepper'
 Plug 'tomtom/tcomment_vim'
 " install https://github.com/universal-ctags/ctags
+" https://andrew.stwrt.ca/posts/vim-ctags
 Plug 'majutsushi/tagbar'
 Plug 'ap/vim-css-color'
 Plug 'w0rp/ale'
