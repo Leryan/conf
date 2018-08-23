@@ -36,6 +36,7 @@ Plug 'tomtom/tcomment_vim'
 " install https://github.com/universal-ctags/ctags
 " https://andrew.stwrt.ca/posts/vim-ctags
 Plug 'majutsushi/tagbar'
+Plug 'soramugi/auto-ctags.vim'
 Plug 'ap/vim-css-color'
 Plug 'w0rp/ale'
 Plug 'osyo-manga/vim-over'
@@ -74,6 +75,8 @@ let g:go_highlight_functions = 1
 let g:go_highlight_function_calls = 1
 let g:go_list_type = "locationlist"
 let g:go_fmt_fail_silently = 1
+
+let g:auto_ctags = 1
 
 let g:tagbar_autofocus = 1
 let g:tagbar_case_insensitive = 1
