@@ -76,7 +76,7 @@ let g:go_highlight_function_calls = 1
 let g:go_list_type = "locationlist"
 let g:go_fmt_fail_silently = 1
 
-let g:auto_ctags = 1
+"let g:auto_ctags = 1
 
 let g:tagbar_autofocus = 1
 let g:tagbar_case_insensitive = 1
@@ -88,7 +88,7 @@ let g:ycm_min_num_of_chars_for_completion = 3
 let g:ycm_complete_in_comments = 0
 let g:ycm_python_binary_path = 'python'
 let g:ycm_autoclose_preview_window_after_insertion = 1
-let g:ycm_auto_trigger = 0
+let g:ycm_auto_trigger = 1
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_enable_diagnostic_signs = 0

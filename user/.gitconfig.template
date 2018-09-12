@@ -6,7 +6,7 @@
     helper = cache --timeout 86400
 
 [push]
-    default = simple
+    default = current
 
 [http]
     postBuffer = 50M
