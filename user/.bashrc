@@ -31,7 +31,7 @@ if [ -z "$GOPATH" ]; then
     export GOPATH="$HOME/doc/go"
     export PATH="$PATH:$GOPATH/bin"
 fi
-export PATH="$PATH:$HOME/.cargo/bin:$HOME/.local/bin"
+export PATH="$PATH:$HOME/.cargo/bin:~/.local/bin"
 export PERL5LIB="$HOME/doc/perl5"
 
 # functions

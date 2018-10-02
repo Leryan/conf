@@ -29,14 +29,11 @@ Plug 'tpope/vim-rsi'
 " if -> end and so...
 Plug 'tpope/vim-endwise'
 " \\w or \\s to quick nav
-Plug 'easymotion/vim-easymotion'
-" :Grepper, :h grepper
-Plug 'mhinz/vim-grepper'
+"Plug 'easymotion/vim-easymotion'
 Plug 'tomtom/tcomment_vim'
 " install https://github.com/universal-ctags/ctags
 " https://andrew.stwrt.ca/posts/vim-ctags
 Plug 'majutsushi/tagbar'
-Plug 'soramugi/auto-ctags.vim'
 Plug 'ap/vim-css-color'
 Plug 'w0rp/ale'
 Plug 'osyo-manga/vim-over'
@@ -45,14 +42,12 @@ Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
-Plug 'terryma/vim-multiple-cursors'
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
-Plug 'fisadev/vim-isort'
 Plug 'vimjas/vim-python-pep8-indent'
 Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 Plug 'tpope/vim-sensible'
-Plug 'justinmk/vim-sneak'
+"Plug 'justinmk/vim-sneak'
 Plug 'tweekmonster/django-plus.vim'
 
 call plug#end()
@@ -114,6 +109,7 @@ let g:fzf_command_prefix = 'Fzf'
 
 map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FzfFiles<CR>
+map <C-g> :FzfAg<CR>
 map <C-b> :FzfBuffers<CR>
 map <C-s> :OverCommandLine :%s/<CR>
 
