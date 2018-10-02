@@ -28,8 +28,6 @@ Plug 'tpope/vim-vinegar'
 Plug 'tpope/vim-rsi'
 " if -> end and so...
 Plug 'tpope/vim-endwise'
-" \\w or \\s to quick nav
-"Plug 'easymotion/vim-easymotion'
 Plug 'tomtom/tcomment_vim'
 " install https://github.com/universal-ctags/ctags
 " https://andrew.stwrt.ca/posts/vim-ctags
@@ -41,7 +39,7 @@ Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
+Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
 Plug 'vimjas/vim-python-pep8-indent'
@@ -55,6 +53,7 @@ call plug#end()
 let g:sneak#label = 1
 
 let g:acp_enableAtStartup = 1
+let g:deoplete#enable_at_startup = 1
 
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
@@ -71,14 +70,13 @@ let g:go_highlight_function_calls = 1
 let g:go_list_type = "locationlist"
 let g:go_fmt_fail_silently = 1
 
-"let g:auto_ctags = 1
-
 let g:tagbar_autofocus = 1
 let g:tagbar_case_insensitive = 1
 let g:tagbar_show_linenumbers = 1
 
 let g:racer_experimental_completer = 1
 
+" YouCompleteMe
 let g:ycm_min_num_of_chars_for_completion = 3
 let g:ycm_complete_in_comments = 0
 let g:ycm_python_binary_path = 'python'
@@ -114,6 +112,7 @@ map <C-b> :FzfBuffers<CR>
 map <C-m> :FzfMarks<CR>
 map <C-s> :OverCommandLine :%s/<CR>
 
+" space after this line is important
 autocmd FileType go map <F2> :GoRename 
 autocmd FileType go map <F3> :GoTestFunc<CR>
 autocmd FileType go map <F4> :GoCoverageToggle<CR>
