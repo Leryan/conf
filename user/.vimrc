@@ -111,6 +111,7 @@ map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FzfFiles<CR>
 map <C-g> :FzfAg<CR>
 map <C-b> :FzfBuffers<CR>
+map <C-m> :FzfMarks<CR>
 map <C-s> :OverCommandLine :%s/<CR>
 
 autocmd FileType go map <F2> :GoRename 
