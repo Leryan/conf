@@ -114,8 +114,9 @@ map <C-p> :FzfFiles<CR>
 map <C-g> :FzfAg<CR>
 map <C-b> :FzfBuffers<CR>
 map <C-m> :FzfMarks<CR>
+map <C-t> :FzfBTags<CR>
+map <C-l> :FzfLines<CR>
 map <C-s> :OverCommandLine :%s/<CR>
-map <C-t> :TagbarToggle<CR>
 
 " space after this line is important
 autocmd FileType go map <F2> :GoRename 
