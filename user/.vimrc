@@ -39,7 +39,6 @@ Plug 'tpope/vim-fugitive'
 Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/deoplete.nvim', {'do': ':UpdateRemotePlugins'}
 Plug 'ntpeters/vim-better-whitespace'
 Plug 'posva/vim-vue'
 Plug 'vimjas/vim-python-pep8-indent'
@@ -47,13 +46,16 @@ Plug 'fatih/vim-go', {'do': ':GoInstallBinaries'}
 Plug 'tpope/vim-sensible'
 "Plug 'justinmk/vim-sneak'
 Plug 'tweekmonster/django-plus.vim'
+Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
 
 call plug#end()
 
 let g:sneak#label = 1
 
 let g:acp_enableAtStartup = 1
-let g:deoplete#enable_at_startup = 1
+
+"let g:python_host_prog = '/usr/bin/python2'
+"let g:python3_host_prog = '/usr/bin/python3'
 
 inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
