@@ -47,6 +47,7 @@ Plug 'tpope/vim-sensible'
 "Plug 'justinmk/vim-sneak'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'Valloric/YouCompleteMe', {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
+Plug 'ludovicchabant/vim-gutentags'
 
 call plug#end()
 
@@ -87,6 +88,7 @@ let g:ycm_auto_trigger = 1
 let g:ycm_show_diagnostics_ui = 0
 let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_enable_diagnostic_signs = 0
+let g:ycm_collect_identifiers_from_tags_files = 1
 
 let g:ale_set_loclist = 0
 let g:ale_set_quickfix = 0
@@ -113,6 +115,7 @@ map <C-g> :FzfAg<CR>
 map <C-b> :FzfBuffers<CR>
 map <C-m> :FzfMarks<CR>
 map <C-s> :OverCommandLine :%s/<CR>
+map <C-t> :TagbarToggle<CR>
 
 " space after this line is important
 autocmd FileType go map <F2> :GoRename 
