@@ -46,6 +46,7 @@ Plug 'tpope/vim-sensible'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'Valloric/YouCompleteMe' ", {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'milkypostman/vim-togglelist'
 
 call plug#end()
 
@@ -90,7 +91,7 @@ let g:ycm_enable_diagnostic_highlighting = 0
 let g:ycm_enable_diagnostic_signs = 0
 let g:ycm_collect_identifiers_from_tags_files = 1
 
-let g:ale_set_loclist = 0
+let g:ale_set_loclist = 1
 let g:ale_set_quickfix = 0
 let g:ale_open_list = 0
 let g:ale_keep_list_window_open = 0
@@ -110,6 +111,8 @@ let g:gitgutter_map_keys = 0
 let g:fzf_buffers_jump = 1
 let g:fzf_command_prefix = 'Fzf'
 
+let g:toggle_list_no_mappings = 1
+
 map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FzfFiles<CR>
 map <C-g> :FzfAg<CR>
@@ -118,6 +121,7 @@ map <C-m> :FzfMarks<CR>
 map <C-t> :FzfBTags<CR>
 map <C-l> :FzfLines<CR>
 map <C-s> :OverCommandLine :%s/<CR>
+nmap <script> <silent> <C-e> :call ToggleLocationList()<CR>
 
 " space after this line is important
 autocmd FileType go map <F2> :GoRename 
