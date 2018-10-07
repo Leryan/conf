@@ -22,12 +22,11 @@ call plug#begin('~/.vim/plugged')
 Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
-" press - to get file explorer
-Plug 'tpope/vim-vinegar'
 " readline shortcuts: saving your life
 Plug 'tpope/vim-rsi'
 " if -> end and so...
 Plug 'tpope/vim-endwise'
+" gc<count><motion>, gcc, visual: gc
 Plug 'tomtom/tcomment_vim'
 " install https://github.com/universal-ctags/ctags
 " https://andrew.stwrt.ca/posts/vim-ctags
@@ -36,7 +35,6 @@ Plug 'ap/vim-css-color'
 Plug 'w0rp/ale'
 Plug 'osyo-manga/vim-over'
 Plug 'tpope/vim-fugitive'
-Plug 'scrooloose/nerdtree'
 Plug 'junegunn/fzf'
 Plug 'junegunn/fzf.vim'
 Plug 'ntpeters/vim-better-whitespace'
@@ -105,6 +103,7 @@ nmap <silent> <C-j> <Plug>(ale_next_wrap)
 
 let g:gitgutter_enabled = 1
 let g:gitgutter_signs = 1
+let g:gitgutter_map_keys = 0
 
 let g:fzf_buffers_jump = 1
 let g:fzf_command_prefix = 'Fzf'
