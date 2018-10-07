@@ -113,10 +113,10 @@ let g:fzf_command_prefix = 'Fzf'
 
 let g:toggle_list_no_mappings = 1
 
-map <C-n> :NERDTreeToggle<CR>
 map <C-p> :FzfFiles<CR>
 map <C-g> :FzfAg<CR>
-map <C-b> :FzfBuffers<CR>
+" tmux uses ctrl-b
+map <C-n> :FzfBuffers<CR>
 map <C-m> :FzfMarks<CR>
 map <C-t> :FzfBTags<CR>
 map <C-l> :FzfLines<CR>
