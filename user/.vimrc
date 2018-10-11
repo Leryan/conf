@@ -47,6 +47,7 @@ Plug 'tweekmonster/django-plus.vim'
 Plug 'Valloric/YouCompleteMe' ", {'dir': '~/.vim/plugged/YouCompleteMe', 'do': './install.py --clang-completer --system-libclang --go-completer --rust-completer --js-completer'}
 Plug 'ludovicchabant/vim-gutentags'
 Plug 'milkypostman/vim-togglelist'
+Plug 'jreybert/vimagit'
 
 call plug#end()
 
