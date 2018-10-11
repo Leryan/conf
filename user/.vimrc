@@ -11,6 +11,7 @@
 " shell:
 "   export FZF_DEFAULT_COMMAND='ag --nocolor -g ""'
 "
+" :PlugInstall
 " :GoInstallBinaries
 
 set nocompatible
