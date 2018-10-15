@@ -119,7 +119,8 @@ map <C-p> :FzfFiles<CR>
 map <C-g> :FzfAg<CR>
 " tmux uses ctrl-b
 map <C-n> :FzfBuffers<CR>
-map <C-m> :FzfMarks<CR>
+" broken?
+"map <C-m> :FzfMarks<CR>
 map <C-t> :FzfBTags<CR>
 map <C-l> :FzfLines<CR>
 map <C-s> :OverCommandLine :%s/<CR>
