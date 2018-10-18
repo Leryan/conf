@@ -3,11 +3,10 @@ font pango:Fira Mono 9
 floating_modifier $mod
 
 # start a terminal
-bindcode $mod+36 exec st -e tmux
-bindcode $mod+Shift+36 exec st
-#bindcode $mod+36 exec alacritty
-#bindcode $mod+Shift+36 exec firefox
-bindcode $mod+Mod4+36 exec chromium --password-store=gnome
+#bindcode $mod+36 exec st -e tmux
+bindcode $mod+36 exec gnome-terminal -e tmux
+#bindcode $mod+Shift+36 exec st
+bindcode $mod+Mod4+36 exec firefox
 #bindcode $mod+Shift+32 exec $HOME/doc/lockscreens/lock.sh
 bindcode $mod+Shift+32 exec i3lock -i $HOME/doc/wallpapers/japan_door.png
 
