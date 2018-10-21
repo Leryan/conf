@@ -79,6 +79,7 @@ let g:tagbar_case_insensitive = 1
 let g:tagbar_show_linenumbers = 1
 
 let g:gutentags_cache_dir = "~/.cache/gutentags_cache/"
+let g:gutentags_ctags_exclude = ["*.xml", "*.json"]
 
 let g:racer_experimental_completer = 1
 
