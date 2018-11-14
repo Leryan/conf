@@ -10,7 +10,7 @@ xset -dpms
 xset s noblank
 /usr/lib/xfce4/notifyd/xfce4-notifyd &
 redshift-gtk -l 48.85241:2.3488 -t 5500:3000 -r &
-nitrogen --restore
+variety &
 parcellite &
 nm-applet &
 orage &

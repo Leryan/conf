@@ -345,6 +345,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias grep="grep --color=auto"
     alias gr="grep -rnI"
     alias a="setxkbmap fr bepo"
+    alias doc="docker-compose"
     function go-build-static() {
         CGO_ENABLED=0 GOOS=linux go build -a -ldflags '-extldflags "-static"' $*
     }
