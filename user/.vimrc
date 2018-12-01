@@ -153,9 +153,10 @@ set wildmenu
 set wildmode=longest:list
 set modeline
 set laststatus=2
-"set cc=79
-set nolist
-"set linebreak
+set wrap linebreak nolist
+set cc=85
+set textwidth=0
+set wrapmargin=0
 set formatoptions+=1
 set hlsearch
 set ruler
