@@ -20,6 +20,7 @@ filetype off
 
 call plug#begin('~/.vim/plugged')
 
+Plug 'ambv/black'
 Plug 'rust-lang/rust.vim'
 Plug 'airblade/vim-gitgutter'
 Plug 'tpope/vim-surround'
@@ -63,6 +64,11 @@ inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
 
 " disable sign column if no error reported
 set signcolumn=yes
+
+let g:black_virtualenv = "~/doc/pyvenv/black"
+let g:black_linelength = 90
+let g:black_skip_string_normalization = 1
+autocmd BufWritePre *.py execute ':Black'
 
 let g:go_metalinter_autosave = 0
 let g:go_metalinter_autosave_enabled = []
