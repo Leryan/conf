@@ -341,7 +341,7 @@ if [ "${_INTERACTIVE}" = "1" ]; then
     alias kcc="keychain --clear"
     alias kcclean="ssh-add -D"
     alias updatenow="trizen -Syu"
-    alias gitcod="git commit -am '.'"
+    alias gitcod="git commit -am '(づ ￣ ³￣)づ'"
     alias grep="grep --color=auto"
     alias gr="grep -rnI"
     alias a="setxkbmap fr bepo"
